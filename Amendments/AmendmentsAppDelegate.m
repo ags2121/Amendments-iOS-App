@@ -7,16 +7,53 @@
 //
 
 #import "AmendmentsAppDelegate.h"
+#import "NewsFeeds.h"
+#import "AmendmentsNewsViewController.h"
 
 @implementation AmendmentsAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self setPreferenceDefaults];
+    //call appearance proxy
+    [self customizeAppearance];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame: self.window.frame];
+    backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage"];
+    [self.window addSubview:backgroundView];
+    
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
+                                                             bundle: nil];
+    UITabBarController *tbvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
+    
+    self.window.rootViewController = tbvc;
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (void) application:(UIApplication *)application
+willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
+            duration:(NSTimeInterval)duration
+{
+    
+    UIImageView *bgImage = self.window.subviews[0];
+    
+    if (newStatusBarOrientation == UIInterfaceOrientationPortrait)
+        bgImage.transform      = CGAffineTransformIdentity;
+    else if (newStatusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        bgImage.transform      = CGAffineTransformMakeRotation(-M_PI);
+    
+    else if (UIInterfaceOrientationIsLandscape(newStatusBarOrientation))
+    {
+        float rotate    = ((newStatusBarOrientation == UIInterfaceOrientationLandscapeLeft) ? -1:1) * (M_PI / 2.0);
+        bgImage.transform      = CGAffineTransformMakeRotation(rotate);
+        bgImage.transform      = CGAffineTransformTranslate(bgImage.transform, 0, -bgImage.frame.origin.y);
+        bgImage.transform = CGAffineTransformTranslate(bgImage.transform, 0, 77);
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -39,11 +76,79 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    //retrieve individual news Feed from global pool of previously retrieved new feeds
+    
+    if( [application.keyWindow.rootViewController isKindOfClass: [AmendmentsNewsViewController class]] ){
+        
+        AmendmentsNewsViewController *currentNewsVC = (AmendmentsNewsViewController*)application.keyWindow.rootViewController;
+        
+        NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
+        
+        //load the feed from the Singleton NewsFeeds
+        [allNewsFeeds loadNewsFeed:currentNewsVC.finalURL forAmendment:currentNewsVC.keyForFeed forTableViewController:currentNewsVC];
+        
+    }
+
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+#pragma mark - Appearance Proxy
+/*******************************************************************************
+ * @method          customizeAppearance
+ * @abstract        Call the appearance proxy methods on interface objects
+ * @description     sets navigation bar to black tint color; sets 
+ *******************************************************************************/
+
+-(void)customizeAppearance
+{
+    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor brownColor]];
+}
+
+#pragma mark - Preference Defaults
+/*******************************************************************************
+ * @method      setPreferenceDefaults
+ * @abstract
+ * @description sets user preference defaults 
+ *******************************************************************************/
+
+- (void)setPreferenceDefaults
+{
+    //use NSFileManager to retrieve plist of user preferences, located in documents directory
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"UserDefaults.plist"];
+    
+    //if file doesn't exist, create it
+    if( ![fileManager fileExistsAtPath: path] ){
+        
+        //get current date and format
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"dd-MM-yy HH:mm"];
+        NSString *dateString = [df stringFromDate:[NSDate date]];
+    
+        //add date and "Did add favorites" boolean to NSDictionary 
+        NSDictionary *newAppDefaults = @{ @"kInitialRun" : dateString, @"Did add favorites" : @"0" };
+        [newAppDefaults writeToFile:path atomically:YES];
+    }
+    
+    //load file and use it to register user defaults 
+    NSDictionary *appDefaults = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSLog(@"Initial preferences at launch: %@", appDefaults);
+    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
+    [[NSUserDefaults standardUserDefaults] setObject:[appDefaults objectForKey: @"kInitialRun"] forKey: @"kInitialRun"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSLog(@"NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults]
+                                  dictionaryRepresentation]);
 }
 
 @end

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<dict>
+			<key>#</key>
+			<integer>1</integer>
+			<key>icon</key>
+			<string>freedom</string>
+			<key>amendmentNumber</key>
+			<string>One</string>
+			<key>subtitle</key>
+			<string>Freedom</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>2</integer>
+			<key>icon</key>
+			<string>guns</string>
+			<key>amendmentNumber</key>
+			<string>Two</string>
+			<key>subtitle</key>
+			<string>Arms</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>3</integer>
+			<key>icon</key>
+			<string>soldier</string>
+			<key>amendmentNumber</key>
+			<string>Three</string>
+			<key>subtitle</key>
+			<string>Quartering</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>4</integer>
+			<key>icon</key>
+			<string>warrant</string>
+			<key>amendmentNumber</key>
+			<string>Four</string>
+			<key>subtitle</key>
+			<string>Unreasonable search</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>5</integer>
+			<key>icon</key>
+			<string>ladyjustice</string>
+			<key>amendmentNumber</key>
+			<string>Five</string>
+			<key>subtitle</key>
+			<string>Just legal procedure</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>6</integer>
+			<key>icon</key>
+			<string>gavel</string>
+			<key>amendmentNumber</key>
+			<string>Six</string>
+			<key>subtitle</key>
+			<string>Due Process</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>7</integer>
+			<key>icon</key>
+			<string>jury</string>
+			<key>amendmentNumber</key>
+			<string>Seven</string>
+			<key>subtitle</key>
+			<string>Jury Trial</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>8</integer>
+			<key>icon</key>
+			<string>cruel</string>
+			<key>amendmentNumber</key>
+			<string>Eight</string>
+			<key>subtitle</key>
+			<string>Unusual punishment</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>9</integer>
+			<key>icon</key>
+			<string>weThePeople</string>
+			<key>amendmentNumber</key>
+			<string>Nine</string>
+			<key>subtitle</key>
+			<string>Rights of the People</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>10</integer>
+			<key>icon</key>
+			<string>treadOnMe_noText</string>
+			<key>amendmentNumber</key>
+			<string>Ten</string>
+			<key>subtitle</key>
+			<string>State Sovereignty</string>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>#</key>
+			<integer>1</integer>
+			<key>icon</key>
+			<string>statesovereignty</string>
+			<key>amendmentNumber</key>
+			<string>Eleven</string>
+			<key>subtitle</key>
+			<string>Sovereign Immunity</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>4</integer>
+			<key>icon</key>
+			<string>freeAtLast</string>
+			<key>amendmentNumber</key>
+			<string>Fourteen</string>
+			<key>subtitle</key>
+			<string>Citizenship</string>
+		</dict>
+	</array>
+</array>
+</plist>

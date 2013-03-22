@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>First Amendment</string>
+			<key>Summary</key>
+			<string>The First Amendment prohibits the making of any law respecting an establishment of religion, impeding the free exercise of religion, abridging the freedom of speech, infringing on the freedom of the press, interfering with the right to peaceably assemble or prohibiting the petitioning for a governmental redress of grievances.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary1</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText1</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>1st</string>
+				<string>first</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Second Amendment</string>
+			<key>Summary</key>
+			<string>The Second Amendment states: &quot;A well regulated militia being necessary to the security of a free state, the right of the people to keep and bear arms, shall not be infringed.&quot;</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary2</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText2</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>2nd</string>
+				<string>second</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Third Amendment</string>
+			<key>Summary</key>
+			<string>The Third Amendment prohibits, in peacetime or wartime, the quartering of soldiers in private homes without the owner&apos;s consent.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary3</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText3</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>3rd</string>
+				<string>third</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Fourth Amendment</string>
+			<key>Summary</key>
+			<string>The Fourth Amendment guards against unreasonable searches and seizures, along with requiring any warrant to be judicially sanctioned and supported by probable cause. It was adopted as a response to the abuse of the writ of assistance – a type of general search warrant - in the American Revolution.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary4</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText4</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>4th</string>
+				<string>fourth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Fifth Amendment</string>
+			<key>Summary</key>
+			<string>The Fifth Amendment protects against abuse of government authority in a legal procedure. Its guarantees stem from English common law which traces back to Magna Carta in 1215.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary5</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText5</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>5th</string>
+				<string>fifth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Sixth Amendment</string>
+			<key>Summary</key>
+			<string>The Sixth Amendment sets forth rights related to criminal prosecutions. The Supreme Court has applied the protections of this amendment to the states through the Due Process Clause of the Fourteenth Amendment.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary6</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText6</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>6th</string>
+				<string>sixth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Seventh Amendment</string>
+			<key>Summary</key>
+			<string>The Seventh Amendment codifies the right to a jury trial in certain civil cases, and asserts that cases may not be re-examined by another court.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary7</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText7</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>7th</string>
+				<string>seventh</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Eighth Amendment</string>
+			<key>Summary</key>
+			<string>The Eighth Amendment prohibits the federal government from imposing excessive bail, excessive fines or cruel and unusual punishments, including torture.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary8</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText8</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>8th</string>
+				<string>eighth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Ninth Amendment</string>
+			<key>Summary</key>
+			<string>The Ninth Amendment addresses rights of the people that are not specifically enumerated in the Constitution.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary9</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText9</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>9th</string>
+				<string>ninth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Tenth Amendment</string>
+			<key>Summary</key>
+			<string>The Tenth Amendment states the Constitution&apos;s principle of federalism by providing that powers not granted to the federal government by the Constitution, nor prohibited to the States, are reserved to the States or the people.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary10</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText10</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>10th</string>
+				<string>tenth</string>
+			</array>
+		</dict>
+	</array>
+	<array>
+		<dict>
+			<key>Title</key>
+			<string>Eleventh Amendment</string>
+			<key>Summary</key>
+			<string>The Eleventh Amendment deals with each state&apos;s sovereign immunity. This amendment was adopted in order to overrule the U.S. Supreme Court&apos;s decision in Chisholm v. Georgia.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary11</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText11</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>11th</string>
+				<string>eleventh</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Fourteenth Amendment</string>
+			<key>Summary</key>
+			<string>The Fourteenth Amendment was adopted on July 9, 1868, as one of the Reconstruction Amendments. Its Citizenship Clause provides a broad definition of citizenship that overruled the Supreme Court&apos;s ruling in Dred Scott v. Sandford (1857) that had held that people of African descent could not be citizens of the United States.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary14</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText14</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>14th</string>
+				<string>fourteenth</string>
+			</array>
+		</dict>
+	</array>
+</array>
+</plist>

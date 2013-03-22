@@ -1,0 +1,16 @@
+BODY {
+    font-family: helvetica;
+}
+
+html {
+    -webkit-text-size-adjust: none;
+}
+
+/*h3 {
+  display: inline;
+}
+*/
+
+ul{
+margin-top:0;
+}
