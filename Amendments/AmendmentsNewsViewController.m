@@ -218,13 +218,14 @@
     NSString* articleTitleforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleTitle] text];
     NSString* articlePubforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articlePublication] text];
     NSString* articleDateForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleDate] text];
-    NSURL* articleTrimmedURLforFav = finalURL;
+    NSString* articleTrimmedURLforFav = trimmedURL;
     
     //add cell display info to dictionary to pass to modalWebView VC
-    NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleforFav, @"Article Publication" : articlePubforFav, @"Article Date" : articleDateForFav, @"Article URL" : articleTrimmedURLforFav};
+    NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleforFav, @"Article Publication" : articlePubforFav, @"Article Date" : articleDateForFav, @"Article URL String" : articleTrimmedURLforFav};
     
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
     webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
+    webViewController.keyForAmendment = self.keyForFeed;
     [self presentViewController:webViewController animated:YES completion:nil];
 }
 

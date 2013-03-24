@@ -37,6 +37,7 @@
 		A9426E2A16E2DD2C002B317A /* NewsFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E2916E2DD2C002B317A /* NewsFeeds.m */; };
 		A952198A16FF709300FB473D /* emptystar.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198816FF709300FB473D /* emptystar.png */; };
 		A952198B16FF709300FB473D /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198916FF709300FB473D /* emptystar@2x.png */; };
+		A952198D16FF849E00FB473D /* sadf.plist in Resources */ = {isa = PBXBuildFile; fileRef = A952198C16FF849D00FB473D /* sadf.plist */; };
 		A98F524916F0DF1800B8FB97 /* ExtendedSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F524816F0DF1800B8FB97 /* ExtendedSummaryViewController.m */; };
 		A98F525116F0F08400B8FB97 /* OriginalTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F525016F0F08400B8FB97 /* OriginalTextViewController.m */; };
 		A98F525516F0F35E00B8FB97 /* originalText1.html in Resources */ = {isa = PBXBuildFile; fileRef = A98F525316F0F35E00B8FB97 /* originalText1.html */; };
@@ -152,6 +153,7 @@
 		A9426E2916E2DD2C002B317A /* NewsFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsFeeds.m; path = Model/NewsFeeds.m; sourceTree = "<group>"; };
 		A952198816FF709300FB473D /* emptystar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptystar.png; sourceTree = "<group>"; };
 		A952198916FF709300FB473D /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
+		A952198C16FF849D00FB473D /* sadf.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sadf.plist; sourceTree = "<group>"; };
 		A98F524716F0DF1800B8FB97 /* ExtendedSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendedSummaryViewController.h; sourceTree = "<group>"; };
 		A98F524816F0DF1800B8FB97 /* ExtendedSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedSummaryViewController.m; sourceTree = "<group>"; };
 		A98F524F16F0F08300B8FB97 /* OriginalTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OriginalTextViewController.h; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 				A9F84EF616DFD4B8002A434C /* AmendmentsAppDelegate.m */,
 				A9F84EEE16DFD4B7002A434C /* Amendments-Info.plist */,
 				A9F84EEF16DFD4B7002A434C /* InfoPlist.strings */,
+				A952198C16FF849D00FB473D /* sadf.plist */,
 				A9F84EF216DFD4B7002A434C /* main.m */,
 				A9F84EF416DFD4B7002A434C /* Amendments-Prefix.pch */,
 				A904F38416F52BF900946847 /* AmendmentBackgroundImage-568h@2x.png */,
@@ -683,6 +686,7 @@
 				A9E16FE916FB9AE700FA6CF0 /* weThePeople.png in Resources */,
 				A952198A16FF709300FB473D /* emptystar.png in Resources */,
 				A952198B16FF709300FB473D /* emptystar@2x.png in Resources */,
+				A952198D16FF849E00FB473D /* sadf.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

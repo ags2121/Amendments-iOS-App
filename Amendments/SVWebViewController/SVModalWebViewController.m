@@ -68,8 +68,8 @@
 {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray* favArticles = [[defaults arrayForKey:@"favoriteArticles"] mutableCopy];
-    self.favoriteArticlesforAmendment = [favArticles[_amendmentNumber] mutableCopy];
+    NSMutableDictionary* favArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
+    self.favoriteArticlesforAmendment = [favArticles objectForKey: self.keyForAmendment];
     
     if ( ![self.favoriteArticlesforAmendment containsObject:self.articleInfoForFavorites] ) {
         
@@ -96,16 +96,18 @@
 {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray* favArticles = [[defaults arrayForKey:@"favoriteAmendments"] mutableCopy];
     
-    if (!favArticles)
-        favArticles = [NSMutableArray arrayWithObjects: [NSMutableArray arrayWithCapacity:1] ,[NSMutableArray arrayWithCapacity:1], nil ];
+    NSMutableDictionary* favArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
+    if(!favArticles)
+        favArticles = [NSMutableDictionary dictionaryWithCapacity:1];
     
-    self.favoriteAmendmentsInSection = [favAmendments[_sectionOfAmendment] mutableCopy];
+    self.favoriteArticlesforAmendment = [[favArticles objectForKey: self.keyForAmendment] mutableCopy];
+    if (!self.favoriteArticlesforAmendment)
+        self.favoriteArticlesforAmendment = [NSMutableArray arrayWithCapacity:1];
     
-    if ( ![self.favoriteAmendmentsInSection containsObject:self.amendmentCellData] ) {
+    if ( ![self.favoriteArticlesforAmendment containsObject:self.articleInfoForFavorites] ) {
         
-        [self.favoriteAmendmentsInSection addObject: self.amendmentCellData];
+        [self.favoriteArticlesforAmendment addObject: self.articleInfoForFavorites];
         
         //change "Did add favorites" to 1 in the plist stored in the documents directory
         if( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) { //if "Did add favorites is 0
@@ -122,39 +124,43 @@
         }
         
         //sort array by Amendment Index
+        
+        /*
         [self.favoriteAmendmentsInSection sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
             
             return [[dict1 objectForKey:@"#"] compare:[dict2 objectForKey:@"#"]];
             
         }];
+         
+        */
         
         UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         
-        self.navigationItem.rightBarButtonItem = filledStar;
+        webViewController.navigationItem.rightBarButtonItem = filledStar;
         
-        NSLog(@"Adding %@", self.title);
+        NSLog(@"Adding %@", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
         
     }
     
     else {
         
-        [self.favoriteAmendmentsInSection removeObject: self.amendmentCellData];
+        [self.favoriteArticlesforAmendment removeObject: self.articleInfoForFavorites];
         
         UIBarButtonItem *emptyStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"emptystar"] showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
-        self.navigationItem.rightBarButtonItem = emptyStar;
-        NSLog(@"Removing %@", self.title);
+        webViewController.navigationItem.rightBarButtonItem = emptyStar;
+        NSLog(@"Removing %@", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
         
     }
     
-    // Reset the favoriteAmendments userDefaults array
-    favAmendments[_sectionOfAmendment] = self.favoriteAmendmentsInSection;
-    [defaults setObject:favArticles forKey:@"favoriteAmendments"];
+    //update favArticles with new article List
+    [favArticles setObject: self.favoriteArticlesforAmendment forKey:self.keyForAmendment];
+    
+    // Reset the favoriteArticles userDefaults dictionary
+    [defaults setObject:favArticles forKey:@"favoriteArticles"];
     [defaults synchronize];
     
-    // Log it out for debugging
-    //NSLog(@" Defaults--- %@", [defaults objectForKey:@"favoriteAmendments"]);
-    
+    //Log it out for debugging
+    NSLog(@" Defaults--- %@", [defaults objectForKey:@"favoriteArticles"]);
 }
-
 
 @end
