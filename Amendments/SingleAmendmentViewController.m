@@ -49,7 +49,6 @@
     self.title = self.shortTitle;
     
     
-    
     //set optionsTableView delegate and datasource
     [self.optionsTableView setDataSource:self];
     [self.optionsTableView setDelegate:self];

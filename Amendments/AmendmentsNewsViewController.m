@@ -205,13 +205,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    
     NSDictionary *article = self.feed[indexPath.row];
     
     NSString* trimmedURL = [self formatURL:[article objectForKey:@"link"]];
@@ -220,7 +214,17 @@
     
     NSURL* finalURL = [NSURL URLWithString:trimmedURL];
     
+    //package cell display information so that the webview can save this info to add to the favorites array
+    NSString* articleTitleforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleTitle] text];
+    NSString* articlePubforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articlePublication] text];
+    NSString* articleDateForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleDate] text];
+    NSURL* articleTrimmedURLforFav = finalURL;
+    
+    //add cell display info to dictionary to pass to modalWebView VC
+    NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleforFav, @"Article Publication" : articlePubforFav, @"Article Date" : articleDateForFav, @"Article URL" : articleTrimmedURLforFav};
+    
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
+    webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
     [self presentViewController:webViewController animated:YES completion:nil];
 }
 

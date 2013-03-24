@@ -9,7 +9,7 @@
 			<key>icon</key>
 			<string>freedom</string>
 			<key>amendmentNumber</key>
-			<string>One</string>
+			<string>First</string>
 			<key>subtitle</key>
 			<string>Freedom</string>
 		</dict>
@@ -19,7 +19,7 @@
 			<key>icon</key>
 			<string>guns</string>
 			<key>amendmentNumber</key>
-			<string>Two</string>
+			<string>Second</string>
 			<key>subtitle</key>
 			<string>Arms</string>
 		</dict>
@@ -29,7 +29,7 @@
 			<key>icon</key>
 			<string>soldier</string>
 			<key>amendmentNumber</key>
-			<string>Three</string>
+			<string>Third</string>
 			<key>subtitle</key>
 			<string>Quartering</string>
 		</dict>
@@ -39,7 +39,7 @@
 			<key>icon</key>
 			<string>warrant</string>
 			<key>amendmentNumber</key>
-			<string>Four</string>
+			<string>Fourth</string>
 			<key>subtitle</key>
 			<string>Unreasonable search</string>
 		</dict>
@@ -49,7 +49,7 @@
 			<key>icon</key>
 			<string>ladyjustice</string>
 			<key>amendmentNumber</key>
-			<string>Five</string>
+			<string>Fifth</string>
 			<key>subtitle</key>
 			<string>Just legal procedure</string>
 		</dict>
@@ -59,7 +59,7 @@
 			<key>icon</key>
 			<string>gavel</string>
 			<key>amendmentNumber</key>
-			<string>Six</string>
+			<string>Sixth</string>
 			<key>subtitle</key>
 			<string>Due Process</string>
 		</dict>
@@ -69,7 +69,7 @@
 			<key>icon</key>
 			<string>jury</string>
 			<key>amendmentNumber</key>
-			<string>Seven</string>
+			<string>Seventh</string>
 			<key>subtitle</key>
 			<string>Jury Trial</string>
 		</dict>
@@ -79,7 +79,7 @@
 			<key>icon</key>
 			<string>cruel</string>
 			<key>amendmentNumber</key>
-			<string>Eight</string>
+			<string>Eighth</string>
 			<key>subtitle</key>
 			<string>Unusual punishment</string>
 		</dict>
@@ -89,7 +89,7 @@
 			<key>icon</key>
 			<string>weThePeople</string>
 			<key>amendmentNumber</key>
-			<string>Nine</string>
+			<string>Ninth</string>
 			<key>subtitle</key>
 			<string>Rights of the People</string>
 		</dict>
@@ -99,7 +99,7 @@
 			<key>icon</key>
 			<string>treadOnMe_noText</string>
 			<key>amendmentNumber</key>
-			<string>Ten</string>
+			<string>Tenth</string>
 			<key>subtitle</key>
 			<string>State Sovereignty</string>
 		</dict>
@@ -111,7 +111,7 @@
 			<key>icon</key>
 			<string>statesovereignty</string>
 			<key>amendmentNumber</key>
-			<string>Eleven</string>
+			<string>Eleventh</string>
 			<key>subtitle</key>
 			<string>Sovereign Immunity</string>
 		</dict>
@@ -121,7 +121,7 @@
 			<key>icon</key>
 			<string>freeAtLast</string>
 			<key>amendmentNumber</key>
-			<string>Fourteen</string>
+			<string>Fourteenth</string>
 			<key>subtitle</key>
 			<string>Citizenship</string>
 		</dict>
