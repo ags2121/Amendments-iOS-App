@@ -403,7 +403,7 @@
         <scene sceneID="hif-gc-Yug">
             <objects>
                 <tableViewController id="Rjq-LU-xaG" customClass="FavoritesViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="g1J-rw-D1O">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="92" sectionHeaderHeight="22" sectionFooterHeight="22" id="g1J-rw-D1O">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -416,7 +416,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="articleTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93H-QQ-tZR">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="articleTitle" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="93H-QQ-tZR">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="43" id="J58-IH-bIG"/>
                                             </constraints>
@@ -443,10 +443,10 @@
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="0up-Px-hh0" secondAttribute="bottom" constant="3" id="0WZ-Bc-9OW"/>
-                                    <constraint firstItem="93H-QQ-tZR" firstAttribute="top" secondItem="aat-yv-hPI" secondAttribute="top" constant="19" id="1kL-1Y-y9R"/>
                                     <constraint firstItem="0up-Px-hh0" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="20" type="default" id="8Qo-QI-54c"/>
+                                    <constraint firstAttribute="bottom" secondItem="0up-Px-hh0" secondAttribute="bottom" constant="3" id="90p-ye-Au7"/>
                                     <constraint firstItem="Nwb-Kz-akg" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="20" type="default" id="Dam-96-kQw"/>
+                                    <constraint firstItem="93H-QQ-tZR" firstAttribute="top" secondItem="aat-yv-hPI" secondAttribute="top" constant="19" id="He9-2k-q6j"/>
                                     <constraint firstItem="Nwb-Kz-akg" firstAttribute="top" secondItem="aat-yv-hPI" secondAttribute="top" constant="1" id="O5G-dZ-yGg"/>
                                     <constraint firstItem="93H-QQ-tZR" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="20" type="default" id="SF5-D1-737"/>
                                     <constraint firstItem="93H-QQ-tZR" firstAttribute="trailing" secondItem="0up-Px-hh0" secondAttribute="trailing" type="default" id="XL7-dg-dqx"/>

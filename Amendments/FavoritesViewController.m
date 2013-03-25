@@ -145,7 +145,7 @@
     
     // Configure the cell...
     cell.articleTitle.text = [current objectForKey:@"Article Title"];
-    cell.articlePublication.text = [current objectForKey:@"Artitle Publication"];
+    cell.articlePublication.text = [current objectForKey:@"Article Publication"];
     cell.articleDate.text = [current objectForKey:@"Article Date"];
     
     return cell;
@@ -170,10 +170,26 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        //remove cell from table
-        NSMutableArray *editedFavorites = [self.favoriteAmendments[indexPath.section] mutableCopy];
-        [editedFavorites removeObjectAtIndex:indexPath.row];
-        self.favoriteAmendments[indexPath.section] = editedFavorites;
+        //fetch article data related to selected cell
+        NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+        NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+            
+            NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+            NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+            
+            NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+            NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+            
+            return [key1 compare:key2];
+        }];
+        
+        //remove cell from table data
+        NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+        NSMutableArray *editedFavoriteArticlesForAmendment = [[self.favoriteArticles objectForKey:key] mutableCopy];
+        [editedFavoriteArticlesForAmendment removeObjectAtIndex: indexPath.row];
+        [self.favoriteArticles setObject:editedFavoriteArticlesForAmendment forKey:key];
         [self.tableView reloadData];
         
         //remove amendment from NSUserDefaults
