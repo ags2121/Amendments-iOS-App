@@ -152,7 +152,9 @@
         AmendmentsNewsViewController* anvc = [segue destinationViewController];
         anvc.finalURL = self.finalURL;
         //ex. keyForFeed = "First Amendment"
-        anvc.keyForFeed = [self.amendmentData objectForKey:@"Title"];;
+        anvc.keyForFeed = [self.amendmentData objectForKey:@"Title"];
+        anvc.amendmentNumberForSorting = [[self.amendmentCellData objectForKey:@"#"] intValue];
+        NSLog(@"Amendment number for sorting: %d", anvc.amendmentNumberForSorting);
     }
 }
 

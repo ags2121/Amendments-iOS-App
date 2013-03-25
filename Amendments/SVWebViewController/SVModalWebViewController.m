@@ -123,17 +123,6 @@
                                                   dictionaryRepresentation]);
         }
         
-        //sort array by Amendment Index
-        
-        /*
-        [self.favoriteAmendmentsInSection sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
-            
-            return [[dict1 objectForKey:@"#"] compare:[dict2 objectForKey:@"#"]];
-            
-        }];
-         
-        */
-        
         UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         
         webViewController.navigationItem.rightBarButtonItem = filledStar;
@@ -152,8 +141,10 @@
         
     }
     
-    //update favArticles with new article List
-    [favArticles setObject: self.favoriteArticlesforAmendment forKey:self.keyForAmendment];
+    //if new article list is empty, remove amendment from dictionary
+    //otherwise, update favArticles with new article List
+    if (self.favoriteArticlesforAmendment.count==0) [favArticles removeObjectForKey:self.keyForAmendment];
+    else [favArticles setObject: self.favoriteArticlesforAmendment forKey:self.keyForAmendment];
     
     // Reset the favoriteArticles userDefaults dictionary
     [defaults setObject:favArticles forKey:@"favoriteArticles"];

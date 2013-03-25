@@ -214,7 +214,7 @@
     
     NSURL* finalURL = [NSURL URLWithString:trimmedURL];
     
-    //package cell display information so that the webview can save this info to add to the favorites array
+    //package cell display information so that the webview can save this info to add to the favorites arrsay
     NSString* articleTitleforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleTitle] text];
     NSString* articlePubforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articlePublication] text];
     NSString* articleDateForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleDate] text];
@@ -225,7 +225,9 @@
     
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
     webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
-    webViewController.keyForAmendment = self.keyForFeed;
+    
+    //append amendment number to beginning for keyForFeed string
+    webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];
     [self presentViewController:webViewController animated:YES completion:nil];
 }
 

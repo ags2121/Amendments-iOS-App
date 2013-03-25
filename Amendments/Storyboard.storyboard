@@ -409,30 +409,32 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favoritesCell" rowHeight="65" id="aat-yv-hPI" customClass="FavoritesCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="65"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favoritesCell" rowHeight="85" id="aat-yv-hPI" customClass="FavoritesCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="85"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="64"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CCj-PH-U9B">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="articleTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93H-QQ-tZR">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="43" id="J58-IH-bIG"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="articlePublication" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0up-Px-hh0">
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F4O-Mv-AHr">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="articleDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nwb-Kz-akg">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="55" id="HuM-HC-88O"/>
-                                                <constraint firstAttribute="height" constant="55" id="lat-1M-3gW"/>
+                                                <constraint firstAttribute="width" constant="294" id="Nkd-az-53L"/>
+                                                <constraint firstAttribute="height" constant="20" id="n1a-jm-Nmq"/>
                                             </constraints>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uY0-UZ-H6x">
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="0QO-Jh-oUb"/>
-                                                <constraint firstAttribute="width" constant="224" id="yBL-3P-6Ba"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
@@ -441,17 +443,19 @@
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="uY0-UZ-H6x" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="75" id="4SC-pG-gNu"/>
-                                    <constraint firstItem="F4O-Mv-AHr" firstAttribute="centerY" secondItem="aat-yv-hPI" secondAttribute="centerY" type="default" id="97Q-tt-jrs"/>
-                                    <constraint firstItem="CCj-PH-U9B" firstAttribute="top" secondItem="aat-yv-hPI" secondAttribute="top" constant="13" id="Nul-PH-Xg0"/>
-                                    <constraint firstItem="F4O-Mv-AHr" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="5" id="VJH-2b-nzL"/>
-                                    <constraint firstAttribute="bottom" secondItem="uY0-UZ-H6x" secondAttribute="bottom" constant="11" id="iVs-7l-Dre"/>
-                                    <constraint firstItem="uY0-UZ-H6x" firstAttribute="leading" secondItem="CCj-PH-U9B" secondAttribute="leading" type="default" id="lfs-j0-qR5"/>
+                                    <constraint firstAttribute="bottom" secondItem="0up-Px-hh0" secondAttribute="bottom" constant="3" id="0WZ-Bc-9OW"/>
+                                    <constraint firstItem="93H-QQ-tZR" firstAttribute="top" secondItem="aat-yv-hPI" secondAttribute="top" constant="19" id="1kL-1Y-y9R"/>
+                                    <constraint firstItem="0up-Px-hh0" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="20" type="default" id="8Qo-QI-54c"/>
+                                    <constraint firstItem="Nwb-Kz-akg" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="20" type="default" id="Dam-96-kQw"/>
+                                    <constraint firstItem="Nwb-Kz-akg" firstAttribute="top" secondItem="aat-yv-hPI" secondAttribute="top" constant="1" id="O5G-dZ-yGg"/>
+                                    <constraint firstItem="93H-QQ-tZR" firstAttribute="leading" secondItem="aat-yv-hPI" secondAttribute="leading" constant="20" type="default" id="SF5-D1-737"/>
+                                    <constraint firstItem="93H-QQ-tZR" firstAttribute="trailing" secondItem="0up-Px-hh0" secondAttribute="trailing" type="default" id="XL7-dg-dqx"/>
+                                    <constraint firstItem="Nwb-Kz-akg" firstAttribute="trailing" secondItem="93H-QQ-tZR" secondAttribute="trailing" type="default" id="d9v-92-wwN"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="favoritesImage" destination="F4O-Mv-AHr" id="z8v-do-EE9"/>
-                                    <outlet property="favoritesSubtitle" destination="uY0-UZ-H6x" id="NZO-ei-ODm"/>
-                                    <outlet property="favoritesTitle" destination="CCj-PH-U9B" id="9YC-fy-RKE"/>
+                                    <outlet property="articleDate" destination="Nwb-Kz-akg" id="B4h-AM-VME"/>
+                                    <outlet property="articlePublication" destination="0up-Px-hh0" id="c1a-ae-9eB"/>
+                                    <outlet property="articleTitle" destination="93H-QQ-tZR" id="GWG-Rv-IJs"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -498,9 +502,9 @@
         <class className="FavoritesCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FavoritesCell.h"/>
             <relationships>
-                <relationship kind="outlet" name="favoritesImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="favoritesSubtitle" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="favoritesTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="articleDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="articlePublication" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="articleTitle" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="FavoritesViewController" superclassName="UITableViewController">

@@ -31,6 +31,6 @@ typedef NSUInteger SVWebViewControllerAvailableActions;
 @property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
 
 @property (nonatomic, strong) NSDictionary *articleInfoForFavorites;
-@property (nonatomic, strong) NSString* keyForAmendment;
+@property (nonatomic, strong) NSString *keyForAmendment;
 
 @end

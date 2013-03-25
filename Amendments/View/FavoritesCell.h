@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface FavoritesCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *favoritesImage;
-@property (weak, nonatomic) IBOutlet UILabel *favoritesTitle;
-@property (weak, nonatomic) IBOutlet UILabel *favoritesSubtitle;
 
+@property (weak, nonatomic) IBOutlet UILabel *articleTitle;
+@property (weak, nonatomic) IBOutlet UILabel *articlePublication;
+
+@property (weak, nonatomic) IBOutlet UILabel *articleDate;
 
 @end
