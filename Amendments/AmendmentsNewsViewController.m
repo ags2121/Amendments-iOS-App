@@ -39,7 +39,8 @@
     self.view.backgroundColor = [UIColor clearColor];
     
     //Set VC title
-    self.title = [NSString stringWithFormat:@"%@ News", self.keyForFeed];
+    //self.title = [NSString stringWithFormat:@"%@ News", self.keyForFeed];
+    self.title = @"News";
     
     //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -85,11 +86,11 @@
     
     //Set up refreshAction
     UIRefreshControl *pullToRefresh = [[UIRefreshControl alloc] init];
-    pullToRefresh.tintColor = [UIColor blackColor];
+    pullToRefresh.tintColor = [UIColor grayColor];
     [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
     
     self.refreshControl = pullToRefresh;
-
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -118,7 +119,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 
-    
     // Return the number of sections.
     return 1;
 }
@@ -139,6 +139,7 @@
     // Configure the cell...
     cell.backgroundColor = [UIColor whiteColor];
     
+    
     //TITLE and PUBLICATION
     NSLog(@"Working on cell: %d", indexPath.row);
     NSDictionary *article = self.feed[indexPath.row];
@@ -157,51 +158,34 @@
     return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     cell.backgroundColor = [UIColor whiteColor];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *article = self.feed[indexPath.row];
+    NSArray *titleAndPub = [self formatIntoTitleAndPub: [article objectForKey:@"title"]];
+    CGSize size;
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
+         size = [ [titleAndPub objectAtIndex:0]
+                   sizeWithFont:[UIFont systemFontOfSize:17]
+                   constrainedToSize:CGSizeMake(428, 9999)];
+    }
+    
+    else{
+        size = [ [titleAndPub objectAtIndex:0]
+                       sizeWithFont:[UIFont systemFontOfSize:17]
+                       constrainedToSize:CGSizeMake(268, 9999)];
+    }
+    
+    return size.height + 44;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -235,7 +219,6 @@
 
 /*******************************************************************************
  * @method      formatIntoTitleAndPub
- 
  * @abstract
  * @description The title contains both the article title and the publication,
  so we need to split and trim the string into two different strings
@@ -250,6 +233,9 @@
     NSString *newTitle = [[splitWords objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
     NSString *newPub = [[splitWords objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    //REPLACE
+    NSString* finalTitle = [newTitle stringByReplacingOccurrencesOfString:@" ..." withString:@"..."];
     
     //TRIM
     NSString *trimmedPub;
@@ -270,7 +256,7 @@
     }
     else(trimmedPub = newPub);
     
-    NSArray *result = [[NSArray alloc] initWithObjects: newTitle, trimmedPub, nil];
+    NSArray *result = [[NSArray alloc] initWithObjects: finalTitle, trimmedPub, nil];
     
     return result;
     
@@ -333,6 +319,25 @@
     [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed forTableViewController:self];
     
 }
+
+/*******************************************************************************
+ * @method      <#methodName#>
+ * @abstract
+ * @description
+ *******************************************************************************/
+
+-(BOOL)hasOneLineOfText:(NewsFeedCell*)cell
+{
+    NSLog(@"we're computing number of lines");
+    CGSize requiredSize = [cell.articleTitle.text sizeWithFont:cell.articleTitle.font constrainedToSize:cell.articleTitle.frame.size lineBreakMode:cell.articleTitle.lineBreakMode];
+    int charSize = cell.articleTitle.font.lineHeight;
+    int rHeight = requiredSize.height;
+    int lineCount = floor(rHeight/charSize);
+    if (lineCount==1) return true;
+    else return false;
+}
+
+#pragma mark - UIAlertView methods
 
 /*******************************************************************************
  * @method      showUIAlert

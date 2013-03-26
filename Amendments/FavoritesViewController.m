@@ -47,7 +47,7 @@
     //then show a UIAlertView that tells user to add some favorites. 
     if ( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) {
         NSLog(@"User hasn't added favorites");
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Add your favorite amendments!" message:@"You can put your favorite amendments here by touching the empty star in the upper right corner\n of each amendment menu." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Add your favorite articles!" message:@"You can collect favorite articles here by selecting the empty star in the upper right corner of each article." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [av show];
     }
     
@@ -116,7 +116,8 @@
     
     NSString *key = [sortedKeys objectAtIndex:section];
     NSArray *splitWords1 = [key componentsSeparatedByString:@"|"];
-    return splitWords1[1];
+    NSArray *splitWords2 = [splitWords1[1] componentsSeparatedByString:@" "];
+    return splitWords2[0];
 }
 
 
@@ -260,8 +261,9 @@
     NSString *key = [sortedKeys objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
     NSDictionary *infoForSelectedArticle = articlesForAmendment[indexPath.row];
+    NSURL *URLforwebview = [NSURL URLWithString: [infoForSelectedArticle objectForKey:@"Article URL String"]];
     
-    SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL: [infoForSelectedArticle objectForKey:@"Article URL String" ] ];
+    SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL: URLforwebview];
     webViewController.articleInfoForFavorites = infoForSelectedArticle;
     
     //append amendment number to beginning for keyForFeed string

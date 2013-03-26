@@ -70,7 +70,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     //add Custom Favorite button, using category (see utility method "returnFavoriteButton")
-    self.navigationItem.rightBarButtonItem = [self returnFavoriteButton];
+    //self.navigationItem.rightBarButtonItem = [self returnFavoriteButton];
 
 }
 

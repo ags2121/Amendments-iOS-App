@@ -144,7 +144,7 @@
             
         }];
         
-        //NSLog(@"Sorted newsFeed: %@", self.aFeed);
+        NSLog(@"Sorted newsFeed: %@", self.aFeed);
         
         //If there are no articles in the feed, send a notification to NewsFeed VC
         if (self.aFeed.count==0) {
