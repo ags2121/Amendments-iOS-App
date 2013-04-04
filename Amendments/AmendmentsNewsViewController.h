@@ -13,5 +13,6 @@
 @property (strong, nonatomic) NSString *keyForFeed;
 @property (strong, nonatomic) NSMutableArray *feed;
 @property (strong, nonatomic) NSString *finalURL;
+@property int amendmentNumberForSorting;
 
 @end

@@ -25,8 +25,12 @@ typedef NSUInteger SVWebViewControllerAvailableActions;
 
 - (id)initWithAddress:(NSString*)urlString;
 - (id)initWithURL:(NSURL *)URL;
+-(UIBarButtonItem*)returnFavoriteButton;
 
 @property (nonatomic, strong) UIColor *barsTintColor;
 @property (nonatomic, readwrite) SVWebViewControllerAvailableActions availableActions;
+
+@property (nonatomic, strong) NSDictionary *articleInfoForFavorites;
+@property (nonatomic, strong) NSString *keyForAmendment;
 
 @end

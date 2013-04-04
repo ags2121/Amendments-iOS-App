@@ -109,7 +109,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 -(void)customizeAppearance
 {
     [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
-    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor brownColor]];
+    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor grayColor]];
 }
 
 #pragma mark - Preference Defaults

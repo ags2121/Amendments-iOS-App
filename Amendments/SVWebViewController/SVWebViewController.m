@@ -132,9 +132,6 @@
 
 -(void) initActivityVC
 {
-    
-    //NSArray* dataToShare = @[[NSURL URLWithString:self.mainWebView.request.URL.absoluteString]];
-    
     NSArray* dataToShare = @[self.URL];
 
     ARChromeActivity *chromeActivity = [[ARChromeActivity alloc] init];
@@ -147,7 +144,6 @@
     [self.activityVC setExcludedActivityTypes:@[UIActivityTypePostToWeibo]];
     
     NSLog(@"Inside of initActicityVC");
-    
 }
 
 
@@ -331,10 +327,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    
-    self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    //UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
-    //self.navigationItem.rightBarButtonItem = filledStar;
+    //self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self updateToolbarItems];
 }
 

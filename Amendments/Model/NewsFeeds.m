@@ -36,8 +36,6 @@
         //initialize date formatter format, to be used when we sort the feed by date
         _dateFormatter = [[NSDateFormatter alloc] init];
         [self.dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss zzz"];
-        NSLog(@"Formatter initialized");
-        
     }
     
     return self;
@@ -108,7 +106,10 @@
                || [[dict objectForKey:@"link"] rangeOfString:@"limaohio.com/"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@"http://www.globalpost.com/"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@".com.pk"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@".hu/"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@"casperjournal.com/"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"eastcountymagazine.org"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"colombogazette.com/"].location != NSNotFound
                )
             {
                 [articlesToDiscard addObject:dict];
@@ -132,14 +133,8 @@
         //sort feed by date
         [self.aFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
             
-            NSString* strDate1 = [dict1 objectForKey:@"pubDate"];
-            NSString* strDate2 = [dict2 objectForKey:@"pubDate"];
-            
-            NSDate* date1 = [[NSDate alloc] init];
-            date1 = [self.dateFormatter dateFromString:strDate1];
-            NSDate* date2 = [[NSDate alloc] init];
-            date2 = [self.dateFormatter dateFromString:strDate2];
-            
+            NSDate* date1 = [self.dateFormatter dateFromString: [dict1 objectForKey:@"pubDate"] ];
+            NSDate* date2 = [self.dateFormatter dateFromString: [dict2 objectForKey:@"pubDate"] ];
             return [date2 compare:date1];
             
         }];
@@ -160,7 +155,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
                                                         object:nil];
         }
-        
     }
     
     //stop Activity indicator
@@ -194,9 +188,5 @@
     [self.activityView removeFromSuperview];
     self.activityView = nil;
 }
-
-
-
-
 
 @end
