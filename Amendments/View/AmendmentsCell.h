@@ -11,7 +11,7 @@
 @interface AmendmentsCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *amendmentIcon;
-@property (weak, nonatomic) IBOutlet UILabel *amendmentSubtitle;
 @property (weak, nonatomic) IBOutlet UILabel *amendmentNumber;
+@property (weak, nonatomic) IBOutlet UILabel *amendmentSubtitle;
 
 @end

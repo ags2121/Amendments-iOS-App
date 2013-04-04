@@ -39,7 +39,8 @@
     self.view.backgroundColor = [UIColor clearColor];
     
     //Set VC title
-    self.title = [NSString stringWithFormat:@"%@ News", self.keyForFeed];
+    //self.title = [NSString stringWithFormat:@"%@ News", self.keyForFeed];
+    self.title = @"News";
     
     //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -85,11 +86,11 @@
     
     //Set up refreshAction
     UIRefreshControl *pullToRefresh = [[UIRefreshControl alloc] init];
-    pullToRefresh.tintColor = [UIColor blackColor];
+    pullToRefresh.tintColor = [UIColor grayColor];
     [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
     
     self.refreshControl = pullToRefresh;
-
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -118,7 +119,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 
-    
     // Return the number of sections.
     return 1;
 }
@@ -139,6 +139,7 @@
     // Configure the cell...
     cell.backgroundColor = [UIColor whiteColor];
     
+    
     //TITLE and PUBLICATION
     NSLog(@"Working on cell: %d", indexPath.row);
     NSDictionary *article = self.feed[indexPath.row];
@@ -157,61 +158,38 @@
     return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     cell.backgroundColor = [UIColor whiteColor];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *article = self.feed[indexPath.row];
+    NSArray *titleAndPub = [self formatIntoTitleAndPub: [article objectForKey:@"title"]];
+    CGSize size;
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
+         size = [ [titleAndPub objectAtIndex:0]
+                   sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                   constrainedToSize:CGSizeMake(440, 9999)];
+    }
+    
+    else{
+        size = [ [titleAndPub objectAtIndex:0]
+                       sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                       constrainedToSize:CGSizeMake(280, 9999)];
+    }
+    
+    return size.height + 54;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    
     NSDictionary *article = self.feed[indexPath.row];
     
     NSString* trimmedURL = [self formatURL:[article objectForKey:@"link"]];
@@ -220,7 +198,20 @@
     
     NSURL* finalURL = [NSURL URLWithString:trimmedURL];
     
+    //package cell display information so that the webview can save this info to add to the favorites arrsay
+    NSString* articleTitleforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleTitle] text];
+    NSString* articlePubforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articlePublication] text];
+    NSString* articleDateForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleDate] text];
+    NSString* articleTrimmedURLforFav = trimmedURL;
+    
+    //add cell display info to dictionary to pass to modalWebView VC
+    NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleforFav, @"Article Publication" : articlePubforFav, @"Article Date" : articleDateForFav, @"Article URL String" : articleTrimmedURLforFav};
+    
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
+    webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
+    
+    //append amendment number to beginning for keyForFeed string
+    webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];
     [self presentViewController:webViewController animated:YES completion:nil];
 }
 
@@ -228,7 +219,6 @@
 
 /*******************************************************************************
  * @method      formatIntoTitleAndPub
- 
  * @abstract
  * @description The title contains both the article title and the publication,
  so we need to split and trim the string into two different strings
@@ -244,26 +234,34 @@
     
     NSString *newPub = [[splitWords objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    //TRIM
-    NSString *trimmedPub;
-    if ([newPub rangeOfString:@" (press release)"].location != NSNotFound){
+    //REPLACE TITLE
+    NSString* trimmedTitle = [newTitle stringByReplacingOccurrencesOfString:@" ..." withString:@"..."];
+
+    
+    if ([newPub rangeOfString:@"American Civil Liberties Union"].location != NSNotFound){
+        
+        newPub = [newPub substringToIndex:[newPub rangeOfString:@" and Information"].location];
+    }
+    
+    //TRIM PUB part 2
+    //NSString *trimmedPub;
+    else if ([newPub rangeOfString:@" (press release)"].location != NSNotFound){
         
         NSLog(@"pub title contains (press release)");
-        trimmedPub = [newPub substringToIndex:[newPub rangeOfString:@" (press release)"].location];
+        newPub = [newPub substringToIndex:[newPub rangeOfString:@" (press release)"].location];
     }
     else if ([newPub rangeOfString:@" (blog)"].location != NSNotFound){
         
         NSLog(@"pub title contains (blog)");
-        trimmedPub = [newPub substringToIndex:[newPub rangeOfString:@" (blog)"].location];
+        newPub = [newPub substringToIndex:[newPub rangeOfString:@" (blog)"].location];
     }
     else if ([newPub rangeOfString:@" (subscription)"].location != NSNotFound){
         
         NSLog(@"pub title contains (subscription)");
-        trimmedPub = [newPub substringToIndex:[newPub rangeOfString:@" (subscription)"].location];
+       newPub = [newPub substringToIndex:[newPub rangeOfString:@" (subscription)"].location];
     }
-    else(trimmedPub = newPub);
     
-    NSArray *result = [[NSArray alloc] initWithObjects: newTitle, trimmedPub, nil];
+    NSArray *result = [[NSArray alloc] initWithObjects: trimmedTitle, newPub, nil];
     
     return result;
     
@@ -326,6 +324,8 @@
     [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed forTableViewController:self];
     
 }
+
+#pragma mark - UIAlertView methods
 
 /*******************************************************************************
  * @method      showUIAlert

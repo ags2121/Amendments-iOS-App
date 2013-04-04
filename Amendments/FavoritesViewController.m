@@ -10,10 +10,12 @@
 #import "FavoritesCell.h"
 #import "AllAmendmentsText.h"
 #import "SingleAmendmentViewController.h"
+#import "SVWebViewController.h"
 
 @interface FavoritesViewController ()
 
-@property(strong,nonatomic) NSMutableArray *favoriteAmendments;
+@property(strong,nonatomic) NSMutableDictionary *favoriteArticles;
+@property(strong,nonatomic) NSArray *favoriteArticlesSortedByKey;
 
 @end
 
@@ -29,11 +31,6 @@
     //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -46,12 +43,32 @@
     //then show a UIAlertView that tells user to add some favorites. 
     if ( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) {
         NSLog(@"User hasn't added favorites");
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Add your favorite amendments!" message:@"You can put your favorite amendments here by touching the empty star in the upper right corner\n of each amendment menu." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Add your favorite articles!" message:@"You can collect favorite articles here by selecting the empty star in the upper right corner of each article." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [av show];
     }
     
-    _favoriteAmendments = [[defaults arrayForKey:@"favoriteAmendments"] mutableCopy];
+    //retrieve fav articles from NSDefaults
+    _favoriteArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
+    
+    //sort articles by key
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    _favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+        
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+        
+        return [key1 compare:key2];
+    }];
+    
     [self.tableView reloadData];
+    
+    //if there is no data, disable scrolling since otherwise there is an errant cell border
+    //that looks messy
     if (self.tableView.visibleCells.count==0) self.tableView.scrollEnabled = NO;
     else self.tableView.scrollEnabled = YES;
 }
@@ -67,22 +84,63 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return self.favoriteAmendments.count;
+    return [self.favoriteArticlesSortedByKey count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
     // Return the number of rows in the section.
-    return [self.favoriteAmendments[section] count];
+    
+    /*
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+                
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+
+        return [key1 compare:key2];
+    }];
+    
+     */
+    //NSString *key = [sortedKeys objectAtIndex:section];
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:section];
+    
+    return [[self.favoriteArticles objectForKey:key] count];
+  
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
+    /*
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+        
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+        
+        return [key1 compare:key2];
+    }];
     
-    if(section == 0)
-        return @"Bill of Rights";
-    else
-        return @"Later Amendments";
+    NSString *key = [sortedKeys objectAtIndex:section];
+     
+     */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:section];
+    NSArray *splitWords1 = [key componentsSeparatedByString:@"|"];
+    NSArray *splitWords2 = [splitWords1[1] componentsSeparatedByString:@" "];
+    return splitWords2[0];
 }
 
 
@@ -91,17 +149,38 @@
     static NSString *CellIdentifier = @"favoritesCell";
     FavoritesCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    NSArray *section = self.favoriteAmendments[indexPath.section];
+    /*
     
-    //get dictionary key/value pairs for amendment at this index
-    NSDictionary *current = section[indexPath.row];
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+        
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+        
+        return [key1 compare:key2];
+    }];
+    
+    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+     
+     */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
+    NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
+    NSDictionary *current = articlesForAmendment[indexPath.row];
     
     // Configure the cell...
-    cell.favoritesImage.image = [UIImage imageNamed: [current objectForKey:@"icon"]];
-    cell.favoritesTitle.text = [current objectForKey:@"amendmentNumber"];
-    cell.favoritesSubtitle.text = [current objectForKey:@"subtitle"];
+    cell.articleTitle.text = [current objectForKey:@"Article Title"];
+    cell.articlePublication.text = [current objectForKey:@"Article Publication"];
+    cell.articleDate.text = [current objectForKey:@"Article Date"];
+    cell.articleTitle.numberOfLines = [self howManyLinesOfText: cell.articleTitle];
     
     return cell;
+
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,15 +201,52 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        //remove cell from table
-        NSMutableArray *editedFavorites = [self.favoriteAmendments[indexPath.section] mutableCopy];
-        [editedFavorites removeObjectAtIndex:indexPath.row];
-        self.favoriteAmendments[indexPath.section] = editedFavorites;
+        //fetch article data related to selected cell
+        
+        /*
+        NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+        NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+            
+            NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+            NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+            
+            NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+            NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+            
+            return [key1 compare:key2];
+        }];
+        */
+        
+        //remove cell from table data
+        NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
+        NSMutableArray *editedFavoriteArticlesForAmendment = [[self.favoriteArticles objectForKey:key] mutableCopy];
+        [editedFavoriteArticlesForAmendment removeObjectAtIndex: indexPath.row];
+        
+        //reset local dictionary of favorite Articles
+        [self.favoriteArticles setObject:editedFavoriteArticlesForAmendment forKey:key];
+        
+        //resort the amendment keys
+        NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+        _favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+            
+            NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+            NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+            
+            NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+            NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+            
+            return [key1 compare:key2];
+        }];
+        
         [self.tableView reloadData];
         
-        //remove amendment from NSUserDefaults
+        //remove amendment from NSUserDefaults by reseting NSUserdefaults dictionary with local dictionary
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:self.favoriteAmendments forKey:@"favoriteAmendments"];
+        [defaults setObject:self.favoriteArticles forKey:@"favoriteArticles"];
         [defaults synchronize];
         
         //if there's no more cells, dont let user scroll since there's an a weird floating cell edge on top
@@ -144,92 +260,84 @@
     return @"Remove";
 }
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //get reference to Singleton class which holds data on the Amendments
-    AllAmendmentsText* sharedsingleton = [AllAmendmentsText sharedInstance];
     
-    if([[segue identifier] isEqualToString:@"segueToAmendmentDetailFromFavorites"]){
+    /*
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
         
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
         
-        /*
-         get dictionary data from cell in selected section, in selected row, from the singleton amendment data object
-        the indexPath.row value will likely be a different index here
-        i.e. the 8th amendment could be the 2nd tablecell in the favorites table, but its the 8th index in the
-        static amendment data plist array
-         
-         I store an amendments actual order in a number object for key "#" in the AmendmentsCellData plist
-         This comes in handle in this situation, where users are seeing a subset of the amendments
-         */
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
         
-        //retrieving numbers stored in plists is weird; you need to call this method intValue on the object
-        //otherwise you get a crazy big number
-        int actualRow = [ [self.favoriteAmendments[indexPath.section][indexPath.row] objectForKey:@"#"] intValue];
-        
-        int section = indexPath.section;
-        
-        NSLog(@"actual row: %d", actualRow );
-        NSLog(@"actual section: %d", section);
-        
-        NSLog(@"Shared Singleton Data: %@", sharedsingleton.amendmentsData);
-        NSLog(@"Shared Singleton Data index 0 index 6: %@", sharedsingleton.amendmentsData[section][actualRow-1]);
-        
-       //NSDictionary *selectedAmendmentData = [(sharedsingleton.amendmentsData)[indexPath.section] objectAtIndex:actualRow-1];
-        NSDictionary *selectedAmendmentData = sharedsingleton.amendmentsData[section][actualRow-1];
-        
-        SingleAmendmentViewController *savc = [segue destinationViewController];
-        savc.amendmentData = selectedAmendmentData;
-        
-        //pass along section and row info to the next VC
-        savc.sectionOfAmendment = indexPath.section;
-        
-        //pass along amendment Cell data, to be used if adding Amendment to dictionary of favorites in the next VC
-        savc.amendmentCellData = self.favoriteAmendments[indexPath.section][indexPath.row];
-        
-        savc.shortTitle = [self.favoriteAmendments[indexPath.section][indexPath.row] objectForKey:@"amendmentNumber"];
-        
+        return [key1 compare:key2];
+    }];
+    
+    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+     
+     */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
+    NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
+    NSDictionary *current = articlesForAmendment[indexPath.row];
+    CGSize size;
+    
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
+        size = [ [current objectForKey:@"Article Title"]
+                sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                constrainedToSize:CGSizeMake(438, 9999)];
     }
+    
+    else{
+        size = [ [current objectForKey:@"Article Title"]
+                sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                constrainedToSize:CGSizeMake(278, 9999)];
+    }
+    
+    return size.height + 54;
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    [self performSegueWithIdentifier:@"segueToAmendmentDetailFromFavorites" sender:self];
-
+    /*
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+        
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+        
+        return [key1 compare:key2];
+    }];
+    
+    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+    
+    */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
+    NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
+    NSDictionary *infoForSelectedArticle = articlesForAmendment[indexPath.row];
+    NSURL *URLforwebview = [NSURL URLWithString: [infoForSelectedArticle objectForKey:@"Article URL String"]];
+    
+    SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL: URLforwebview];
+    webViewController.articleInfoForFavorites = infoForSelectedArticle;
+    
+    //append amendment number to beginning for keyForFeed string
+    webViewController.keyForAmendment = key;
+    [self presentViewController:webViewController animated:YES completion:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -239,6 +347,11 @@
     
 }
 
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.tableView reloadData];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"User was alerted that they haven't added any favorites yet from the FavoritesViewController");
@@ -246,6 +359,17 @@
     //pop user back to list of Amendments
     self.tabBarController.selectedIndex = 0;
     
+}
+
+-(NSInteger)howManyLinesOfText:(UILabel*)label
+{
+    
+CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];
+
+NSInteger charSize = label.font.lineHeight;
+NSInteger rHeight = requiredSize.height;
+
+return floor(rHeight/charSize);
 }
 
 

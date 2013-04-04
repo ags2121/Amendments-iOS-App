@@ -49,7 +49,6 @@
     self.title = self.shortTitle;
     
     
-    
     //set optionsTableView delegate and datasource
     [self.optionsTableView setDataSource:self];
     [self.optionsTableView setDelegate:self];
@@ -71,7 +70,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     //add Custom Favorite button, using category (see utility method "returnFavoriteButton")
-    self.navigationItem.rightBarButtonItem = [self returnFavoriteButton];
+    //self.navigationItem.rightBarButtonItem = [self returnFavoriteButton];
 
 }
 
@@ -153,7 +152,9 @@
         AmendmentsNewsViewController* anvc = [segue destinationViewController];
         anvc.finalURL = self.finalURL;
         //ex. keyForFeed = "First Amendment"
-        anvc.keyForFeed = [self.amendmentData objectForKey:@"Title"];;
+        anvc.keyForFeed = [self.amendmentData objectForKey:@"Title"];
+        anvc.amendmentNumberForSorting = [[self.amendmentCellData objectForKey:@"#"] intValue];
+        NSLog(@"Amendment number for sorting: %d", anvc.amendmentNumberForSorting);
     }
 }
 

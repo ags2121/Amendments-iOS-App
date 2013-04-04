@@ -5,6 +5,13 @@ div {
     margin-left: 2em;
 }
 
+div1 {
+    font-family: helvetica;
+    font-size: 15px;
+    font-style: normal;
+    margin-left: 2em;
+}
+
 h3 {
     font-family: helvetica;
     font-style: normal;
