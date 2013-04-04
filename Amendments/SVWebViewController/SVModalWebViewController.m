@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) SVWebViewController *webViewController;
 @property (nonatomic, strong) NSMutableArray *favoriteArticlesforAmendment;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -25,11 +26,18 @@
 #pragma mark - Initialization
 
 - (id)initWithAddress:(NSString*)urlString {
+    
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"EEE, dd MMM yyyy"];
 
     return [self initWithURL:[NSURL URLWithString:urlString]];
 }
 
 - (id)initWithURL:(NSURL *)URL {
+    
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"EEE, dd MMM yyyy"];
+    
     self.webViewController = [[SVWebViewController alloc] initWithURL:URL];
     if (self = [super initWithRootViewController:self.webViewController]) {
         self.webViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:webViewController action:@selector(doneButtonClicked:)];
@@ -89,7 +97,7 @@
 /*******************************************************************************
  * @method      toggleFavoriteAction
  * @abstract
- * @description
+ * @description adds/removes article from favoriteArticle dictionary when user presses star button
  *******************************************************************************/
 
 -(void)toggleFavoriteAction:(UIBarButtonItem *)sender
@@ -107,8 +115,6 @@
     
     if ( ![self.favoriteArticlesforAmendment containsObject:self.articleInfoForFavorites] ) {
         
-        [self.favoriteArticlesforAmendment addObject: self.articleInfoForFavorites];
-        
         //change "Did add favorites" to 1 in the plist stored in the documents directory
         if( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) { //if "Did add favorites is 0
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -116,15 +122,27 @@
             NSString *path = [documentsDirectory stringByAppendingPathComponent:@"UserDefaults.plist"];
             NSDictionary *updatedDefaults = @{ @"kInitialRun" : [defaults objectForKey:@"kInitialRun"], @"Did add favorites" : @"1" };
             [updatedDefaults writeToFile:path atomically:YES];
-            NSLog(@"Updated defaults: %@", updatedDefaults);
+            //NSLog(@"Updated defaults: %@", updatedDefaults);
             [defaults registerDefaults:updatedDefaults];
             [defaults synchronize];
             NSLog(@"updated NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults]
                                                   dictionaryRepresentation]);
         }
         
-        UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
+        //add article to array of articles for that amendment
+        [self.favoriteArticlesforAmendment addObject: self.articleInfoForFavorites];
         
+        //sort array of articles by date
+        [self.favoriteArticlesforAmendment sortUsingComparator:^(NSDictionary *article1, NSDictionary* article2){
+            
+            NSDate* date1 = [self.dateFormatter dateFromString: [article1 objectForKey:@"Article Date"] ];
+            NSDate* date2 = [self.dateFormatter dateFromString: [article2 objectForKey:@"Article Date"] ];
+            return [date2 compare:date1];
+            
+        }];
+        
+        //change icon to filledStar
+        UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         webViewController.navigationItem.rightBarButtonItem = filledStar;
         
         NSLog(@"Adding %@", [self.articleInfoForFavorites objectForKey:@"Article Title"]);

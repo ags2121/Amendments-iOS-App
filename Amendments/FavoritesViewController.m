@@ -15,6 +15,7 @@
 @interface FavoritesViewController ()
 
 @property(strong,nonatomic) NSMutableDictionary *favoriteArticles;
+@property(strong,nonatomic) NSArray *favoriteArticlesSortedByKey;
 
 @end
 
@@ -30,11 +31,6 @@
     //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -51,7 +47,24 @@
         [av show];
     }
     
+    //retrieve fav articles from NSDefaults
     _favoriteArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
+    
+    //sort articles by key
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    _favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+        
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+        
+        return [key1 compare:key2];
+    }];
+    
     [self.tableView reloadData];
     
     //if there is no data, disable scrolling since otherwise there is an errant cell border
@@ -71,14 +84,15 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    NSArray *keys = [self.favoriteArticles allKeys];
-    return keys.count;
+    return [self.favoriteArticlesSortedByKey count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
     // Return the number of rows in the section.
+    
+    /*
     NSArray *unsortedKeys = [self.favoriteArticles allKeys];
     NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
     [nf setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -93,13 +107,18 @@
         return [key1 compare:key2];
     }];
     
-    NSString *key = [sortedKeys objectAtIndex:section];
+     */
+    //NSString *key = [sortedKeys objectAtIndex:section];
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:section];
+    
     return [[self.favoriteArticles objectForKey:key] count];
   
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    
+
+    /*
     NSArray *unsortedKeys = [self.favoriteArticles allKeys];
     NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
     [nf setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -115,6 +134,10 @@
     }];
     
     NSString *key = [sortedKeys objectAtIndex:section];
+     
+     */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:section];
     NSArray *splitWords1 = [key componentsSeparatedByString:@"|"];
     NSArray *splitWords2 = [splitWords1[1] componentsSeparatedByString:@" "];
     return splitWords2[0];
@@ -125,6 +148,8 @@
 {
     static NSString *CellIdentifier = @"favoritesCell";
     FavoritesCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    /*
     
     NSArray *unsortedKeys = [self.favoriteArticles allKeys];
     NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
@@ -141,6 +166,10 @@
     }];
     
     NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+     
+     */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
     NSDictionary *current = articlesForAmendment[indexPath.row];
     
@@ -148,6 +177,7 @@
     cell.articleTitle.text = [current objectForKey:@"Article Title"];
     cell.articlePublication.text = [current objectForKey:@"Article Publication"];
     cell.articleDate.text = [current objectForKey:@"Article Date"];
+    cell.articleTitle.numberOfLines = [self howManyLinesOfText: cell.articleTitle];
     
     return cell;
 
@@ -172,6 +202,8 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         //fetch article data related to selected cell
+        
+        /*
         NSArray *unsortedKeys = [self.favoriteArticles allKeys];
         NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
         [nf setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -185,15 +217,34 @@
             
             return [key1 compare:key2];
         }];
+        */
         
         //remove cell from table data
-        NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+        NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
         NSMutableArray *editedFavoriteArticlesForAmendment = [[self.favoriteArticles objectForKey:key] mutableCopy];
         [editedFavoriteArticlesForAmendment removeObjectAtIndex: indexPath.row];
+        
+        //reset local dictionary of favorite Articles
         [self.favoriteArticles setObject:editedFavoriteArticlesForAmendment forKey:key];
+        
+        //resort the amendment keys
+        NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+        _favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+            
+            NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+            NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+            
+            NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+            NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+            
+            return [key1 compare:key2];
+        }];
+        
         [self.tableView reloadData];
         
-        //remove amendment from NSUserDefaults
+        //remove amendment from NSUserDefaults by reseting NSUserdefaults dictionary with local dictionary
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:self.favoriteArticles forKey:@"favoriteArticles"];
         [defaults synchronize];
@@ -209,41 +260,12 @@
     return @"Remove";
 }
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    /*
     NSArray *unsortedKeys = [self.favoriteArticles allKeys];
     NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
     [nf setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -259,6 +281,53 @@
     }];
     
     NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+     
+     */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
+    NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
+    NSDictionary *current = articlesForAmendment[indexPath.row];
+    CGSize size;
+    
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
+        size = [ [current objectForKey:@"Article Title"]
+                sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                constrainedToSize:CGSizeMake(438, 9999)];
+    }
+    
+    else{
+        size = [ [current objectForKey:@"Article Title"]
+                sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                constrainedToSize:CGSizeMake(278, 9999)];
+    }
+    
+    return size.height + 54;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    /*
+    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
+    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
+    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+        
+        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
+        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
+        
+        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
+        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
+        
+        return [key1 compare:key2];
+    }];
+    
+    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
+    
+    */
+    
+    NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
     NSDictionary *infoForSelectedArticle = articlesForAmendment[indexPath.row];
     NSURL *URLforwebview = [NSURL URLWithString: [infoForSelectedArticle objectForKey:@"Article URL String"]];
@@ -278,6 +347,11 @@
     
 }
 
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.tableView reloadData];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"User was alerted that they haven't added any favorites yet from the FavoritesViewController");
@@ -285,6 +359,17 @@
     //pop user back to list of Amendments
     self.tabBarController.selectedIndex = 0;
     
+}
+
+-(NSInteger)howManyLinesOfText:(UILabel*)label
+{
+    
+CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];
+
+NSInteger charSize = label.font.lineHeight;
+NSInteger rHeight = requiredSize.height;
+
+return floor(rHeight/charSize);
 }
 
 

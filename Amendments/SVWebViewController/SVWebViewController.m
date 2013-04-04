@@ -132,9 +132,6 @@
 
 -(void) initActivityVC
 {
-    
-    //NSArray* dataToShare = @[[NSURL URLWithString:self.mainWebView.request.URL.absoluteString]];
-    
     NSArray* dataToShare = @[self.URL];
 
     ARChromeActivity *chromeActivity = [[ARChromeActivity alloc] init];
@@ -147,7 +144,6 @@
     [self.activityVC setExcludedActivityTypes:@[UIActivityTypePostToWeibo]];
     
     NSLog(@"Inside of initActicityVC");
-    
 }
 
 

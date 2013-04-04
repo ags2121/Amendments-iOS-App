@@ -174,17 +174,17 @@
     CGSize size;
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
          size = [ [titleAndPub objectAtIndex:0]
-                   sizeWithFont:[UIFont systemFontOfSize:17]
-                   constrainedToSize:CGSizeMake(428, 9999)];
+                   sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                   constrainedToSize:CGSizeMake(440, 9999)];
     }
     
     else{
         size = [ [titleAndPub objectAtIndex:0]
-                       sizeWithFont:[UIFont systemFontOfSize:17]
-                       constrainedToSize:CGSizeMake(268, 9999)];
+                       sizeWithFont:[UIFont boldSystemFontOfSize:16]
+                       constrainedToSize:CGSizeMake(280, 9999)];
     }
     
-    return size.height + 44;
+    return size.height + 54;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -234,29 +234,34 @@
     
     NSString *newPub = [[splitWords objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
-    //REPLACE
-    NSString* finalTitle = [newTitle stringByReplacingOccurrencesOfString:@" ..." withString:@"..."];
+    //REPLACE TITLE
+    NSString* trimmedTitle = [newTitle stringByReplacingOccurrencesOfString:@" ..." withString:@"..."];
+
     
-    //TRIM
-    NSString *trimmedPub;
-    if ([newPub rangeOfString:@" (press release)"].location != NSNotFound){
+    if ([newPub rangeOfString:@"American Civil Liberties Union"].location != NSNotFound){
+        
+        newPub = [newPub substringToIndex:[newPub rangeOfString:@" and Information"].location];
+    }
+    
+    //TRIM PUB part 2
+    //NSString *trimmedPub;
+    else if ([newPub rangeOfString:@" (press release)"].location != NSNotFound){
         
         NSLog(@"pub title contains (press release)");
-        trimmedPub = [newPub substringToIndex:[newPub rangeOfString:@" (press release)"].location];
+        newPub = [newPub substringToIndex:[newPub rangeOfString:@" (press release)"].location];
     }
     else if ([newPub rangeOfString:@" (blog)"].location != NSNotFound){
         
         NSLog(@"pub title contains (blog)");
-        trimmedPub = [newPub substringToIndex:[newPub rangeOfString:@" (blog)"].location];
+        newPub = [newPub substringToIndex:[newPub rangeOfString:@" (blog)"].location];
     }
     else if ([newPub rangeOfString:@" (subscription)"].location != NSNotFound){
         
         NSLog(@"pub title contains (subscription)");
-        trimmedPub = [newPub substringToIndex:[newPub rangeOfString:@" (subscription)"].location];
+       newPub = [newPub substringToIndex:[newPub rangeOfString:@" (subscription)"].location];
     }
-    else(trimmedPub = newPub);
     
-    NSArray *result = [[NSArray alloc] initWithObjects: finalTitle, trimmedPub, nil];
+    NSArray *result = [[NSArray alloc] initWithObjects: trimmedTitle, newPub, nil];
     
     return result;
     
@@ -318,23 +323,6 @@
     //load the feed from the Singleton NewsFeeds
     [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed forTableViewController:self];
     
-}
-
-/*******************************************************************************
- * @method      <#methodName#>
- * @abstract
- * @description
- *******************************************************************************/
-
--(BOOL)hasOneLineOfText:(NewsFeedCell*)cell
-{
-    NSLog(@"we're computing number of lines");
-    CGSize requiredSize = [cell.articleTitle.text sizeWithFont:cell.articleTitle.font constrainedToSize:cell.articleTitle.frame.size lineBreakMode:cell.articleTitle.lineBreakMode];
-    int charSize = cell.articleTitle.font.lineHeight;
-    int rHeight = requiredSize.height;
-    int lineCount = floor(rHeight/charSize);
-    if (lineCount==1) return true;
-    else return false;
 }
 
 #pragma mark - UIAlertView methods

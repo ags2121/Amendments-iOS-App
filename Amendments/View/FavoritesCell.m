@@ -7,6 +7,7 @@
 //
 
 #import "FavoritesCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation FavoritesCell
 
@@ -24,6 +25,28 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(void) setEditing: (BOOL)editing animated: (BOOL)animated
+{
+    [super setEditing: editing animated: animated];
+    
+    CATransition *animation = [CATransition animation];
+    animation.duration = 0.2f;
+    animation.type = kCATransitionFade;
+    
+    //redraw the subviews (and animate)
+    for( UIView *subview in self.contentView.subviews )
+    {
+        [subview.layer addAnimation: animation forKey: @"editingFade"];
+        [subview setNeedsDisplay];
+    }
+}
+
+-(void)awakeFromNib
+{
+    NSDictionary *dict = NSDictionaryOfVariableBindings(_articleTitle);
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-22-[_articleTitle]-20-|" options:0 metrics:nil views:dict]];
 }
 
 @end

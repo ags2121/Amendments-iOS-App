@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *articlePublication;
 
 @property (weak, nonatomic) IBOutlet UILabel *articleDate;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellLabelHSpaceConstraint;
 
 @end

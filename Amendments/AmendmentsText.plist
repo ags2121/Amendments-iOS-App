@@ -172,6 +172,36 @@
 		</dict>
 		<dict>
 			<key>Title</key>
+			<string>Twelfth Amendment</string>
+			<key>Summary</key>
+			<string>The Twelfth Amendment provides the procedure for electing the President and Vice President. It replaced Article II, Section 1, Clause 3, of the Constitution which provided the original procedure by which the Electoral College functioned. Problems with the original procedure arose in the elections of 1796 and 1800.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary12</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText12</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>12th</string>
+				<string>twelfth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Thirteenth Amendment</string>
+			<key>Summary</key>
+			<string>The Thirteenth Amendment outlaws slavery and involuntary servitude, except as punishment for a crime. It was passed by the Senate on April 8, 1864, by the House on January 31, 1865, and adopted on December 6, 1865. It was the first of the three Reconstruction Amendments adopted after the American Civil War.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary13</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText13</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>13th</string>
+				<string>thirteenth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
 			<string>Fourteenth Amendment</string>
 			<key>Summary</key>
 			<string>The Fourteenth Amendment was adopted on July 9, 1868, as one of the Reconstruction Amendments. Its Citizenship Clause provides a broad definition of citizenship that overruled the Supreme Court&apos;s ruling in Dred Scott v. Sandford (1857) that had held that people of African descent could not be citizens of the United States.</string>
@@ -183,6 +213,36 @@
 			<array>
 				<string>14th</string>
 				<string>fourteenth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Fifteenth Amendment</string>
+			<key>Summary</key>
+			<string>The Fifteenth Amendment prohibits each government in the United States from denying a citizen the right to vote based on that citizen&apos;s &quot;race, color, or previous condition of servitude&quot; (for example, slavery). It was ratified on February 3, 1870 and is one of the Reconstruction Amendments.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary15</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText15</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>15th</string>
+				<string>fifteenth</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Sixteenth Amendment</string>
+			<key>Summary</key>
+			<string>The Sixteenth Amendment allows the Congress to levy an income tax without apportioning it among the states or basing it on Census results. Ratified on February 3, 1913, it exempted income taxes from the constitutional requirements regarding direct taxes, in essence removing any barriers to permitting an income tax.</string>
+			<key>extendedSummaryHTMLpath</key>
+			<string>extendedSummary16</string>
+			<key>originalTextHTMLpath</key>
+			<string>originalText16</string>
+			<key>queryKeywords</key>
+			<array>
+				<string>16th</string>
+				<string>sixteenth</string>
 			</array>
 		</dict>
 	</array>

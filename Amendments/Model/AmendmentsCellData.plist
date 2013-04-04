@@ -117,6 +117,26 @@
 		</dict>
 		<dict>
 			<key>#</key>
+			<integer>12</integer>
+			<key>icon</key>
+			<string>twelve</string>
+			<key>amendmentNumber</key>
+			<string>Twelfth</string>
+			<key>subtitle</key>
+			<string>Electoral Procedure</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>13</integer>
+			<key>icon</key>
+			<string>lincoln</string>
+			<key>amendmentNumber</key>
+			<string>Thirteenth</string>
+			<key>subtitle</key>
+			<string>Slavery Outlawed</string>
+		</dict>
+		<dict>
+			<key>#</key>
 			<integer>14</integer>
 			<key>icon</key>
 			<string>freeAtLast</string>
@@ -124,6 +144,26 @@
 			<string>Fourteenth</string>
 			<key>subtitle</key>
 			<string>Citizenship</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>15</integer>
+			<key>icon</key>
+			<string>thefirstvote</string>
+			<key>amendmentNumber</key>
+			<string>Fifteenth</string>
+			<key>subtitle</key>
+			<string>Right to Vote</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>16</integer>
+			<key>icon</key>
+			<string>1040</string>
+			<key>amendmentNumber</key>
+			<string>Sixteenth</string>
+			<key>subtitle</key>
+			<string>Income Tax</string>
 		</dict>
 	</array>
 </array>
