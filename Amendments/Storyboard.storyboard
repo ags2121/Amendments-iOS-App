@@ -393,7 +393,7 @@
         <!--Navigation Controller - The Amendments-->
         <scene sceneID="zhG-OP-mu1">
             <objects>
-                <navigationController definesPresentationContext="YES" id="1AF-2r-haK" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navBarController" definesPresentationContext="YES" id="1AF-2r-haK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="The Amendments" image="138-scales.png" id="QkX-oB-a8Q"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3kf-xB-tgN">
                         <autoresizingMask key="autoresizingMask"/>

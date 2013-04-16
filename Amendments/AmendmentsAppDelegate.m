@@ -26,12 +26,18 @@
     backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage"];
     [self.window addSubview:backgroundView];
     
+    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
                                                              bundle: nil];
     UITabBarController *tbvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
     
     self.window.rootViewController = tbvc;
     [self.window makeKeyAndVisible];
+    
+    _mivc = [[MYIntroductionViewController alloc] init];
+
+    [self.window.rootViewController presentViewController:_mivc animated:NO completion:NULL];
+    
     return YES;
 }
 

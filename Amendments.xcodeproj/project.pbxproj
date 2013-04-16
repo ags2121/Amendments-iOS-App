@@ -39,6 +39,15 @@
 		A952198A16FF709300FB473D /* emptystar.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198816FF709300FB473D /* emptystar.png */; };
 		A952198B16FF709300FB473D /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198916FF709300FB473D /* emptystar@2x.png */; };
 		A952198D16FF849E00FB473D /* sadf.plist in Resources */ = {isa = PBXBuildFile; fileRef = A952198C16FF849D00FB473D /* sadf.plist */; };
+		A9577DA6171DA86000CC4A54 /* AmendmentIntroViewBackGroundNOTITLE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9577DA4171DA85F00CC4A54 /* AmendmentIntroViewBackGroundNOTITLE@2x.png */; };
+		A9577DA7171DA86000CC4A54 /* AmendmentIntroViewHeaderTitle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9577DA5171DA86000CC4A54 /* AmendmentIntroViewHeaderTitle@2x.png */; };
+		A9577DA9171DB46C00CC4A54 /* articleFav_spotlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9577DA8171DB46A00CC4A54 /* articleFav_spotlight@2x.png */; };
+		A9577DAA171DB52700CC4A54 /* MYIntroductionPanel.h in Sources */ = {isa = PBXBuildFile; fileRef = A9577DA0171DA13D00CC4A54 /* MYIntroductionPanel.h */; };
+		A9577DAB171DB52700CC4A54 /* MYIntroductionPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */; };
+		A9577DAC171DB52700CC4A54 /* MYIntroductionView.h in Sources */ = {isa = PBXBuildFile; fileRef = A9577DA2171DA13D00CC4A54 /* MYIntroductionView.h */; };
+		A9577DAD171DB52700CC4A54 /* MYIntroductionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9577DA3171DA13D00CC4A54 /* MYIntroductionView.m */; };
+		A9577DB1171DB88A00CC4A54 /* MYIntroductionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9577DB0171DB88A00CC4A54 /* MYIntroductionViewController.m */; };
+		A9577DB3171DBB2F00CC4A54 /* blankimage.png in Resources */ = {isa = PBXBuildFile; fileRef = A9577DB2171DBB2E00CC4A54 /* blankimage.png */; };
 		A98F524916F0DF1800B8FB97 /* ExtendedSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F524816F0DF1800B8FB97 /* ExtendedSummaryViewController.m */; };
 		A98F525116F0F08400B8FB97 /* OriginalTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98F525016F0F08400B8FB97 /* OriginalTextViewController.m */; };
 		A98F525516F0F35E00B8FB97 /* originalText1.html in Resources */ = {isa = PBXBuildFile; fileRef = A98F525316F0F35E00B8FB97 /* originalText1.html */; };
@@ -170,6 +179,16 @@
 		A952198816FF709300FB473D /* emptystar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptystar.png; sourceTree = "<group>"; };
 		A952198916FF709300FB473D /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
 		A952198C16FF849D00FB473D /* sadf.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sadf.plist; sourceTree = "<group>"; };
+		A9577DA0171DA13D00CC4A54 /* MYIntroductionPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MYIntroductionPanel.h; path = SVWebViewController/MYIntroductionPanel.h; sourceTree = "<group>"; };
+		A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MYIntroductionPanel.m; path = SVWebViewController/MYIntroductionPanel.m; sourceTree = "<group>"; };
+		A9577DA2171DA13D00CC4A54 /* MYIntroductionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MYIntroductionView.h; path = SVWebViewController/MYIntroductionView.h; sourceTree = "<group>"; };
+		A9577DA3171DA13D00CC4A54 /* MYIntroductionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MYIntroductionView.m; path = SVWebViewController/MYIntroductionView.m; sourceTree = "<group>"; };
+		A9577DA4171DA85F00CC4A54 /* AmendmentIntroViewBackGroundNOTITLE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AmendmentIntroViewBackGroundNOTITLE@2x.png"; sourceTree = "<group>"; };
+		A9577DA5171DA86000CC4A54 /* AmendmentIntroViewHeaderTitle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AmendmentIntroViewHeaderTitle@2x.png"; sourceTree = "<group>"; };
+		A9577DA8171DB46A00CC4A54 /* articleFav_spotlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "articleFav_spotlight@2x.png"; sourceTree = "<group>"; };
+		A9577DAF171DB88A00CC4A54 /* MYIntroductionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MYIntroductionViewController.h; sourceTree = "<group>"; };
+		A9577DB0171DB88A00CC4A54 /* MYIntroductionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MYIntroductionViewController.m; sourceTree = "<group>"; };
+		A9577DB2171DBB2E00CC4A54 /* blankimage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blankimage.png; sourceTree = "<group>"; };
 		A98F524716F0DF1800B8FB97 /* ExtendedSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendedSummaryViewController.h; sourceTree = "<group>"; };
 		A98F524816F0DF1800B8FB97 /* ExtendedSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtendedSummaryViewController.m; sourceTree = "<group>"; };
 		A98F524F16F0F08300B8FB97 /* OriginalTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OriginalTextViewController.h; sourceTree = "<group>"; };
@@ -312,6 +331,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9577DAE171DB84900CC4A54 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A9F84F0A16DFD89B002A434C /* AllAmendmentsViewController.h */,
+				A9F84F0B16DFD89B002A434C /* AllAmendmentsViewController.m */,
+				A9426E0416E165BE002B317A /* SingleAmendmentViewController.h */,
+				A9426E0516E165BE002B317A /* SingleAmendmentViewController.m */,
+				A98F524716F0DF1800B8FB97 /* ExtendedSummaryViewController.h */,
+				A98F524816F0DF1800B8FB97 /* ExtendedSummaryViewController.m */,
+				A98F524F16F0F08300B8FB97 /* OriginalTextViewController.h */,
+				A98F525016F0F08400B8FB97 /* OriginalTextViewController.m */,
+				A9426E0D16E28063002B317A /* AmendmentsNewsViewController.h */,
+				A9426E0E16E28064002B317A /* AmendmentsNewsViewController.m */,
+				A9F84F0D16DFD90A002A434C /* FavoritesViewController.h */,
+				A9F84F0E16DFD90A002A434C /* FavoritesViewController.m */,
+				A9577DAF171DB88A00CC4A54 /* MYIntroductionViewController.h */,
+				A9577DB0171DB88A00CC4A54 /* MYIntroductionViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		A98F524D16F0EF4D00B8FB97 /* originalTextHTMLfiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -491,18 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				A9F84F0316DFD4DD002A434C /* Storyboard.storyboard */,
-				A9F84F0A16DFD89B002A434C /* AllAmendmentsViewController.h */,
-				A9F84F0B16DFD89B002A434C /* AllAmendmentsViewController.m */,
-				A9426E0416E165BE002B317A /* SingleAmendmentViewController.h */,
-				A9426E0516E165BE002B317A /* SingleAmendmentViewController.m */,
-				A98F524716F0DF1800B8FB97 /* ExtendedSummaryViewController.h */,
-				A98F524816F0DF1800B8FB97 /* ExtendedSummaryViewController.m */,
-				A98F524F16F0F08300B8FB97 /* OriginalTextViewController.h */,
-				A98F525016F0F08400B8FB97 /* OriginalTextViewController.m */,
-				A9426E0D16E28063002B317A /* AmendmentsNewsViewController.h */,
-				A9426E0E16E28064002B317A /* AmendmentsNewsViewController.m */,
-				A9F84F0D16DFD90A002A434C /* FavoritesViewController.h */,
-				A9F84F0E16DFD90A002A434C /* FavoritesViewController.m */,
+				A9577DAE171DB84900CC4A54 /* Controllers */,
 				A9F84F1D16DFF96C002A434C /* View */,
 				A9F84F1316DFE293002A434C /* Model */,
 				A9F84EED16DFD4B7002A434C /* Supporting Files */,
@@ -513,18 +542,22 @@
 		A9F84EED16DFD4B7002A434C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A9F84EF516DFD4B7002A434C /* AmendmentsAppDelegate.h */,
+				A9F84EF616DFD4B8002A434C /* AmendmentsAppDelegate.m */,
 				A9E16FC416FB594D00FA6CF0 /* Settings.bundle */,
-				A9C2990616E91AE900D76D71 /* CustomIconButton.h */,
-				A9C2990716E91AE900D76D71 /* CustomIconButton.m */,
 				A9CD541916E6C47700048D6C /* TUSafariActivity */,
 				A9CD540C16E6C35400048D6C /* ARChromeActivity */,
 				A9F7E37D16E584B600C35C1A /* SVWebViewController */,
+				A9C2990616E91AE900D76D71 /* CustomIconButton.h */,
+				A9C2990716E91AE900D76D71 /* CustomIconButton.m */,
+				A9577DA0171DA13D00CC4A54 /* MYIntroductionPanel.h */,
+				A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */,
+				A9577DA2171DA13D00CC4A54 /* MYIntroductionView.h */,
+				A9577DA3171DA13D00CC4A54 /* MYIntroductionView.m */,
 				A9426E1016E284EF002B317A /* GTMHTTPFetcher.h */,
 				A9426E1116E284F0002B317A /* GTMHTTPFetcher.m */,
 				A9C298FC16E9176C00D76D71 /* Icons */,
 				A9F84F1416DFEED9002A434C /* Images */,
-				A9F84EF516DFD4B7002A434C /* AmendmentsAppDelegate.h */,
-				A9F84EF616DFD4B8002A434C /* AmendmentsAppDelegate.m */,
 				A9F84EEE16DFD4B7002A434C /* Amendments-Info.plist */,
 				A9F84EEF16DFD4B7002A434C /* InfoPlist.strings */,
 				A952198C16FF849D00FB473D /* sadf.plist */,
@@ -536,6 +569,10 @@
 				A904F37E16F52BE100946847 /* AmendmentLaunchImage-568h@2x.png */,
 				A904F37F16F52BE100946847 /* AmendmentLaunchImage.png */,
 				A904F38016F52BE100946847 /* AmendmentLaunchImage@2x.png */,
+				A9577DA4171DA85F00CC4A54 /* AmendmentIntroViewBackGroundNOTITLE@2x.png */,
+				A9577DA5171DA86000CC4A54 /* AmendmentIntroViewHeaderTitle@2x.png */,
+				A9577DA8171DB46A00CC4A54 /* articleFav_spotlight@2x.png */,
+				A9577DB2171DBB2E00CC4A54 /* blankimage.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -747,6 +784,10 @@
 				A9AB9E86170A840E00440152 /* extendedSummary16.html in Resources */,
 				A9AB9E88170A97D700440152 /* thefirstvote.png in Resources */,
 				A9AB9E8A170A97E200440152 /* thefirstvote@2x.png in Resources */,
+				A9577DA6171DA86000CC4A54 /* AmendmentIntroViewBackGroundNOTITLE@2x.png in Resources */,
+				A9577DA7171DA86000CC4A54 /* AmendmentIntroViewHeaderTitle@2x.png in Resources */,
+				A9577DA9171DB46C00CC4A54 /* articleFav_spotlight@2x.png in Resources */,
+				A9577DB3171DBB2F00CC4A54 /* blankimage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +798,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9577DAA171DB52700CC4A54 /* MYIntroductionPanel.h in Sources */,
+				A9577DAB171DB52700CC4A54 /* MYIntroductionPanel.m in Sources */,
+				A9577DAC171DB52700CC4A54 /* MYIntroductionView.h in Sources */,
+				A9577DAD171DB52700CC4A54 /* MYIntroductionView.m in Sources */,
 				A9426E1C16E29969002B317A /* GTMHTTPFetcher.m in Sources */,
 				A9F84EF316DFD4B7002A434C /* main.m in Sources */,
 				A9F84EF716DFD4B8002A434C /* AmendmentsAppDelegate.m in Sources */,
@@ -779,6 +824,7 @@
 				A994BA2D16EBF82D000BE41B /* FavoritesCell.m in Sources */,
 				A98F524916F0DF1800B8FB97 /* ExtendedSummaryViewController.m in Sources */,
 				A98F525116F0F08400B8FB97 /* OriginalTextViewController.m in Sources */,
+				A9577DB1171DB88A00CC4A54 /* MYIntroductionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

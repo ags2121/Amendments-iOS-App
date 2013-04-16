@@ -201,24 +201,6 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        //fetch article data related to selected cell
-        
-        /*
-        NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-        NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-            
-            NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-            NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-            
-            NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-            NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-            
-            return [key1 compare:key2];
-        }];
-        */
-        
         //remove cell from table data
         NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
         NSMutableArray *editedFavoriteArticlesForAmendment = [[self.favoriteArticles objectForKey:key] mutableCopy];
@@ -264,25 +246,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    /*
-    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-        
-        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-        
-        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-        
-        return [key1 compare:key2];
-    }];
-    
-    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
-     
-     */
     
     NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];

@@ -11,6 +11,7 @@
 #import "AmendmentsCell.h"
 #import "AllAmendmentsText.h"
 #import "SingleAmendmentViewController.h"
+#import "MYIntroductionPanel.h"
 
 @interface AllAmendmentsViewController ()
 
@@ -42,12 +43,7 @@
     
     //Make tableVC's background see through to the parent view
     self.view.backgroundColor = [UIColor clearColor];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
 }
 
 - (void)didReceiveMemoryWarning

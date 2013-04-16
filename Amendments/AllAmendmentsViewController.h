@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Alex Silva. All rights reserved.
 
 #import <UIKit/UIKit.h>
+#import "MYIntroductionView.h"
 
 @interface AllAmendmentsViewController : UITableViewController
 
