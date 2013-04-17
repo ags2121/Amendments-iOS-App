@@ -35,14 +35,21 @@
 {
     
     //STEP 1 Construct Panels
-    MYIntroductionPanel *panel = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"blankimage"] title:@"Welcome to The Amendments app, a lightweight yet powerful guide to American constitutional law and history." description:@""];
+    MYIntroductionPanel *panel = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"blankimage"] title:@"Welcome to The Amendments" description:@"a lightweight yet powerful guide to American constitutional law and history."];
     
     //You may also add in a title for each panel
-    MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"articleFav_spotlight"] title:@"Adding favorites" description:@"Tap the star in the upper right corner to add an article to your favorites. Untap to remove."];
+    MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"amendments_spotlight"] title:@"Exploring Amendments" description:@"In the first tab, tap the Amendment you'd like to explore."];
     
-    MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AmendmentIntroViewHeaderTitle@2x"] panels:@[panel, panel2] languageDirection:MYLanguageDirectionLeftToRight];
-    [introductionView setBackgroundImage:[UIImage imageNamed:@"AmendmentIntroViewBackGroundNOTITLE@2x"]];
+    MYIntroductionPanel *panel3 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"individual_spotlight"] title:@"Amendment Features" description:@"Each Amendment has an extended summary, the original text, and a news feed."];
     
+    MYIntroductionPanel *panel4 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"newsFeed_spotlight"] title:@"The News Feed" description:@"Each news feed gathers the latest articles on the web discussing each Amendment."];
+    
+    MYIntroductionPanel *panel5 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"articleFav_spotlight"] title:@"Adding Favorites" description:@"To add an article to your Favorites, tap the star in the upper right corner. Untap to remove."];
+    
+    MYIntroductionPanel *panel6 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"favorites_spotlight"] title:@"Viewing Favorites" description:@"Your Favorites can be accessed in the second tab."];
+    
+    MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AMLogo_invertedColors"] panels:@[panel, panel2, panel3, panel4, panel5, panel6] languageDirection:MYLanguageDirectionLeftToRight];
+    [introductionView setBackgroundImage:[UIImage imageNamed:@"AmendmentIntroViewBackGroundNOTITLE"]];
     
     //Set delegate to self for callbacks (optional)
     introductionView.delegate = self;
@@ -50,13 +57,22 @@
     //STEP 3: Show introduction view
     [introductionView showInView:self.view];
 
-
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+-(void)dismissSelf:(NSTimer*)theTimer
+{
+    AmendmentsAppDelegate *appDelegate = (AmendmentsAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Sample Delegate Methods
@@ -68,21 +84,12 @@
     else if (finishType == MYFinishTypeSwipeOut){
         NSLog(@"Did Finish Introduction By Swiping Out");
     }
+
+    //create timer
+    NSTimer *dismissTimer = [NSTimer scheduledTimerWithTimeInterval: 1.2 target:self selector:@selector(dismissSelf:) userInfo:NULL repeats: NO];
+
+    [[NSRunLoop mainRunLoop] addTimer: dismissTimer forMode:NSRunLoopCommonModes];
     
-    AmendmentsAppDelegate *appDelegate = (AmendmentsAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    [appDelegate.window.rootViewController dismissViewControllerAnimated:NO completion:NULL];
-    
-//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
-//                                                             bundle: nil];
-//    UINavigationController *nbvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"navbBarController"];
-//    
-//    [self.tabBarController presentViewController:nbvc animated:NO completion:NULL];
-//    
-    
-    
-    //One might consider making the introductionview a class variable and releasing it here.
-    // I didn't do this to keep things simple for the sake of example.
 }
 
 -(void)introductionDidChangeToPanel:(MYIntroductionPanel *)panel withIndex:(NSInteger)panelIndex{

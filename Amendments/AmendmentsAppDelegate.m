@@ -26,7 +26,6 @@
     backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage"];
     [self.window addSubview:backgroundView];
     
-    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
                                                              bundle: nil];
     UITabBarController *tbvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
@@ -34,9 +33,12 @@
     self.window.rootViewController = tbvc;
     [self.window makeKeyAndVisible];
     
+    //if first time running app
     _mivc = [[MYIntroductionViewController alloc] init];
-
+    _mivc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self.window.rootViewController presentViewController:_mivc animated:NO completion:NULL];
+    
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
