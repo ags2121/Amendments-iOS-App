@@ -13,7 +13,6 @@
 @interface AmendmentsAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) MYIntroductionViewController *mivc;
 
 @end

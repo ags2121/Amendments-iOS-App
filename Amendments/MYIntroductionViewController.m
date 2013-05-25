@@ -28,7 +28,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -49,6 +48,7 @@
     MYIntroductionPanel *panel6 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"favorites_spotlight"] title:@"Viewing Favorites" description:@"Your Favorites can be accessed in the second tab."];
     
     MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AMLogo_invertedColors"] panels:@[panel, panel2, panel3, panel4, panel5, panel6] languageDirection:MYLanguageDirectionLeftToRight];
+    
     [introductionView setBackgroundImage:[UIImage imageNamed:@"AmendmentIntroViewBackGroundNOTITLE"]];
     
     //Set delegate to self for callbacks (optional)
@@ -56,7 +56,6 @@
     
     //STEP 3: Show introduction view
     [introductionView showInView:self.view];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,6 +73,7 @@
     AmendmentsAppDelegate *appDelegate = (AmendmentsAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
 }
+
 
 #pragma mark - Sample Delegate Methods
 

@@ -165,6 +165,116 @@
 			<key>subtitle</key>
 			<string>Income Tax</string>
 		</dict>
+		<dict>
+			<key>#</key>
+			<integer>17</integer>
+			<key>icon</key>
+			<string>jenningsBryan</string>
+			<key>amendmentNumber</key>
+			<string>Seventeenth</string>
+			<key>subtitle</key>
+			<string>Direct Election of Senators</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>18</integer>
+			<key>icon</key>
+			<string>prohibition</string>
+			<key>amendmentNumber</key>
+			<string>Eighteenth</string>
+			<key>subtitle</key>
+			<string>Prohibition</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>19</integer>
+			<key>icon</key>
+			<string>suffrage</string>
+			<key>amendmentNumber</key>
+			<string>Nineteenth</string>
+			<key>subtitle</key>
+			<string>Women&apos;s Suffrage</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>20</integer>
+			<key>icon</key>
+			<string>20th</string>
+			<key>amendmentNumber</key>
+			<string>Twentieth</string>
+			<key>subtitle</key>
+			<string>Terms of Federal Office</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>21</integer>
+			<key>icon</key>
+			<string>21st</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-first</string>
+			<key>subtitle</key>
+			<string>Repeal of Prohibition</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>22</integer>
+			<key>icon</key>
+			<string>FDR</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-second</string>
+			<key>subtitle</key>
+			<string>Presidential Term Limits</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>23</integer>
+			<key>icon</key>
+			<string>DC_suffrage</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-third</string>
+			<key>subtitle</key>
+			<string>DC Voting Rights</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>24</integer>
+			<key>icon</key>
+			<string>polltax</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-fourth</string>
+			<key>subtitle</key>
+			<string>Poll Tax</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>25</integer>
+			<key>icon</key>
+			<string>johnson</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-fifth</string>
+			<key>subtitle</key>
+			<string>Presidential Succession</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>26</integer>
+			<key>icon</key>
+			<string>26th</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-sixth</string>
+			<key>subtitle</key>
+			<string>Voting Age</string>
+		</dict>
+		<dict>
+			<key>#</key>
+			<integer>27</integer>
+			<key>icon</key>
+			<string>27th</string>
+			<key>amendmentNumber</key>
+			<string>Twenty-seventh</string>
+			<key>subtitle</key>
+			<string>Congressional Salaries</string>
+		</dict>
 	</array>
 </array>
 </plist>

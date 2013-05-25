@@ -312,7 +312,6 @@
     //Get the maximum size the description text could be (screenHeight-panelParentContainerOrigin - footersize)
     CGFloat maxScrollViewHeight = self.frame.size.height - self.ContentScrollView.frame.origin.y - (36+PAGE_CONTROL_PADDING);
     
-    
     NSInteger descriptionHeight = panelDescriptionTextView.contentSize.height;
     int contentWrappedScrollViewHeight = 0;
     if ((imageHeight + descriptionHeight + panelTitleLabelFrame.size.height) > maxScrollViewHeight) {

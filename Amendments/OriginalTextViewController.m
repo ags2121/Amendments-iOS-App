@@ -27,10 +27,8 @@
 {
     [super viewDidLoad];
     
-    //Make VC's background see through to the parent view
+    //Make VC's background see through to the parent view background
     self.view.backgroundColor = [UIColor clearColor];
-    
-    //self.title = @"Original Text";
     
     [self.webView loadHTMLString:self.htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]bundlePath]]];
 }
@@ -38,7 +36,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

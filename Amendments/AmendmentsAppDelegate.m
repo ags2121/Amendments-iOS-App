@@ -14,35 +14,33 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self setPreferenceDefaults];
-    //call appearance proxy
-    [self customizeAppearance];
+    [self setPreferenceDefaults]; //set user defaults
+    [self customizeAppearance]; //set appearance proxies
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
+    //add background image
     UIImageView *backgroundView = [[UIImageView alloc] initWithFrame: self.window.frame];
     backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage"];
     [self.window addSubview:backgroundView];
     
+    //set tab bar controller as root view controller
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
                                                              bundle: nil];
     UITabBarController *tbvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"tabBarController"];
-    
     self.window.rootViewController = tbvc;
     [self.window makeKeyAndVisible];
     
-    //if first time running app
+    //TODO: add logic for how many times intro view will be shown
     _mivc = [[MYIntroductionViewController alloc] init];
     _mivc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self.window.rootViewController presentViewController:_mivc animated:NO completion:NULL];
     
-    [self.window makeKeyAndVisible];
-    
     return YES;
 }
 
+//makes sure background image adjusts itself on rotation
 - (void) application:(UIApplication *)application
 willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             duration:(NSTimeInterval)duration
@@ -97,8 +95,6 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         [allNewsFeeds loadNewsFeed:currentNewsVC.finalURL forAmendment:currentNewsVC.keyForFeed forTableViewController:currentNewsVC];
         
     }
-
-    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

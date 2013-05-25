@@ -10,16 +10,13 @@
 
 @interface SingleAmendmentViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
+@property NSUInteger sectionOfAmendment;
 @property (strong, nonatomic) NSDictionary* amendmentData;
 @property (strong, nonatomic) NSDictionary* amendmentCellData;
-
-@property NSUInteger sectionOfAmendment;
 @property (strong, nonatomic) NSString *shortTitle;
 
 @property (weak, nonatomic) IBOutlet UILabel *summary;
 @property (weak, nonatomic) IBOutlet UITableView *optionsTableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-
-
 
 @end

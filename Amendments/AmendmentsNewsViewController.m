@@ -35,33 +35,8 @@
 {
     [super viewDidLoad];
     
-    //Make tableVC's background see through to the parent view
-    self.view.backgroundColor = [UIColor clearColor];
-    
-    //Set VC title
-    //self.title = [NSString stringWithFormat:@"%@ News", self.keyForFeed];
-    self.title = @"News";
-    
-    //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
-    [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-    
-    //register VC as accepting of notifications named "DidLoadDataFromSingleton" from NewsFeed singleton
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(loadTable:)
-                                                 name:@"DidLoadDataFromSingleton"
-                                               object:nil];
-    
-    //register VC as accepting of notifications named "CouldNotConnectToFeed" from NewsFeed singleton
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showUIAlert:)
-                                                 name:@"CouldNotConnectToFeed"
-                                               object:nil];
-    
-    //register VC as accepting of notifications named "NoDataInFeed" from NewsFeed singleton
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(showUIAlert:)
-                                                 name:@"NoDataInFeed"
-                                               object:nil];
+    [self setUpView];
+    [self registerNotifications];
     
     //retrieve individual news Feed from global pool of previously retrieved new feeds
     NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
@@ -84,11 +59,12 @@
         [self.tableView reloadData];
     }
     
+    [self setUpRefreshAction];
+    
     //Set up refreshAction
     UIRefreshControl *pullToRefresh = [[UIRefreshControl alloc] init];
     pullToRefresh.tintColor = [UIColor grayColor];
     [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
-    
     self.refreshControl = pullToRefresh;
     
 }
@@ -111,22 +87,57 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - viewDidLoad methods
+
+-(void)setUpView
+{
+    //Make tableVC's background see through to the parent view background
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    self.title = @"News";
+    
+    //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
+    [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
+}
+
+-(void)registerNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(loadTable:)
+                                                 name:@"DidLoadDataFromSingleton"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showUIAlert:)
+                                                 name:@"CouldNotConnectToFeed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(showUIAlert:)
+                                                 name:@"NoDataInFeed"
+                                               object:nil];
+}
+
+-(void)setUpRefreshAction
+{
+    UIRefreshControl *pullToRefresh = [[UIRefreshControl alloc] init];
+    pullToRefresh.tintColor = [UIColor grayColor];
+    [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
+    self.refreshControl = pullToRefresh;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    // Return the number of rows in the section.
     NSLog(@"Number of rows in section: %u", self.feed.count);
     return self.feed.count;
 }
@@ -135,10 +146,7 @@
 {
     static NSString *CellIdentifier = @"newsFeedCell";
     NewsFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
     cell.backgroundColor = [UIColor whiteColor];
-    
     
     //TITLE and PUBLICATION
     NSLog(@"Working on cell: %d", indexPath.row);
@@ -150,14 +158,12 @@
     
     //DATE
     NSString *originalDate = [article objectForKey:@"pubDate"];
-    
     NSString *splitSliceJoinDate = [ [ [[originalDate componentsSeparatedByString:@" "] mutableCopy] subarrayWithRange:NSMakeRange(0, 4) ] componentsJoinedByString:@" " ];
     
     cell.articleDate.text = splitSliceJoinDate;
     
     return cell;
 }
-
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -308,6 +314,7 @@
         [self.refreshControl endRefreshing];
     }
 }
+
 /*******************************************************************************
  * @method      refreshTable
  * @abstract
@@ -316,13 +323,11 @@
 
 -(void)refreshTable
 {
-    
     //retrieve individual news Feed from global pool of previously retrieved new feeds
     NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
     
     //load the feed from the Singleton NewsFeeds
     [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed forTableViewController:self];
-    
 }
 
 #pragma mark - UIAlertView methods
@@ -358,13 +363,16 @@
 
         NSLog(@"user pressed OK for alertView in NewsViewController");
 
-    //Often there are no Third Amendment articles, so here we show the user a funny Onion article on Third Amendment rights lobbyists. Within this VC's viewWillAppear method, we check to see if the didJustShowDefaultArticle BOOL property is YES. If it is, then once the user dismisses the modal webviewcontroller, this VC sets the BOOL back to NO and pops back to the prior view.
+    /*
+     Often there are no Third Amendment articles, so here we show the user a funny Onion article on Third
+     Amendment rights lobbyists. Within this VC's viewWillAppear method, we check to see if the 
+     didJustShowDefaultArticle BOOL property is YES. If it is, then once the user dismisses the modal 
+     webviewcontroller, this VC sets the BOOL back to NO and pops back to the prior view.
+     */
     if([self.keyForFeed isEqualToString: @"Third Amendment"]){
         
         self.didJustShowDefaultArticle = YES;
-        
         SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress: @"http://www.theonion.com/articles/third-amendment-rights-group-celebrates-another-su,2296/?ref=auto"];
-
         [self presentViewController:webViewController animated:YES completion:nil];
         
     }

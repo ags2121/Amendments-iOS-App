@@ -76,9 +76,9 @@
         // the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
         int status = [error code];
         
-        NSLog(@"Connection error!");
+        NSLog(@"Connection error! Error code: %d", status);
         
-        //TODO no connection, connection time-out handling
+        //TODO: no connection, connection time-out handling
         
         //send message to present AlertView that connection could not be established.
         [[NSNotificationCenter defaultCenter] postNotificationName:@"CouldNotConnectToFeed"

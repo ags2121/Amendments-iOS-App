@@ -142,6 +142,7 @@
     _activityVC = [[UIActivityViewController alloc] initWithActivityItems: dataToShare applicationActivities:applicationActivities];
     
     [self.activityVC setExcludedActivityTypes:@[UIActivityTypePostToWeibo]];
+
     
     NSLog(@"Inside of initActicityVC");
 }

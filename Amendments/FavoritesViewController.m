@@ -33,6 +33,7 @@
 
 }
 
+//TODO: move sorting logic to where favorites are added?
 -(void)viewWillAppear:(BOOL)animated
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -76,67 +77,24 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return [self.favoriteArticlesSortedByKey count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    // Return the number of rows in the section.
-    
-    /*
-    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-        
-        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-                
-        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-
-        return [key1 compare:key2];
-    }];
-    
-     */
-    //NSString *key = [sortedKeys objectAtIndex:section];
-    
     NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:section];
-    
     return [[self.favoriteArticles objectForKey:key] count];
-  
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-
-    /*
-    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-        
-        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-        
-        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-        
-        return [key1 compare:key2];
-    }];
-    
-    NSString *key = [sortedKeys objectAtIndex:section];
-     
-     */
-    
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{    
     NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:section];
     NSArray *splitWords1 = [key componentsSeparatedByString:@"|"];
     NSArray *splitWords2 = [splitWords1[1] componentsSeparatedByString:@" "];
@@ -149,38 +107,16 @@
     static NSString *CellIdentifier = @"favoritesCell";
     FavoritesCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    /*
-    
-    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-        
-        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-        
-        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-        
-        return [key1 compare:key2];
-    }];
-    
-    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
-     
-     */
-    
     NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
     NSDictionary *current = articlesForAmendment[indexPath.row];
     
-    // Configure the cell...
     cell.articleTitle.text = [current objectForKey:@"Article Title"];
     cell.articlePublication.text = [current objectForKey:@"Article Publication"];
     cell.articleDate.text = [current objectForKey:@"Article Date"];
     cell.articleTitle.numberOfLines = [self howManyLinesOfText: cell.articleTitle];
     
     return cell;
-
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -188,17 +124,13 @@
     cell.backgroundColor = [UIColor whiteColor];
 }
 
-// Override to support conditional editing of the table view.
-// This only needs to be implemented if you are going to be returning NO
-// for some items. By default, all items are editable.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return YES if you want the specified item to be editable.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return YES;
 }
 
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         //remove cell from table data
@@ -233,14 +165,15 @@
         
         //if there's no more cells, dont let user scroll since there's an a weird floating cell edge on top
         if (self.tableView.visibleCells.count==0) self.tableView.scrollEnabled = NO;
-        
     }
 }
 
 //Changes text for delete button on cells
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return @"Remove";
 }
+
 
 #pragma mark - Table view delegate
 
@@ -267,29 +200,8 @@
     return size.height + 54;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    /*
-    NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-    NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-    [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSArray *sortedKeys = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-        
-        NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-        NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-        
-        NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-        NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-        
-        return [key1 compare:key2];
-    }];
-    
-    NSString *key = [sortedKeys objectAtIndex:indexPath.section];
-    
-    */
-    
     NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
     NSDictionary *infoForSelectedArticle = articlesForAmendment[indexPath.row];
@@ -318,23 +230,17 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"User was alerted that they haven't added any favorites yet from the FavoritesViewController");
-    
-    //pop user back to list of Amendments
-    self.tabBarController.selectedIndex = 0;
-    
+    self.tabBarController.selectedIndex = 0; //pop user back to list of Amendments
 }
 
 -(NSInteger)howManyLinesOfText:(UILabel*)label
 {
-    
-CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];
+    CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];
 
-NSInteger charSize = label.font.lineHeight;
-NSInteger rHeight = requiredSize.height;
+    NSInteger charSize = label.font.lineHeight;
+    NSInteger rHeight = requiredSize.height;
 
-return floor(rHeight/charSize);
+    return floor(rHeight/charSize);
 }
-
-
 
 @end

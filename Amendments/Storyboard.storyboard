@@ -43,7 +43,7 @@
         <scene sceneID="Txy-HH-aKB">
             <objects>
                 <tableViewController id="K3A-CR-r5X" customClass="AllAmendmentsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="INK-FY-dn0">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="INK-FY-dn0">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -215,6 +215,10 @@
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="sUO-wl-D39" id="mCQ-X4-PEW"/>
+                                            <outlet property="delegate" destination="sUO-wl-D39" id="rSF-c7-cBp"/>
+                                        </connections>
                                     </tableView>
                                 </subviews>
                                 <constraints>
@@ -568,6 +572,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="H0U-VX-kGW"/>
+        <segue reference="2GV-00-tLu"/>
     </inferredMetricsTieBreakers>
 </document>
