@@ -32,9 +32,9 @@
     
     /*
      Initialize template URL
-     specifies location as "united states"
+     specifies location as "America"
      */
-    _templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fhl%3Den%26gl%3Dus%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DUnited%2BStates%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2BAmendment%2522%2BOR%2B%2522¥%2BAmendment%2522%2Blocation%3AUnited_States%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D100";
+    _templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D50";
     
     //set Title for VC
     //self.title = [self.amendmentData objectForKey:@"Title"]; /*long title, if wanted (i.e. "First Amendment")*/

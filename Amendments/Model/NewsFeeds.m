@@ -90,7 +90,6 @@
         
         self.aFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
         
-        
         //Articles to delete it from the feed
         NSMutableArray *articlesToDiscard = [NSMutableArray array];
         for(NSDictionary* dict in self.aFeed){
@@ -110,6 +109,15 @@
                || [[dict objectForKey:@"link"] rangeOfString:@"casperjournal.com/"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@"eastcountymagazine.org"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@"colombogazette.com/"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"http://www.thehindu.com/"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"lankaweb"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@".lk/"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"brecorder.com"].location != NSNotFound
+               || [[dict objectForKey:@"link"] rangeOfString:@"newindianexpress.com"].location != NSNotFound
+               || [[dict objectForKey:@"title"] rangeOfString:@"Sri Lanka"].location != NSNotFound
+
                )
             {
                 [articlesToDiscard addObject:dict];
