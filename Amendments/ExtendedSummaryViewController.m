@@ -31,11 +31,17 @@
     self.view.backgroundColor = [UIColor clearColor];
     
     [self.webView loadHTMLString:self.htmlString baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle]bundlePath]]];
+    [self fixWebViewsScrollview];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)fixWebViewsScrollview
+{
+    [self.webView.scrollView setContentSize: CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height)];
 }
 
 @end

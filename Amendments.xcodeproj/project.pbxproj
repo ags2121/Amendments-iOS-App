@@ -27,6 +27,15 @@
 		A9100F411704D576007C4EB6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9100F401704D576007C4EB6 /* QuartzCore.framework */; };
 		A9107ED516E0210800C71FE4 /* AmendmentsText.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9107ED416E0210800C71FE4 /* AmendmentsText.plist */; };
 		A9107ED716E033C200C71FE4 /* AmendmentsCellData.plist in Resources */ = {isa = PBXBuildFile; fileRef = A9107ED616E033C200C71FE4 /* AmendmentsCellData.plist */; };
+		A914A041175513AD00639370 /* extendedSummary18.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A040175513AD00639370 /* extendedSummary18.html */; };
+		A914A043175513C800639370 /* extendedSummary19.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A042175513C800639370 /* extendedSummary19.html */; };
+		A914A045175518F400639370 /* extendedSummary20.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A044175518F400639370 /* extendedSummary20.html */; };
+		A914A0471755368100639370 /* extendedSummary22.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A0461755368100639370 /* extendedSummary22.html */; };
+		A914A04917553D3000639370 /* extendedSummary23.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A04817553D3000639370 /* extendedSummary23.html */; };
+		A914A04B17553D4E00639370 /* extendedSummary24.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A04A17553D4E00639370 /* extendedSummary24.html */; };
+		A914A04D175542D100639370 /* extendedSummary25.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A04C175542D100639370 /* extendedSummary25.html */; };
+		A914A04F17554A1C00639370 /* extendedSummary26.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A04E17554A1A00639370 /* extendedSummary26.html */; };
+		A914A05117554E0F00639370 /* extendedSummary27.html in Resources */ = {isa = PBXBuildFile; fileRef = A914A05017554E0E00639370 /* extendedSummary27.html */; };
 		A9426E0316E16343002B317A /* AllAmendmentsText.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E0216E16343002B317A /* AllAmendmentsText.m */; };
 		A9426E0616E165BF002B317A /* SingleAmendmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E0516E165BE002B317A /* SingleAmendmentViewController.m */; };
 		A9426E0916E18D8F002B317A /* MoreOptionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E0816E18D8F002B317A /* MoreOptionsTableView.m */; };
@@ -204,6 +213,15 @@
 		A9100F401704D576007C4EB6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A9107ED416E0210800C71FE4 /* AmendmentsText.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AmendmentsText.plist; sourceTree = "<group>"; };
 		A9107ED616E033C200C71FE4 /* AmendmentsCellData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AmendmentsCellData.plist; path = Model/AmendmentsCellData.plist; sourceTree = "<group>"; };
+		A914A040175513AD00639370 /* extendedSummary18.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary18.html; sourceTree = "<group>"; };
+		A914A042175513C800639370 /* extendedSummary19.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary19.html; sourceTree = "<group>"; };
+		A914A044175518F400639370 /* extendedSummary20.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary20.html; sourceTree = "<group>"; };
+		A914A0461755368100639370 /* extendedSummary22.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary22.html; sourceTree = "<group>"; };
+		A914A04817553D3000639370 /* extendedSummary23.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary23.html; sourceTree = "<group>"; };
+		A914A04A17553D4E00639370 /* extendedSummary24.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary24.html; sourceTree = "<group>"; };
+		A914A04C175542D100639370 /* extendedSummary25.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary25.html; sourceTree = "<group>"; };
+		A914A04E17554A1A00639370 /* extendedSummary26.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary26.html; sourceTree = "<group>"; };
+		A914A05017554E0E00639370 /* extendedSummary27.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary27.html; sourceTree = "<group>"; };
 		A9426E0116E16343002B317A /* AllAmendmentsText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllAmendmentsText.h; sourceTree = "<group>"; };
 		A9426E0216E16343002B317A /* AllAmendmentsText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllAmendmentsText.m; sourceTree = "<group>"; };
 		A9426E0416E165BE002B317A /* SingleAmendmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleAmendmentViewController.h; sourceTree = "<group>"; };
@@ -510,7 +528,16 @@
 				A9A52A681753DFFE0075DFF8 /* extendedSummary15.html */,
 				A9AB9E85170A840E00440152 /* extendedSummary16.html */,
 				A9A52A6A1753E6B20075DFF8 /* extendedSummary17.html */,
+				A914A040175513AD00639370 /* extendedSummary18.html */,
+				A914A042175513C800639370 /* extendedSummary19.html */,
+				A914A044175518F400639370 /* extendedSummary20.html */,
 				A9D5E8F41751A69C00FFF4C4 /* extendedSummary21.html */,
+				A914A0461755368100639370 /* extendedSummary22.html */,
+				A914A04817553D3000639370 /* extendedSummary23.html */,
+				A914A04A17553D4E00639370 /* extendedSummary24.html */,
+				A914A04C175542D100639370 /* extendedSummary25.html */,
+				A914A04E17554A1A00639370 /* extendedSummary26.html */,
+				A914A05017554E0E00639370 /* extendedSummary27.html */,
 			);
 			name = extendedSummaryHTMLfiles;
 			sourceTree = "<group>";
@@ -968,6 +995,15 @@
 				A9A52A671753D2750075DFF8 /* extendedSummary14.html in Resources */,
 				A9A52A691753DFFF0075DFF8 /* extendedSummary15.html in Resources */,
 				A9A52A6B1753E6B20075DFF8 /* extendedSummary17.html in Resources */,
+				A914A041175513AD00639370 /* extendedSummary18.html in Resources */,
+				A914A043175513C800639370 /* extendedSummary19.html in Resources */,
+				A914A045175518F400639370 /* extendedSummary20.html in Resources */,
+				A914A0471755368100639370 /* extendedSummary22.html in Resources */,
+				A914A04917553D3000639370 /* extendedSummary23.html in Resources */,
+				A914A04B17553D4E00639370 /* extendedSummary24.html in Resources */,
+				A914A04D175542D100639370 /* extendedSummary25.html in Resources */,
+				A914A04F17554A1C00639370 /* extendedSummary26.html in Resources */,
+				A914A05117554E0F00639370 /* extendedSummary27.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
