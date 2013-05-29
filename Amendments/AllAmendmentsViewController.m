@@ -92,7 +92,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return 72;
 }
 
 /*Use this method if you need to change the positions of any objects on the cell when switching orientations

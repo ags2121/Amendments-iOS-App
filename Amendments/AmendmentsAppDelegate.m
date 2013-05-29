@@ -84,17 +84,17 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     //retrieve individual news Feed from global pool of previously retrieved new feeds
-    
-    if( [application.keyWindow.rootViewController isKindOfClass: [AmendmentsNewsViewController class]] ){
-        
-        AmendmentsNewsViewController *currentNewsVC = (AmendmentsNewsViewController*)application.keyWindow.rootViewController;
-        
-        NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
-        
-        //load the feed from the Singleton NewsFeeds
-        [allNewsFeeds loadNewsFeed:currentNewsVC.finalURL forAmendment:currentNewsVC.keyForFeed forTableViewController:currentNewsVC];
-        
-    }
+//    
+//    if( [application.keyWindow.rootViewController isKindOfClass: [AmendmentsNewsViewController class]] ){
+//        
+//        AmendmentsNewsViewController *currentNewsVC = (AmendmentsNewsViewController*)application.keyWindow.rootViewController;
+//        
+//        NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
+//        
+//        //load the feed from the Singleton NewsFeeds
+//        [allNewsFeeds loadNewsFeed:currentNewsVC.finalURL forAmendment:currentNewsVC.keyForFeed forTableViewController:currentNewsVC];
+//        
+//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

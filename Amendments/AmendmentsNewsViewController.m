@@ -34,43 +34,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self setUpView];
-    [self registerNotifications];
-    
-    //retrieve individual news Feed from global pool of previously retrieved new feeds
-    NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
-    
-    //NSLog(@"newsFeed: %@", [allNewsFeeds.individualNewsFeeds objectForKey:self.keyForFeed]);
-    
-    //if we've never instantiated this feed...
-    if(![allNewsFeeds.individualNewsFeeds objectForKey:self.keyForFeed]) {
-        
-        //hide tableview while loading
-        [self.tableView setHidden:YES];
-        
-        //load the feed from the Singleton NewsFeeds
-        [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed forTableViewController:self];
-        
-    }
-    else{
-        NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
-        self.feed = [allNewsFeeds.individualNewsFeeds objectForKey:self.keyForFeed];
-        [self.tableView reloadData];
-    }
-    
     [self setUpRefreshAction];
-    
-    //Set up refreshAction
-    UIRefreshControl *pullToRefresh = [[UIRefreshControl alloc] init];
-    pullToRefresh.tintColor = [UIColor grayColor];
-    [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
-    self.refreshControl = pullToRefresh;
-    
 }
 
--(void) viewWillAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:YES];
+    [self registerNotifications];
     
     if(self.didJustShowDefaultArticle){
         NSLog(@"ViewDidLoad and didJustShowDefaultArticle");
@@ -78,10 +49,23 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     
-    NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
-    self.feed = [allNewsFeeds.individualNewsFeeds objectForKey:self.keyForFeed];
-    [self.tableView reloadData];
+    else{
     
+        //retrieve individual news Feed from global pool of previously retrieved new feeds
+        NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
+        
+        //hide tableview while loading
+        [self.tableView setHidden:YES];
+        
+        //load the feed from the Singleton NewsFeeds
+        [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:NO forViewController:self];
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    [self unregisterNotifications];
 }
 
 - (void)didReceiveMemoryWarning
@@ -119,6 +103,11 @@
                                              selector:@selector(showUIAlert:)
                                                  name:@"NoDataInFeed"
                                                object:nil];
+}
+
+-(void)unregisterNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)setUpRefreshAction
@@ -221,6 +210,7 @@
     [self presentViewController:webViewController animated:YES completion:nil];
 }
 
+
 #pragma mark - Utility methods
 
 /*******************************************************************************
@@ -270,7 +260,6 @@
     NSArray *result = [[NSArray alloc] initWithObjects: trimmedTitle, newPub, nil];
     
     return result;
-    
 }
 
 /*******************************************************************************
@@ -286,20 +275,36 @@
     return splitURL[1];
 }
 
+
 /*******************************************************************************
- * @method      loadTable
+ * @method      refreshTable
  * @abstract
- * @description receives notifications from the NewsFeed singleton when feed download 
-                has completed
+ * @description gets an instance of the Singleton feed data loading class and makes it load new data
  *******************************************************************************/
 
+-(void)refreshTable
+{
+    //retrieve individual news Feed from global pool of previously retrieved new feeds
+    NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
+    
+    //load the feed from the Singleton NewsFeeds
+    [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:YES forViewController:self];
+}
+
+
+#pragma mark - Notification callback methods
+
+//receives notifications from the NewsFeed singleton when feed download has completed
 - (void)loadTable:(NSNotification *)notif
 {
     NSLog(@"loading table");
     
     //retrieve the feed and set it equal to this class's feed variable
-    NewsFeeds* allNewsFeeds2 = [NewsFeeds sharedInstance];
-    self.feed = [allNewsFeeds2.individualNewsFeeds objectForKey:self.keyForFeed];
+    NewsFeeds* sharedInstance = [NewsFeeds sharedInstance];
+    
+    self.feed = [sharedInstance.newsFeedCache objectForKey:self.keyForFeed][@"results"];
+    
+    //self.feed = [allNewsFeeds2.individualNewsFeeds objectForKey:self.keyForFeed];
     
     //NSLog(@"newsFeed after loading: %@", self.feed);
     
@@ -315,30 +320,8 @@
     }
 }
 
-/*******************************************************************************
- * @method      refreshTable
- * @abstract
- * @description gets an instance of the Singleton feed data loading class and makes it load new data
- *******************************************************************************/
 
--(void)refreshTable
-{
-    //retrieve individual news Feed from global pool of previously retrieved new feeds
-    NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
-    
-    //load the feed from the Singleton NewsFeeds
-    [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed forTableViewController:self];
-}
-
-#pragma mark - UIAlertView methods
-
-/*******************************************************************************
- * @method      showUIAlert
- * @abstract
- * @description will present a UIAlertView that either indicates there was a connection error
-                or that there is no data in the feed
- *******************************************************************************/
-
+//will present a UIAlertView that either indicates there was a connection error or that there is no data in the feed
 -(void)showUIAlert:(NSNotification *)notif
 {
     NSString* alertMessage;
@@ -349,8 +332,20 @@
 
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:nil message:alertMessage delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [av show];
-    
 }
+
+-(void)useCachedData:(NSNotification *)notif
+{
+    NSLog(@"Using cached data in news VC");
+    //Unhide tableview
+    NewsFeeds* sharedInstance = [NewsFeeds sharedInstance];
+    self.feed = [sharedInstance.newsFeedCache objectForKey:self.keyForFeed][@"results"];
+    [self.tableView setHidden:NO];
+    [self.tableView reloadData];
+}
+
+
+#pragma mark - UIAlertView methods
 
 /*******************************************************************************
  * @method      alertView

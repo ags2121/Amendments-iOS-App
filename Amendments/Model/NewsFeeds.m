@@ -9,6 +9,10 @@
 #import "NewsFeeds.h"
 #import "AmendmentsAppDelegate.h"
 
+//Cache update interval, in days
+static int cacheUpdateInterval = 1;
+NSString * const kCachedDate = @"cachedDate";
+
 @implementation NewsFeeds
 + (NewsFeeds *) sharedInstance {
     static dispatch_once_t _p;
@@ -31,7 +35,7 @@
     
     if (self) {
         //individualNewsFeeds is a mutable array of dictionaries containing an individual amendment's newsfeed, keyed by title, i.e. "One"
-        _individualNewsFeeds = [[NSMutableDictionary alloc] init];
+        _newsFeedCache = [[NSCache alloc] init];
         
         //initialize date formatter format, to be used when we sort the feed by date
         _dateFormatter = [[NSDateFormatter alloc] init];
@@ -41,30 +45,44 @@
     return self;
 }
 
--(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key forTableViewController:(UITableViewController*)tbvc;
+-(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing forViewController:(UIViewController*)vc;
 {
-    //start Activity Indicator, only if we're not refreshing
-    if (!tbvc.refreshControl.isRefreshing) [NSThread detachNewThreadSelector:@selector(showActivityViewer) toTarget:self withObject:nil];
-    
-    //set NewsFeeds instance variable for the currentKey to key
+    //set NewsFeeds instance variable for the currentKey to key (the name of the amendment we're fetching news for
     self.currentKey = key;
+    //kind of a hack, but keep strong pointer to view controller 
+    self.currentViewController = (AmendmentsNewsViewController*)vc;
     
-    NSLog(@"currentKey: %@", self.currentKey);
+    //if cache needs to be updated OR if user forces refresh
+    if ([self cacheNeedsToBeUpdated] || refreshing) {
+        
+        NSLog(@"Cache needs to be updated");
+        
+        //start Activity Indicator
+        [NSThread detachNewThreadSelector:@selector(showActivityViewer) toTarget:self withObject:nil];
+        
+        NSLog(@"currentKey: %@", self.currentKey);
+        
+        NSLog(@"URL query: %@", finalURL);
+        
+        NSURL *url = [NSURL URLWithString: finalURL];
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
+        [myFetcher beginFetchWithDelegate:self
+                        didFinishSelector:@selector(newsFeedFetcher:finishedWithData:error:)];
+        
+        //TODO: check for download issues
+    }
     
-    //set NewsFeeds instance variable for the currentKey to key
-    self.currentTableViewController = tbvc;
-    
-    NSLog(@"URL query: %@", finalURL);
-    
-    NSURL *url = [NSURL URLWithString: finalURL];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-    [myFetcher beginFetchWithDelegate:self
-                    didFinishSelector:@selector(newsFeedFetcher:finishedWithData:error:)];
-    
-    //TODO check for download issues
-    
+    //else, send useCachedData notification
+    else{
+        NSLog(@"Cache DIDNT need to be updated");
+        //TODO: don't call methods on the observing VC directly! We don't want the coupling!
+        //why isn't the VC receiving the notification though?
+        self.currentViewController.feed = [self.newsFeedCache objectForKey:self.currentKey][@"results"];
+        [self.currentViewController.tableView setHidden:NO];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"didLoadDataFromSingleton" object:nil];
+    }
 }
 
 - (void)newsFeedFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error
@@ -88,11 +106,14 @@
         
         NSDictionary* results = [NSJSONSerialization JSONObjectWithData:retrievedData options:kNilOptions error:&error];
         
-        self.aFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
+        //self.aFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
+        
+        NSMutableArray *theFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
+
         
         //Articles to delete it from the feed
         NSMutableArray *articlesToDiscard = [NSMutableArray array];
-        for(NSDictionary* dict in self.aFeed){
+        for(NSDictionary* dict in theFeed){
             
             //Don't include articles you need to register for, or letters to the editor
             if( [[dict objectForKey:@"title"] rangeOfString:@"(registration)"].location != NSNotFound
@@ -136,10 +157,10 @@
                 [articlesToDiscard addObject:dict];
             }
         }
-        [self.aFeed removeObjectsInArray:articlesToDiscard];
+        [theFeed removeObjectsInArray:articlesToDiscard];
          
         //sort feed by date
-        [self.aFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
+        [theFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
             
             NSDate* date1 = [self.dateFormatter dateFromString: [dict1 objectForKey:@"pubDate"] ];
             NSDate* date2 = [self.dateFormatter dateFromString: [dict2 objectForKey:@"pubDate"] ];
@@ -150,24 +171,35 @@
         //NSLog(@"Sorted newsFeed: %@", self.aFeed);
         
         //If there are no articles in the feed, send a notification to NewsFeed VC
-        if (self.aFeed.count==0) {
+        if (theFeed.count==0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NoDataInFeed"
                                                             object:nil];
         }
         else{
         
-        //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
-        [self.individualNewsFeeds setObject:self.aFeed forKey:self.currentKey];
+            NSMutableDictionary *mutableResults = [@{} mutableCopy];
+            [mutableResults setObject:theFeed forKey:@"results"];
+            [mutableResults setObject:[NSDate date] forKey:kCachedDate];
+            
         
-        //send message to reload current table view
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
-                                                        object:nil];
+            //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
+            //[self.individualNewsFeeds setObject:self.aFeed forKey:self.currentKey];
+            
+            [self.newsFeedCache setObject:mutableResults forKey:self.currentKey];
+                
+        
+            //send message to reload current table view
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
+                                                            object:nil];
         }
     }
     
     //stop Activity indicator
     [self hideActivityViewer];
 }
+
+
+#pragma mark - Activity Viewer methods
 
 -(void)showActivityViewer
 {
@@ -195,6 +227,45 @@
     [[[self.activityView subviews] objectAtIndex:0] stopAnimating];
     [self.activityView removeFromSuperview];
     self.activityView = nil;
+}
+
+
+#pragma mark - Utility methods
+
+-(BOOL)hasCacheUpdateIntervalElapsed:(NSDate*)cachedDate
+{
+    NSLog(@"cachedDate: %@", cachedDate);
+    
+    NSUInteger unitFlags = NSDayCalendarUnit;
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:unitFlags fromDate:cachedDate toDate:[NSDate date] options:0];
+    if ( [components day]  >= cacheUpdateInterval){
+        NSLog(@"Days between dates: %d", ([components day] + 1));
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(BOOL)cacheNeedsToBeUpdated
+{
+    
+    NSDate *dateOfCache = (NSDate*)[self.newsFeedCache objectForKey:self.currentKey][kCachedDate];
+    
+    if( ![self.newsFeedCache objectForKey:self.currentKey] )
+        return YES;
+    
+    
+    else if( [self hasCacheUpdateIntervalElapsed: dateOfCache] ){
+        return YES;
+    }
+    
+    return NO;
+}
+
+-(void)postNotificationToLoad
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didLoadDataFromSingleton" object:nil];
 }
 
 @end

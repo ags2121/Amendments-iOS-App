@@ -30,6 +30,9 @@
 {
     [super viewDidLoad];
     
+    [self.optionsTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.summary setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
     /*
      Initialize template URL
      specifies location as "America"
@@ -55,8 +58,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    //add Custom Favorite button, using category (see utility method "returnFavoriteButton")
-    //self.navigationItem.rightBarButtonItem = [self returnFavoriteButton];
+    [super viewWillAppear:YES];
 }
 
 -(void) viewDidAppear:(BOOL)animated
