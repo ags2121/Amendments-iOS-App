@@ -26,7 +26,6 @@
 //I added this
 @property (nonatomic, strong) UIActivityViewController *activityVC;
 
-@property (nonatomic, strong) UIWebView *mainWebView;
 @property (nonatomic, strong) NSURL *URL;
 
 - (id)initWithAddress:(NSString*)urlString;
@@ -328,7 +327,9 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-    //self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    if(self.navigationItem.title == nil)
+        self.navigationItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     [self updateToolbarItems];
 }
 

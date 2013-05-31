@@ -10,17 +10,37 @@
 #import "MoreOptionsTableViewCell.h"
 #import "AmendmentsNewsViewController.h"
 #import "CustomIconButton.h"
-#import "ExtendedSummaryViewController.h"
-#import "OriginalTextViewController.h"
+
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
+static int iPhone4landscapeWidth = 480;
+static int iPhone4landscapeHeight = 410;
+static int iPhone4PortraitWidth = 320;
+static int iPhone4PortraitHeight = 480;
+
+static int iPhone5landscapeWidth = 480;
+static int iPhone5landscapeHeight = 410;
+static int iPhone5PortraitWidth = 320;
+static int iPhone5PortraitHeight = 568;
+
+static int iPhone4TableViewTranslate = 100;
+static int iPhone4SummaryTranslate = 40;
+
+static int iPhone5TableViewTranslate = 100;
+static int iPhone5SummaryTranslate = 67;
 
 @interface SingleAmendmentViewController ()
 
-//The template URL whose keywords we replace with the particular queries used for the specific amendment
+//templateURL - the template URL whose keywords we replace with the particular queries used for the specific amendment
 @property (strong, nonatomic) NSString *templateURL;
 @property (strong, nonatomic) NSString *finalURL;
 @property (strong, nonatomic) NSString *queryKeyword1;
 @property (strong, nonatomic) NSString *queryKeyword2;
 @property (strong, nonatomic) NSMutableArray *favoriteAmendmentsInSection;
+//didLoad - hack way of getting this VC to only call adjustSubviewsForNonPortraitOrientation once
+@property (nonatomic) BOOL didLoad;
+
+@property (atomic) BOOL childViewControllerDidAdjustToPortrait;
 
 @end
 
@@ -28,19 +48,14 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    self.didLoad = NO;
+    if (IS_IPHONE_5) {
+        [self adjustSubviewsForiPhone5];
+    }
     
-    [self.optionsTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.summary setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    /*
-     Initialize template URL
-     specifies location as "America"
-     */
     _templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D50";
     
     //set Title for VC
-    //self.title = [self.amendmentData objectForKey:@"Title"]; /*long title, if wanted (i.e. "First Amendment")*/
     self.title = self.shortTitle;
     
     //set text for UIlabels
@@ -53,12 +68,23 @@
     //construct specified URL using keywords
     NSString* urlNew = [self.templateURL stringByReplacingOccurrencesOfString:@"*" withString:self.queryKeyword1];
     self.finalURL = [urlNew stringByReplacingOccurrencesOfString:@"¥" withString:self.queryKeyword2];
-    NSLog(@"URL for query: %@", self.finalURL);
+    //NSLog(@"URL for query: %@", self.finalURL);
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+
+    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (currentOrientation != UIInterfaceOrientationPortrait && !self.didLoad) {
+        [self adjustSubviewsForNonPortraitOrientation];
+        self.didLoad = YES;
+    }
+    
+    if (self.childViewControllerDidAdjustToPortrait) {
+        [self resetSubviewsForPortraitOrientation];
+        self.childViewControllerDidAdjustToPortrait = NO;
+    }
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -73,6 +99,57 @@
 {
     [super didReceiveMemoryWarning];
 }
+
+
+#pragma mark viewDidLoad methods
+
+-(void)adjustSubviewsForiPhone5
+{
+    //move tableView down
+    self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y-20);
+    //move summary label down
+    self.summary.center = CGPointMake(self.summary.center.x, self.optionsTableView.frame.origin.y/2.75);
+    //increase font size by 1 point
+    [self.summary setFont:[UIFont systemFontOfSize:self.summary.font.pointSize+1.0]];
+    //add one more line space to the label's height
+    self.summary.frame = CGRectMake(self.summary.frame.origin.x, self.summary.frame.origin.y, self.summary.frame.size.width, self.summary.frame.size.height+self.summary.font.pointSize);
+}
+                                                                   
+-(void)adjustSubviewsForNonPortraitOrientation
+{
+    int landscapeWidth = iPhone4landscapeWidth; int lh = iPhone4landscapeHeight;
+    int tvt = iPhone4TableViewTranslate; int st = iPhone4SummaryTranslate;
+    if (IS_IPHONE_5) {
+        landscapeWidth = iPhone5landscapeWidth; lh = iPhone5landscapeHeight;
+        tvt = iPhone5TableViewTranslate; st = iPhone5SummaryTranslate;
+    }
+    
+    CGRect frame = CGRectMake(0, 0, landscapeWidth, lh);
+    self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y+tvt);
+    self.summary.center = CGPointMake(self.summary.center.x, self.summary.center.y-st);
+    
+    self.view.frame = frame;
+    self.scrollView.contentSize = CGSizeMake(frame.size.width, frame.size.height);
+}
+
+-(void)resetSubviewsForPortraitOrientation
+{
+    int portraitWidth = iPhone4PortraitWidth; int ph = iPhone4PortraitHeight;
+    int tvt = iPhone4TableViewTranslate; int st = iPhone4SummaryTranslate;
+    if (IS_IPHONE_5) {
+        portraitWidth = iPhone5PortraitWidth; ph = iPhone5PortraitHeight;
+        tvt = iPhone5TableViewTranslate; st = iPhone5SummaryTranslate;
+    }
+    
+    CGRect frame = CGRectMake(0, 0, portraitWidth, ph);
+    self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y-tvt);
+    self.summary.center = CGPointMake(self.summary.center.x, self.summary.center.y+st);
+    
+    self.view.frame = frame;
+    self.scrollView.contentSize = CGSizeMake(frame.size.width, frame.size.height);
+}
+
+
 
 #pragma mark Table view data source
 
@@ -117,6 +194,7 @@
         NSString *htmlString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
         NSLog(@"htmlString: %@", htmlString);
         esvc.htmlString = htmlString;
+        esvc.delegate = self;
         esvc.title = self.shortTitle;
 
     }
@@ -147,5 +225,43 @@
     if (indexPath.row==1) [self performSegueWithIdentifier:@"originalTextSegue" sender:self];
     if (indexPath.row==2) [self performSegueWithIdentifier:@"newsSegue" sender:self];
 }
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (IS_IPHONE_5)
+        [self translateSubviews:iPhone5landscapeWidth landscapeHeight:iPhone5landscapeHeight portraitWidth:iPhone5PortraitWidth portraitHeight:iPhone5PortraitHeight tableViewTranslate:iPhone5TableViewTranslate summaryTranslate:iPhone5SummaryTranslate toOrientation:toInterfaceOrientation];
+    else
+        [self translateSubviews:iPhone4landscapeWidth landscapeHeight:iPhone4landscapeHeight portraitWidth:iPhone4PortraitWidth portraitHeight:iPhone4PortraitHeight tableViewTranslate:iPhone4TableViewTranslate summaryTranslate:iPhone4SummaryTranslate toOrientation:toInterfaceOrientation];
+}
+
+-(void)translateSubviews:(int)landscapeWidth landscapeHeight:(int)lh portraitWidth:(int)pw portraitHeight:(int)ph tableViewTranslate:(int)tvt summaryTranslate:(int)st toOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    CGRect frame;
+    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if ((toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) || (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)) {
+        
+        frame = CGRectMake(0, 0, landscapeWidth, lh);
+        if (currentOrientation != UIInterfaceOrientationLandscapeLeft && currentOrientation != UIInterfaceOrientationLandscapeRight) {
+            self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y+tvt);
+            self.summary.center = CGPointMake(self.summary.center.x, self.summary.center.y-st);
+        }
+    }
+    else {
+        frame = CGRectMake(0, 0, pw, ph);
+        self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y-tvt);
+        self.summary.center = CGPointMake(self.summary.center.x, self.summary.center.y+st);
+    }
+    
+    self.view.frame = frame;
+    self.scrollView.contentSize = CGSizeMake(frame.size.width, frame.size.height);
+}
+
+-(void)childViewControllerDidRotateToPortrait
+{
+    self.childViewControllerDidAdjustToPortrait = YES;
+}
+                                                                   
+                                                                                                            
 
 @end

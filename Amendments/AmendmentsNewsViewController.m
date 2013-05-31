@@ -58,7 +58,7 @@
         [self.tableView setHidden:YES];
         
         //load the feed from the Singleton NewsFeeds
-        [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:NO forViewController:self];
+        [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:NO];
     }
 }
 
@@ -204,6 +204,7 @@
     
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
     webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
+    webViewController.titleForNavBar = @"News";
     
     //append amendment number to beginning for keyForFeed string
     webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];
@@ -288,7 +289,7 @@
     NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
     
     //load the feed from the Singleton NewsFeeds
-    [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:YES forViewController:self];
+    [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:YES];
 }
 
 

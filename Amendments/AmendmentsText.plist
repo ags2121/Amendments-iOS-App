@@ -7,7 +7,7 @@
 			<key>Title</key>
 			<string>First Amendment</string>
 			<key>Summary</key>
-			<string>The First Amendment prohibits the making of any law respecting an establishment of religion, impeding the free exercise of religion, abridging the freedom of speech, infringing on the freedom of the press, interfering with the right to peaceably assemble or prohibiting the petitioning for a governmental redress of grievances. It is part of the Bill of Rights, ratified on December 15, 1791.</string>
+			<string>The First Amendment prohibits any law respecting an establishment of religion, impeding the free exercise of religion, abridging the freedom of speech, infringing on the freedom of the press, interfering with the right to peaceably assemble or prohibiting the right to petition. It is part of the Bill of Rights, ratified on December 15, 1791.</string>
 			<key>extendedSummaryHTMLpath</key>
 			<string>extendedSummary1</string>
 			<key>originalTextHTMLpath</key>
@@ -52,7 +52,7 @@
 			<key>Title</key>
 			<string>Fourth Amendment</string>
 			<key>Summary</key>
-			<string>The Fourth Amendment guards against unreasonable searches and seizures, along with requiring any warrant to be judicially sanctioned and supported by probable cause. It was adopted as a response to the abuse of the writ of assistance – a type of general search warrant - in the American Revolution. It is part of the Bill of Rights, ratified on December 15, 1791.</string>
+			<string>The Fourth Amendment guards against unreasonable searches and seizures, along with requiring any warrant to be judicially sanctioned and supported by probable cause. It was adopted as a response to the abuse of the writ of assistance in the American Revolution. It is part of the Bill of Rights, ratified on December 15, 1791.</string>
 			<key>extendedSummaryHTMLpath</key>
 			<string>extendedSummary4</string>
 			<key>originalTextHTMLpath</key>

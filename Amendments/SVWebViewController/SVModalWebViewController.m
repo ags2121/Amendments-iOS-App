@@ -53,9 +53,14 @@
     //change to black color
     self.navigationBar.tintColor = [UIColor blackColor];
     //set title to say "News"
-    self.webViewController.navigationItem.title = @"News";
     
-    webViewController.navigationItem.rightBarButtonItem = self.returnFavoriteButton;
+    if(self.titleForNavBar)
+        self.webViewController.navigationItem.title = self.titleForNavBar;
+    else
+        self.webViewController.navigationItem.title = nil;
+    
+    if(self.loadFavoriteButton)
+        webViewController.navigationItem.rightBarButtonItem = self.returnFavoriteButton;
     
     NSLog(@"Article info: %@", self.articleInfoForFavorites);
 }

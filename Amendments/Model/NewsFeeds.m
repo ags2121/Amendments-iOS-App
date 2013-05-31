@@ -14,6 +14,7 @@ static int cacheUpdateInterval = 1;
 NSString * const kCachedDate = @"cachedDate";
 
 @implementation NewsFeeds
+
 + (NewsFeeds *) sharedInstance {
     static dispatch_once_t _p;
     static NewsFeeds *_singleton = nil;
@@ -45,12 +46,10 @@ NSString * const kCachedDate = @"cachedDate";
     return self;
 }
 
--(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing forViewController:(UIViewController*)vc;
+-(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing;
 {
     //set NewsFeeds instance variable for the currentKey to key (the name of the amendment we're fetching news for
     self.currentKey = key;
-    //kind of a hack, but keep strong pointer to view controller 
-    self.currentViewController = (AmendmentsNewsViewController*)vc;
     
     //if cache needs to be updated OR if user forces refresh
     if ([self cacheNeedsToBeUpdated] || refreshing) {
@@ -70,18 +69,12 @@ NSString * const kCachedDate = @"cachedDate";
         GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
         [myFetcher beginFetchWithDelegate:self
                         didFinishSelector:@selector(newsFeedFetcher:finishedWithData:error:)];
-        
-        //TODO: check for download issues
     }
     
     //else, send useCachedData notification
     else{
         NSLog(@"Cache DIDNT need to be updated");
-        //TODO: don't call methods on the observing VC directly! We don't want the coupling!
-        //why isn't the VC receiving the notification though?
-        self.currentViewController.feed = [self.newsFeedCache objectForKey:self.currentKey][@"results"];
-        [self.currentViewController.tableView setHidden:NO];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"didLoadDataFromSingleton" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton" object:nil];
     }
 }
 
@@ -106,10 +99,7 @@ NSString * const kCachedDate = @"cachedDate";
         
         NSDictionary* results = [NSJSONSerialization JSONObjectWithData:retrievedData options:kNilOptions error:&error];
         
-        //self.aFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
-        
         NSMutableArray *theFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
-
         
         //Articles to delete it from the feed
         NSMutableArray *articlesToDiscard = [NSMutableArray array];
@@ -178,13 +168,13 @@ NSString * const kCachedDate = @"cachedDate";
         else{
         
             NSMutableDictionary *mutableResults = [@{} mutableCopy];
+            //store results
             [mutableResults setObject:theFeed forKey:@"results"];
+            //and date of fetch
             [mutableResults setObject:[NSDate date] forKey:kCachedDate];
             
         
             //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
-            //[self.individualNewsFeeds setObject:self.aFeed forKey:self.currentKey];
-            
             [self.newsFeedCache setObject:mutableResults forKey:self.currentKey];
                 
         
@@ -247,9 +237,9 @@ NSString * const kCachedDate = @"cachedDate";
     return NO;
 }
 
+
 -(BOOL)cacheNeedsToBeUpdated
 {
-    
     NSDate *dateOfCache = (NSDate*)[self.newsFeedCache objectForKey:self.currentKey][kCachedDate];
     
     if( ![self.newsFeedCache objectForKey:self.currentKey] )
@@ -263,9 +253,5 @@ NSString * const kCachedDate = @"cachedDate";
     return NO;
 }
 
--(void)postNotificationToLoad
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"didLoadDataFromSingleton" object:nil];
-}
 
 @end

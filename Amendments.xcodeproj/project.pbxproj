@@ -44,6 +44,7 @@
 		A9426E1C16E29969002B317A /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E1116E284F0002B317A /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A9426E1F16E29F21002B317A /* NewsFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E1E16E29F21002B317A /* NewsFeedCell.m */; };
 		A9426E2A16E2DD2C002B317A /* NewsFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E2916E2DD2C002B317A /* NewsFeeds.m */; };
+		A9518EE9175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.m in Sources */ = {isa = PBXBuildFile; fileRef = A9518EE8175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.m */; };
 		A952198A16FF709300FB473D /* emptystar.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198816FF709300FB473D /* emptystar.png */; };
 		A952198B16FF709300FB473D /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198916FF709300FB473D /* emptystar@2x.png */; };
 		A952198D16FF849E00FB473D /* sadf.plist in Resources */ = {isa = PBXBuildFile; fileRef = A952198C16FF849D00FB473D /* sadf.plist */; };
@@ -238,6 +239,8 @@
 		A9426E1E16E29F21002B317A /* NewsFeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsFeedCell.m; path = View/NewsFeedCell.m; sourceTree = "<group>"; };
 		A9426E2816E2DD2C002B317A /* NewsFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsFeeds.h; path = Model/NewsFeeds.h; sourceTree = "<group>"; };
 		A9426E2916E2DD2C002B317A /* NewsFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsFeeds.m; path = Model/NewsFeeds.m; sourceTree = "<group>"; };
+		A9518EE7175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+haveDaysPassedSinceDate.h"; path = "Categories/NSDate+haveDaysPassedSinceDate.h"; sourceTree = "<group>"; };
+		A9518EE8175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+haveDaysPassedSinceDate.m"; path = "Categories/NSDate+haveDaysPassedSinceDate.m"; sourceTree = "<group>"; };
 		A952198816FF709300FB473D /* emptystar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptystar.png; sourceTree = "<group>"; };
 		A952198916FF709300FB473D /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
 		A952198C16FF849D00FB473D /* sadf.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sadf.plist; sourceTree = "<group>"; };
@@ -752,6 +755,8 @@
 				A9107ED416E0210800C71FE4 /* AmendmentsText.plist */,
 				A98F524E16F0EF8600B8FB97 /* extendedSummaryHTMLfiles */,
 				A98F524D16F0EF4D00B8FB97 /* originalTextHTMLfiles */,
+				A9518EE7175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.h */,
+				A9518EE8175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1041,6 +1046,7 @@
 				A98F524916F0DF1800B8FB97 /* ExtendedSummaryViewController.m in Sources */,
 				A98F525116F0F08400B8FB97 /* OriginalTextViewController.m in Sources */,
 				A9577DB1171DB88A00CC4A54 /* MYIntroductionViewController.m in Sources */,
+				A9518EE9175688E000A3AF82 /* NSDate+haveDaysPassedSinceDate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1149,10 +1155,12 @@
 		A9F84F0116DFD4B8002A434C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alejandro Silva (WZS8FXD7L8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Amendments/Amendments-Prefix.pch";
 				INFOPLIST_FILE = "Amendments/Amendments-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C8BE47A6-E206-44F3-B29D-A380BECC2A55";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1160,10 +1168,12 @@
 		A9F84F0216DFD4B8002A434C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alejandro Silva (WZS8FXD7L8)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Amendments/Amendments-Prefix.pch";
 				INFOPLIST_FILE = "Amendments/Amendments-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C8BE47A6-E206-44F3-B29D-A380BECC2A55";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

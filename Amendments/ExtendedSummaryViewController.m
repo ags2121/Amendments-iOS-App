@@ -7,8 +7,11 @@
 //
 
 #import "ExtendedSummaryViewController.h"
+#import "SVModalWebViewController.h"
 
 @interface ExtendedSummaryViewController ()
+
+@property (nonatomic) BOOL isInLandscape;
 
 @end
 
@@ -42,6 +45,28 @@
 - (void)fixWebViewsScrollview
 {
     [self.webView.scrollView setContentSize: CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height)];
+}
+
+-(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
+    if ( inType == UIWebViewNavigationTypeLinkClicked ) {
+        SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:[inRequest URL]];
+        
+        webViewController.loadFavoriteButton = NO;
+        webViewController.titleForNavBar = nil;
+        
+        [self presentViewController:webViewController animated:YES completion:nil];
+        return NO;
+    }
+    
+    return YES;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    if ( toInterfaceOrientation == UIInterfaceOrientationPortrait) {
+        [self.delegate childViewControllerDidRotateToPortrait];
+    }
 }
 
 @end

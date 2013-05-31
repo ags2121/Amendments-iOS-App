@@ -12,11 +12,7 @@
 
 @interface NewsFeeds : NSObject
 
-@property (strong, nonatomic) NSMutableDictionary *individualNewsFeeds;
 @property (strong, nonatomic) NSCache *newsFeedCache;
-
-
-
 @property (strong, nonatomic) NSMutableArray* aFeed;
 @property (strong, nonatomic) NSString* currentKey;
 @property (strong, nonatomic) AmendmentsNewsViewController* currentViewController;
@@ -26,7 +22,7 @@
 
 +(NewsFeeds *) sharedInstance;
 
--(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing forViewController:(UIViewController*)tbvc;
+-(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing;
 - (void)newsFeedFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error;
 
 @end

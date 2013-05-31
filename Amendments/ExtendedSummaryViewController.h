@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class ExtendedSummaryViewController;
+
+@protocol SingleAmendmentDelegate
+
+-(void)childViewControllerDidRotateToPortrait;
+
+@end
+
 @interface ExtendedSummaryViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) NSString* htmlString;
-
+@property (nonatomic, weak) id <SingleAmendmentDelegate> delegate;
 @end

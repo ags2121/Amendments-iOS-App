@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ExtendedSummaryViewController.h"
+#import "OriginalTextViewController.h"
 
-@interface SingleAmendmentViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface SingleAmendmentViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, SingleAmendmentDelegate>
 
 @property NSUInteger sectionOfAmendment;
 @property (strong, nonatomic) NSDictionary* amendmentData;
