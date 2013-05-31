@@ -144,6 +144,11 @@
         //pass along amendment Cell data, to be used if adding Amendment to dictionary of favorites in the next VC
         savc.amendmentCellData = self.amendmentsTableData[indexPath.section][indexPath.row];
         
+        //pass along whether view controller was in landscape or not
+        UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+        if (currentOrientation == UIInterfaceOrientationLandscapeLeft || currentOrientation == UIInterfaceOrientationLandscapeRight)
+            savc.parentViewControllerWasInLandscape = YES;
+        
         savc.shortTitle = [self.amendmentsTableData[indexPath.section][indexPath.row] objectForKey:@"amendmentNumber"];
     }
 }

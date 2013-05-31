@@ -12,7 +12,8 @@
 
 @protocol SingleAmendmentDelegate
 
--(void)childViewControllerDidRotateToPortrait;
+@property (atomic) BOOL childViewControllerDidRotateToLandscape;
+@property (atomic) BOOL childViewControllerDidRotateToPortrait;
 
 @end
 

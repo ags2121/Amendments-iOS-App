@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ExtendedSummaryViewController.h"
 
 @interface OriginalTextViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) NSString* htmlString;
+@property (nonatomic, weak) id <SingleAmendmentDelegate> delegate;
 
 @end

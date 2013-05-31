@@ -223,6 +223,7 @@
 		A914A04C175542D100639370 /* extendedSummary25.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary25.html; sourceTree = "<group>"; };
 		A914A04E17554A1A00639370 /* extendedSummary26.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary26.html; sourceTree = "<group>"; };
 		A914A05017554E0E00639370 /* extendedSummary27.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = extendedSummary27.html; sourceTree = "<group>"; };
+		A9260CC41758712E00FACAFB /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A9426E0116E16343002B317A /* AllAmendmentsText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllAmendmentsText.h; sourceTree = "<group>"; };
 		A9426E0216E16343002B317A /* AllAmendmentsText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllAmendmentsText.m; sourceTree = "<group>"; };
 		A9426E0416E165BE002B317A /* SingleAmendmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleAmendmentViewController.h; sourceTree = "<group>"; };
@@ -708,6 +709,7 @@
 		A9F84EED16DFD4B7002A434C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A9260CC41758712E00FACAFB /* Constants.h */,
 				A9F84EF516DFD4B7002A434C /* AmendmentsAppDelegate.h */,
 				A9F84EF616DFD4B8002A434C /* AmendmentsAppDelegate.m */,
 				A9E16FC416FB594D00FA6CF0 /* Settings.bundle */,

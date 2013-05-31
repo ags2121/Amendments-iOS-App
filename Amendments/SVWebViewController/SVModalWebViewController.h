@@ -32,7 +32,7 @@ typedef NSUInteger SVWebViewControllerAvailableActions;
 
 @property (nonatomic, strong) NSDictionary *articleInfoForFavorites;
 @property (nonatomic, strong) NSString *keyForAmendment;
-@property (nonatomic) BOOL loadFavoriteButton;
 @property (nonatomic, strong) NSString *titleForNavBar;
+@property (nonatomic) BOOL loadFavoriteButton;
 
 @end

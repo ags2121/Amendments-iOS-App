@@ -205,6 +205,7 @@
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
     webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
     webViewController.titleForNavBar = @"News";
+    webViewController.loadFavoriteButton = YES;
     
     //append amendment number to beginning for keyForFeed string
     webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];

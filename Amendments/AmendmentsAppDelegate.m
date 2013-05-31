@@ -9,6 +9,7 @@
 #import "AmendmentsAppDelegate.h"
 #import "NewsFeeds.h"
 #import "AmendmentsNewsViewController.h"
+#import "Constants.h"
 
 @implementation AmendmentsAppDelegate
 
@@ -46,6 +47,9 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             duration:(NSTimeInterval)duration
 {
     
+    int yTranslateVal = 77;
+    if(IS_IPHONE_5) yTranslateVal = 115;
+    
     UIImageView *bgImage = self.window.subviews[0];
     
     if (newStatusBarOrientation == UIInterfaceOrientationPortrait)
@@ -58,7 +62,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         float rotate    = ((newStatusBarOrientation == UIInterfaceOrientationLandscapeLeft) ? -1:1) * (M_PI / 2.0);
         bgImage.transform      = CGAffineTransformMakeRotation(rotate);
         bgImage.transform      = CGAffineTransformTranslate(bgImage.transform, 0, -bgImage.frame.origin.y);
-        bgImage.transform = CGAffineTransformTranslate(bgImage.transform, 0, 77);
+        bgImage.transform = CGAffineTransformTranslate(bgImage.transform, 0, yTranslateVal);
     }
 }
 

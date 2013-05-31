@@ -353,15 +353,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favoritesCell" rowHeight="85" id="aat-yv-hPI" customClass="FavoritesCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="85"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favoritesCell" rowHeight="90" id="aat-yv-hPI" customClass="FavoritesCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="84"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="left" text="articleTitle" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="93H-QQ-tZR">
-                                            <rect key="frame" x="20" y="1" width="280" height="83"/>
+                                            <rect key="frame" x="20" y="4" width="280" height="82"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -375,7 +375,7 @@
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="articleDate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nwb-Kz-akg">
-                                            <rect key="frame" x="20" y="59" width="294" height="20"/>
+                                            <rect key="frame" x="20" y="63" width="294" height="20"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -411,71 +411,6 @@
         <image name="138-scales.png" width="26" height="20"/>
         <image name="filledstar.png" width="26" height="26"/>
     </resources>
-    <classes>
-        <class className="AllAmendmentsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AllAmendmentsViewController.h"/>
-        </class>
-        <class className="AmendmentsCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AmendmentsCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="amendmentIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="amendmentNumber" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="amendmentSubtitle" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="AmendmentsNewsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AmendmentsNewsViewController.h"/>
-        </class>
-        <class className="ExtendedSummaryViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ExtendedSummaryViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="FavoritesCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FavoritesCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="articleDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="articlePublication" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="articleTitle" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="cellLabelHSpaceConstraint" candidateClass="NSLayoutConstraint"/>
-            </relationships>
-        </class>
-        <class className="FavoritesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FavoritesViewController.h"/>
-        </class>
-        <class className="MoreOptionsTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoreOptionsTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="amendmentNews" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="NewsFeedCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewsFeedCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="articleDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="articlePublication" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="articleTitle" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="OriginalTextViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OriginalTextViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="SingleAmendmentViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SingleAmendmentViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="optionsTableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="summary" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

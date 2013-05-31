@@ -10,8 +10,7 @@
 #import "MoreOptionsTableViewCell.h"
 #import "AmendmentsNewsViewController.h"
 #import "CustomIconButton.h"
-
-#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+#import "Constants.h"
 
 static int iPhone4landscapeWidth = 480;
 static int iPhone4landscapeHeight = 410;
@@ -37,18 +36,16 @@ static int iPhone5SummaryTranslate = 67;
 @property (strong, nonatomic) NSString *queryKeyword1;
 @property (strong, nonatomic) NSString *queryKeyword2;
 @property (strong, nonatomic) NSMutableArray *favoriteAmendmentsInSection;
-//didLoad - hack way of getting this VC to only call adjustSubviewsForNonPortraitOrientation once
-@property (nonatomic) BOOL didLoad;
-
-@property (atomic) BOOL childViewControllerDidAdjustToPortrait;
 
 @end
 
 @implementation SingleAmendmentViewController
 
+@synthesize childViewControllerDidRotateToLandscape;
+@synthesize childViewControllerDidRotateToPortrait;
+
 - (void)viewDidLoad
 {
-    self.didLoad = NO;
     if (IS_IPHONE_5) {
         [self adjustSubviewsForiPhone5];
     }
@@ -75,15 +72,21 @@ static int iPhone5SummaryTranslate = 67;
 {
     [super viewWillAppear:YES];
 
-    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (currentOrientation != UIInterfaceOrientationPortrait && !self.didLoad) {
-        [self adjustSubviewsForNonPortraitOrientation];
-        self.didLoad = YES;
+    //UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (self.parentViewControllerWasInLandscape) {
+        [self adjustSubviewsForLandscapeOrientation];
+        self.parentViewControllerWasInLandscape = NO;
     }
     
-    if (self.childViewControllerDidAdjustToPortrait) {
+    if (self.childViewControllerDidRotateToLandscape) {
+        [self adjustSubviewsForLandscapeOrientation];
+        self.childViewControllerDidRotateToLandscape = NO;
+    }
+    
+    if (self.childViewControllerDidRotateToPortrait) {
         [self resetSubviewsForPortraitOrientation];
-        self.childViewControllerDidAdjustToPortrait = NO;
+        self.childViewControllerDidRotateToPortrait = NO;
     }
 }
 
@@ -115,7 +118,7 @@ static int iPhone5SummaryTranslate = 67;
     self.summary.frame = CGRectMake(self.summary.frame.origin.x, self.summary.frame.origin.y, self.summary.frame.size.width, self.summary.frame.size.height+self.summary.font.pointSize);
 }
                                                                    
--(void)adjustSubviewsForNonPortraitOrientation
+-(void)adjustSubviewsForLandscapeOrientation
 {
     int landscapeWidth = iPhone4landscapeWidth; int lh = iPhone4landscapeHeight;
     int tvt = iPhone4TableViewTranslate; int st = iPhone4SummaryTranslate;
@@ -206,6 +209,7 @@ static int iPhone5SummaryTranslate = 67;
         NSString *htmlString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
         //NSLog(@"htmlString: %@", htmlString);
         otvc.htmlString = htmlString;
+        otvc.delegate = self;
         otvc.title = self.shortTitle;
     }
     
@@ -257,11 +261,5 @@ static int iPhone5SummaryTranslate = 67;
     self.scrollView.contentSize = CGSizeMake(frame.size.width, frame.size.height);
 }
 
--(void)childViewControllerDidRotateToPortrait
-{
-    self.childViewControllerDidAdjustToPortrait = YES;
-}
-                                                                   
-                                                                                                            
 
 @end
