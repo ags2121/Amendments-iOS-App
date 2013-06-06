@@ -9,6 +9,7 @@
 #import "AmendmentsAppDelegate.h"
 #import "MYIntroductionViewController.h"
 #import "MYIntroductionPanel.h"
+#import "Constants.h"
 
 @interface MYIntroductionViewController ()
 
@@ -49,7 +50,12 @@
     
     MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AMLogo_invertedColors"] panels:@[panel, panel2, panel3, panel4, panel5, panel6] languageDirection:MYLanguageDirectionLeftToRight];
     
-    [introductionView setBackgroundImage:[UIImage imageNamed:@"AmendmentIntroViewBackGroundNOTITLE"]];
+    NSLog(@"view frame: %@", NSStringFromCGRect(self.view.frame));
+    
+    if(IS_IPHONE_5)
+         [introductionView setBackgroundImage:[UIImage imageNamed:@"IntroViewBackground-568h"]];
+    else
+        [introductionView setBackgroundImage:[UIImage imageNamed:@"IntroViewBackground"]];
     
     //Set delegate to self for callbacks (optional)
     introductionView.delegate = self;

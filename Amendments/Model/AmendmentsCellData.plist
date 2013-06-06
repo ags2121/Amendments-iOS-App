@@ -8,6 +8,8 @@
 			<integer>1</integer>
 			<key>icon</key>
 			<string>freedom</string>
+			<key>iconDetail</key>
+			<string></string>
 			<key>amendmentNumber</key>
 			<string>First</string>
 			<key>subtitle</key>

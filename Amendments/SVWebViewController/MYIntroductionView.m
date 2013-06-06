@@ -24,14 +24,20 @@
 //
 
 #import "MYIntroductionView.h"
+#import "Constants.h"
 
 #define DEFAULT_BACKGROUND_COLOR [UIColor colorWithWhite:0 alpha:0.9]
 #define HEADER_VIEW_HEIGHT 50
-#define PAGE_CONTROL_PADDING 2
+//#define TEXT_PANEL_OFFSET 25
+//#define PAGE_CONTROL_PADDING 2
 #define TITLE_FONT [UIFont fontWithName:@"HelveticaNeue-Bold" size:17.0]
 #define TITLE_TEXT_COLOR [UIColor whiteColor]
 #define DESCRIPTION_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]
 #define DESCRIPTION_TEXT_COLOR [UIColor whiteColor]
+
+static int PAGE_CONTROL_PADDING;
+static int TEXT_PANEL_OFFSET;
+static int EXTRA_TEXT_PANEL_HEIGHT;
 
 @implementation MYIntroductionView
 @synthesize delegate;
@@ -135,6 +141,16 @@
 
 -(void)initializeClassVariables{
     panelViews = [[NSMutableArray alloc] init];
+    if (IS_IPHONE_5) {
+        PAGE_CONTROL_PADDING = 20;
+        TEXT_PANEL_OFFSET = 35;
+        EXTRA_TEXT_PANEL_HEIGHT = 30;
+    }
+    else{
+        PAGE_CONTROL_PADDING = 0;
+        TEXT_PANEL_OFFSET = 15;
+        EXTRA_TEXT_PANEL_HEIGHT = 0;
+    }
 }
 
 #pragma mark - UI Builder Methods
@@ -322,7 +338,7 @@
         contentWrappedScrollViewHeight = imageHeight + panelTitleLabelFrame.size.height + descriptionHeight;
     }
 
-    panelView.frame = CGRectMake(*xIndex, 0, self.ContentScrollView.frame.size.width, contentWrappedScrollViewHeight);
+    panelView.frame = CGRectMake(*xIndex, 0, self.ContentScrollView.frame.size.width, contentWrappedScrollViewHeight + EXTRA_TEXT_PANEL_HEIGHT);
     
     //Build image container
     UIImageView *panelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 0, self.ContentScrollView.frame.size.width - 10, imageHeight)];
@@ -335,8 +351,8 @@
     
     
     //Update frames based on the new/scaled image size we just gathered
-    panelTitleLabel.frame = CGRectMake(10, imageHeight + 5, panelTitleLabel.frame.size.width, panelTitleLabel.frame.size.height);
-    panelDescriptionTextView.frame = CGRectMake(0, imageHeight + panelTitleLabel.frame.size.height + 5, self.ContentScrollView.frame.size.width, descriptionHeight);
+    panelTitleLabel.frame = CGRectMake(10, imageHeight + TEXT_PANEL_OFFSET, panelTitleLabel.frame.size.width, panelTitleLabel.frame.size.height);
+    panelDescriptionTextView.frame = CGRectMake(0, imageHeight + panelTitleLabel.frame.size.height + TEXT_PANEL_OFFSET, self.ContentScrollView.frame.size.width, descriptionHeight);
     
     //Update xIndex
     *xIndex += self.ContentScrollView.frame.size.width;

@@ -23,7 +23,7 @@ static int iPhone5PortraitWidth = 320;
 static int iPhone5PortraitHeight = 568;
 
 static int iPhone4TableViewTranslate = 100;
-static int iPhone4SummaryTranslate = 40;
+static int iPhone4SummaryTranslate = 27;
 
 static int iPhone5TableViewTranslate = 100;
 static int iPhone5SummaryTranslate = 67;

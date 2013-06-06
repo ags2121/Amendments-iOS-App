@@ -12,8 +12,11 @@
 #import "AllAmendmentsText.h"
 #import "SingleAmendmentViewController.h"
 #import "MYIntroductionPanel.h"
+#import "UIViewController+Transitions.h"
 
 @interface AllAmendmentsViewController ()
+
+@property (strong, nonatomic) UIImageView *currentDetailIcon;
 
 @end
 
@@ -84,6 +87,10 @@
     
     // Configure the cell...
     cell.amendmentIcon.image = [UIImage imageNamed: [current objectForKey:@"icon"]];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCellImage:)];
+    tapGesture.delegate = self;
+    [cell.amendmentIcon addGestureRecognizer:tapGesture];
+//    cell.amendmentIcon addGestureRecognizer:
     cell.amendmentNumber.text = [current objectForKey:@"amendmentNumber"];
     cell.amendmentSubtitle.text = [current objectForKey:@"subtitle"];
     
@@ -156,6 +163,34 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"segueToAmendmentDetail" sender:self];
+}
+
+
+#pragma mark - Icon Detail View Controller methods
+
+-(void)tappedCellImage:(UITapGestureRecognizer*)tapGesture
+{
+    CGPoint swipeLocation = [tapGesture locationInView:self.tableView];
+    NSIndexPath *tappedIndexPath = [self.tableView indexPathForRowAtPoint:swipeLocation];
+    AmendmentsCell *swipedCell = (AmendmentsCell*)[self.tableView cellForRowAtIndexPath:tappedIndexPath];
+    
+    NSLog(@"tapped cell icon at %@", tappedIndexPath);
+    
+    self.currentDetailIcon = swipedCell.amendmentIcon;
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
+                                                             bundle: nil];
+    IconDetailViewController *idvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"IconDetailViewController"];
+    idvc.delegate = self;
+    [self expandView:swipedCell.amendmentIcon toModalViewController:idvc];
+}
+
+-(void)iconDetailWillResign
+{
+    if ( [self.presentedViewController isKindOfClass:[IconDetailViewController class]]) {
+        
+        [self dismissModalViewControllerToView:self.currentDetailIcon];
+        self.currentDetailIcon = nil;
+    }
 }
 
 @end
