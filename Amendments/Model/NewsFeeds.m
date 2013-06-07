@@ -127,6 +127,7 @@ NSString * const kCachedDate = @"cachedDate";
                || [[dict objectForKey:@"link"] rangeOfString:@".lk/"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@"brecorder.com"].location != NSNotFound
                || [[dict objectForKey:@"link"] rangeOfString:@"newindianexpress.com"].location != NSNotFound
+                || [[dict objectForKey:@"link"] rangeOfString:@"tenthamendmentcenter.com"].location != NSNotFound
                || [[dict objectForKey:@"title"] rangeOfString:@"Sri Lanka"].location != NSNotFound
 
                )
