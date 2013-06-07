@@ -30,6 +30,8 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped:)];
     tapGesture.delegate = self;
     [self.detailImageView addGestureRecognizer:tapGesture];
+    [self.detailImageView setImage:self.detailImage];
+    //[self configureImageViewBorder:5.0];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,6 +43,16 @@
 -(void)imageViewTapped:(UITapGestureRecognizer*)tap
 {
     [self.delegate iconDetailWillResign];
+}
+
+-(void)configureImageViewBorder:(CGFloat)borderWidth
+{
+    CALayer* layer = [self.detailImageView layer];
+    [layer setBorderWidth:borderWidth];
+    [layer setBorderColor:[UIColor whiteColor].CGColor];
+    [layer setShadowOffset:CGSizeMake(-3.0, 3.0)];
+    [layer setShadowRadius:3.0];
+    [layer setShadowOpacity:1.0];
 }
 
 @end

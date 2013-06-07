@@ -7,9 +7,9 @@
 			<key>#</key>
 			<integer>1</integer>
 			<key>icon</key>
-			<string>freedom</string>
+			<string>1</string>
 			<key>iconDetail</key>
-			<string></string>
+			<string>1_detail</string>
 			<key>amendmentNumber</key>
 			<string>First</string>
 			<key>subtitle</key>
@@ -19,7 +19,9 @@
 			<key>#</key>
 			<integer>2</integer>
 			<key>icon</key>
-			<string>guns</string>
+			<string>2</string>
+			<key>iconDetail</key>
+			<string>2_detail</string>
 			<key>amendmentNumber</key>
 			<string>Second</string>
 			<key>subtitle</key>
@@ -29,7 +31,9 @@
 			<key>#</key>
 			<integer>3</integer>
 			<key>icon</key>
-			<string>soldier</string>
+			<string>3</string>
+			<key>iconDetail</key>
+			<string>3_detail</string>
 			<key>amendmentNumber</key>
 			<string>Third</string>
 			<key>subtitle</key>
@@ -39,7 +43,9 @@
 			<key>#</key>
 			<integer>4</integer>
 			<key>icon</key>
-			<string>warrant</string>
+			<string>4</string>
+			<key>iconDetail</key>
+			<string>4_detail</string>
 			<key>amendmentNumber</key>
 			<string>Fourth</string>
 			<key>subtitle</key>
@@ -49,7 +55,9 @@
 			<key>#</key>
 			<integer>5</integer>
 			<key>icon</key>
-			<string>ladyjustice</string>
+			<string>5</string>
+			<key>iconDetail</key>
+			<string>5_detail</string>
 			<key>amendmentNumber</key>
 			<string>Fifth</string>
 			<key>subtitle</key>
@@ -59,7 +67,9 @@
 			<key>#</key>
 			<integer>6</integer>
 			<key>icon</key>
-			<string>gavel</string>
+			<string>6</string>
+			<key>iconDetail</key>
+			<string>6_detail</string>
 			<key>amendmentNumber</key>
 			<string>Sixth</string>
 			<key>subtitle</key>
@@ -69,7 +79,9 @@
 			<key>#</key>
 			<integer>7</integer>
 			<key>icon</key>
-			<string>jury</string>
+			<string>7</string>
+			<key>iconDetail</key>
+			<string>7_detail</string>
 			<key>amendmentNumber</key>
 			<string>Seventh</string>
 			<key>subtitle</key>
@@ -79,7 +91,9 @@
 			<key>#</key>
 			<integer>8</integer>
 			<key>icon</key>
-			<string>cruel</string>
+			<string>8</string>
+			<key>iconDetail</key>
+			<string>8_detail</string>
 			<key>amendmentNumber</key>
 			<string>Eighth</string>
 			<key>subtitle</key>
@@ -89,7 +103,9 @@
 			<key>#</key>
 			<integer>9</integer>
 			<key>icon</key>
-			<string>weThePeople</string>
+			<string>9</string>
+			<key>iconDetail</key>
+			<string>9_detail</string>
 			<key>amendmentNumber</key>
 			<string>Ninth</string>
 			<key>subtitle</key>
@@ -99,7 +115,9 @@
 			<key>#</key>
 			<integer>10</integer>
 			<key>icon</key>
-			<string>treadOnMe_noText</string>
+			<string>10</string>
+			<key>iconDetail</key>
+			<string>10_detail</string>
 			<key>amendmentNumber</key>
 			<string>Tenth</string>
 			<key>subtitle</key>
@@ -111,7 +129,9 @@
 			<key>#</key>
 			<integer>11</integer>
 			<key>icon</key>
-			<string>statesovereignty</string>
+			<string>11</string>
+			<key>iconDetail</key>
+			<string>11_detail</string>
 			<key>amendmentNumber</key>
 			<string>Eleventh</string>
 			<key>subtitle</key>
@@ -121,7 +141,9 @@
 			<key>#</key>
 			<integer>12</integer>
 			<key>icon</key>
-			<string>twelve</string>
+			<string>12</string>
+			<key>iconDetail</key>
+			<string>12_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twelfth</string>
 			<key>subtitle</key>
@@ -131,7 +153,9 @@
 			<key>#</key>
 			<integer>13</integer>
 			<key>icon</key>
-			<string>lincoln</string>
+			<string>13</string>
+			<key>iconDetail</key>
+			<string>13_detail</string>
 			<key>amendmentNumber</key>
 			<string>Thirteenth</string>
 			<key>subtitle</key>
@@ -141,7 +165,9 @@
 			<key>#</key>
 			<integer>14</integer>
 			<key>icon</key>
-			<string>freeAtLast</string>
+			<string>14</string>
+			<key>iconDetail</key>
+			<string>14_detail</string>
 			<key>amendmentNumber</key>
 			<string>Fourteenth</string>
 			<key>subtitle</key>
@@ -151,7 +177,9 @@
 			<key>#</key>
 			<integer>15</integer>
 			<key>icon</key>
-			<string>thefirstvote</string>
+			<string>15</string>
+			<key>iconDetail</key>
+			<string>15_detail</string>
 			<key>amendmentNumber</key>
 			<string>Fifteenth</string>
 			<key>subtitle</key>
@@ -161,7 +189,9 @@
 			<key>#</key>
 			<integer>16</integer>
 			<key>icon</key>
-			<string>1040</string>
+			<string>16</string>
+			<key>iconDetail</key>
+			<string>16_detail</string>
 			<key>amendmentNumber</key>
 			<string>Sixteenth</string>
 			<key>subtitle</key>
@@ -171,7 +201,9 @@
 			<key>#</key>
 			<integer>17</integer>
 			<key>icon</key>
-			<string>jenningsBryan</string>
+			<string>17</string>
+			<key>iconDetail</key>
+			<string>17_detail</string>
 			<key>amendmentNumber</key>
 			<string>Seventeenth</string>
 			<key>subtitle</key>
@@ -181,7 +213,9 @@
 			<key>#</key>
 			<integer>18</integer>
 			<key>icon</key>
-			<string>prohibition</string>
+			<string>18</string>
+			<key>iconDetail</key>
+			<string>18_detail</string>
 			<key>amendmentNumber</key>
 			<string>Eighteenth</string>
 			<key>subtitle</key>
@@ -191,7 +225,9 @@
 			<key>#</key>
 			<integer>19</integer>
 			<key>icon</key>
-			<string>suffrage</string>
+			<string>19</string>
+			<key>iconDetail</key>
+			<string>19_detail</string>
 			<key>amendmentNumber</key>
 			<string>Nineteenth</string>
 			<key>subtitle</key>
@@ -201,7 +237,9 @@
 			<key>#</key>
 			<integer>20</integer>
 			<key>icon</key>
-			<string>20th</string>
+			<string>20</string>
+			<key>iconDetail</key>
+			<string>20_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twentieth</string>
 			<key>subtitle</key>
@@ -211,7 +249,9 @@
 			<key>#</key>
 			<integer>21</integer>
 			<key>icon</key>
-			<string>21st</string>
+			<string>21</string>
+			<key>iconDetail</key>
+			<string>21_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-first</string>
 			<key>subtitle</key>
@@ -221,7 +261,9 @@
 			<key>#</key>
 			<integer>22</integer>
 			<key>icon</key>
-			<string>FDR</string>
+			<string>22</string>
+			<key>iconDetail</key>
+			<string>22_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-second</string>
 			<key>subtitle</key>
@@ -231,7 +273,9 @@
 			<key>#</key>
 			<integer>23</integer>
 			<key>icon</key>
-			<string>DC_suffrage</string>
+			<string>23</string>
+			<key>iconDetail</key>
+			<string>23_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-third</string>
 			<key>subtitle</key>
@@ -241,7 +285,9 @@
 			<key>#</key>
 			<integer>24</integer>
 			<key>icon</key>
-			<string>polltax</string>
+			<string>24</string>
+			<key>iconDetail</key>
+			<string>24_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-fourth</string>
 			<key>subtitle</key>
@@ -251,7 +297,9 @@
 			<key>#</key>
 			<integer>25</integer>
 			<key>icon</key>
-			<string>johnson</string>
+			<string>25</string>
+			<key>iconDetail</key>
+			<string>25_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-fifth</string>
 			<key>subtitle</key>
@@ -261,7 +309,9 @@
 			<key>#</key>
 			<integer>26</integer>
 			<key>icon</key>
-			<string>26th</string>
+			<string>26</string>
+			<key>iconDetail</key>
+			<string>26_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-sixth</string>
 			<key>subtitle</key>
@@ -271,7 +321,9 @@
 			<key>#</key>
 			<integer>27</integer>
 			<key>icon</key>
-			<string>27th</string>
+			<string>27</string>
+			<key>iconDetail</key>
+			<string>27_detail</string>
 			<key>amendmentNumber</key>
 			<string>Twenty-seventh</string>
 			<key>subtitle</key>

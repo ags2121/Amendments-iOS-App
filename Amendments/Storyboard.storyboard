@@ -110,7 +110,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <imageView contentMode="scaleToFill" image="warrant@2x.png" id="3Z0-aF-tJC">
+                            <imageView contentMode="scaleToFill" id="3Z0-aF-tJC">
                                 <rect key="frame" x="32" y="146" width="256" height="256"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -438,7 +438,6 @@
         <image name="138-scales.png" width="26" height="20"/>
         <image name="asfalt_2@2X.png" width="641" height="931"/>
         <image name="filledstar.png" width="26" height="26"/>
-        <image name="warrant@2x.png" width="110" height="110"/>
     </resources>
     <classes>
         <class className="AllAmendmentsViewController" superclassName="UITableViewController">

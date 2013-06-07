@@ -18,6 +18,7 @@
 
 @interface IconDetailViewController : UIViewController<UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *detailImageView;
+@property (strong, nonatomic) UIImage *detailImage;
 
 @property (nonatomic, weak) id <IconDetailDelegate> delegate;
 

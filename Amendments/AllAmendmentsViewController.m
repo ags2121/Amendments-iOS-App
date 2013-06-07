@@ -181,6 +181,11 @@
                                                              bundle: nil];
     IconDetailViewController *idvc = [mainStoryboard instantiateViewControllerWithIdentifier:@"IconDetailViewController"];
     idvc.delegate = self;
+    
+    NSString *detailImageName = [self.amendmentsTableData[tappedIndexPath.section][tappedIndexPath.row] objectForKey:@"iconDetail"];
+    
+    idvc.detailImage = [UIImage imageNamed: detailImageName];
+    
     [self expandView:swipedCell.amendmentIcon toModalViewController:idvc];
 }
 
