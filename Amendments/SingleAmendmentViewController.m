@@ -12,26 +12,30 @@
 #import "CustomIconButton.h"
 #import "Constants.h"
 
-static int iPhone4landscapeWidth = 480;
-static int iPhone4landscapeHeight = 410;
-static int iPhone4PortraitWidth = 320;
-static int iPhone4PortraitHeight = 480;
+/********************************************/
+//static int values for controlling subview layout values
+static const int iPhone4landscapeWidth = 480;
+static const int iPhone4landscapeHeight = 410;
+static const int iPhone4PortraitWidth = 320;
+static const int iPhone4PortraitHeight = 480;
 
-static int iPhone5landscapeWidth = 480;
-static int iPhone5landscapeHeight = 410;
-static int iPhone5PortraitWidth = 320;
-static int iPhone5PortraitHeight = 568;
+static const int iPhone5landscapeWidth = 480;
+static const int iPhone5landscapeHeight = 410;
+static const int iPhone5PortraitWidth = 320;
+static const int iPhone5PortraitHeight = 568;
 
-static int iPhone4TableViewTranslate = 100;
-static int iPhone4SummaryTranslate = 27;
+static const int iPhone4TableViewTranslate = 100;
+static const int iPhone4SummaryTranslate = 27;
 
-static int iPhone5TableViewTranslate = 100;
-static int iPhone5SummaryTranslate = 67;
+static const int iPhone5TableViewTranslate = 100;
+static const int iPhone5SummaryTranslate = 67;
+
+//templateURL - the template URL whose keywords we replace with the particular queries used for the specific amendment
+static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D50";
+/********************************************/
 
 @interface SingleAmendmentViewController ()
 
-//templateURL - the template URL whose keywords we replace with the particular queries used for the specific amendment
-@property (strong, nonatomic) NSString *templateURL;
 @property (strong, nonatomic) NSString *finalURL;
 @property (strong, nonatomic) NSString *queryKeyword1;
 @property (strong, nonatomic) NSString *queryKeyword2;
@@ -47,32 +51,15 @@ static int iPhone5SummaryTranslate = 67;
 - (void)viewDidLoad
 {
     if (IS_IPHONE_5) {
-        [self adjustSubviewsForiPhone5];
+        [self adjustLayoutForiPhone5];
     }
-    
-    _templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D50";
-    
-    //set Title for VC
-    self.title = self.shortTitle;
-    
-    //set text for UIlabels
-    self.summary.text = [self.amendmentData objectForKey:@"Summary"];
-    
-    //set values for the query keywords
-    self.queryKeyword1 = [[self.amendmentData objectForKey:@"queryKeywords"] objectAtIndex:0];
-    self.queryKeyword2 = [[self.amendmentData objectForKey:@"queryKeywords"] objectAtIndex:1];
-    
-    //construct specified URL using keywords
-    NSString* urlNew = [self.templateURL stringByReplacingOccurrencesOfString:@"*" withString:self.queryKeyword1];
-    self.finalURL = [urlNew stringByReplacingOccurrencesOfString:@"¥" withString:self.queryKeyword2];
-    //NSLog(@"URL for query: %@", self.finalURL);
+    [self setTextForView];
+    [self constructAmendmentNewsQueryURL];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-
-    //UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
     
     if (self.parentViewControllerWasInLandscape) {
         [self adjustSubviewsForLandscapeOrientation];
@@ -104,9 +91,9 @@ static int iPhone5SummaryTranslate = 67;
 }
 
 
-#pragma mark viewDidLoad methods
+#pragma mark - viewDidLoad methods
 
--(void)adjustSubviewsForiPhone5
+-(void)adjustLayoutForiPhone5
 {
     //move tableView down
     self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y-20);
@@ -117,6 +104,29 @@ static int iPhone5SummaryTranslate = 67;
     //add one more line space to the label's height
     self.summary.frame = CGRectMake(self.summary.frame.origin.x, self.summary.frame.origin.y, self.summary.frame.size.width, self.summary.frame.size.height+self.summary.font.pointSize);
 }
+
+-(void)setTextForView
+{
+    //set title for view controller
+    self.title = self.shortTitle;
+    
+    //set text for summary UILabel
+    self.summary.text = [self.amendmentData objectForKey:@"Summary"];
+}
+
+-(void)constructAmendmentNewsQueryURL
+{
+    //set values for the query keywords
+    self.queryKeyword1 = [[self.amendmentData objectForKey:@"queryKeywords"] objectAtIndex:0];
+    self.queryKeyword2 = [[self.amendmentData objectForKey:@"queryKeywords"] objectAtIndex:1];
+    
+    //construct specified URL using keywords
+    NSString* urlNew = [templateURL stringByReplacingOccurrencesOfString:@"*" withString:self.queryKeyword1];
+    self.finalURL = [urlNew stringByReplacingOccurrencesOfString:@"¥" withString:self.queryKeyword2];
+    //NSLog(@"URL for query: %@", self.finalURL);
+}
+
+#pragma mark - viewWillAppear methods
                                                                    
 -(void)adjustSubviewsForLandscapeOrientation
 {
@@ -153,7 +163,6 @@ static int iPhone5SummaryTranslate = 67;
 }
 
 
-
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -185,6 +194,7 @@ static int iPhone5SummaryTranslate = 67;
 
     return cell;
 }
+
 
 #pragma mark - Table view delegate
 
@@ -229,6 +239,9 @@ static int iPhone5SummaryTranslate = 67;
     if (indexPath.row==1) [self performSegueWithIdentifier:@"originalTextSegue" sender:self];
     if (indexPath.row==2) [self performSegueWithIdentifier:@"newsSegue" sender:self];
 }
+
+
+#pragma mark - Interface Rotation handling methods
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

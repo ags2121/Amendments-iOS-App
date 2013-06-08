@@ -26,6 +26,9 @@
 		A92B4A7C175FC10000D475B1 /* UIViewController+Transitions.m in Sources */ = {isa = PBXBuildFile; fileRef = A92B4A7B175FC10000D475B1 /* UIViewController+Transitions.m */; };
 		A92B4A80175FFC2300D475B1 /* IconDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A92B4A7F175FFC2300D475B1 /* IconDetailViewController.m */; };
 		A92B4A821760016D00D475B1 /* asfalt_2@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = A92B4A811760016C00D475B1 /* asfalt_2@2X.png */; };
+		A92BD3761763B282005B88E5 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A92BD3731763B282005B88E5 /* iRate.bundle */; };
+		A92BD3771763B282005B88E5 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = A92BD3751763B282005B88E5 /* iRate.m */; };
+		A92BD3791763B3D3005B88E5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92BD3781763B3D3005B88E5 /* StoreKit.framework */; };
 		A9426E0316E16343002B317A /* AllAmendmentsText.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E0216E16343002B317A /* AllAmendmentsText.m */; };
 		A9426E0616E165BF002B317A /* SingleAmendmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E0516E165BE002B317A /* SingleAmendmentViewController.m */; };
 		A9426E0916E18D8F002B317A /* MoreOptionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E0816E18D8F002B317A /* MoreOptionsTableView.m */; };
@@ -36,7 +39,6 @@
 		A9426E2A16E2DD2C002B317A /* NewsFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = A9426E2916E2DD2C002B317A /* NewsFeeds.m */; };
 		A952198A16FF709300FB473D /* emptystar.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198816FF709300FB473D /* emptystar.png */; };
 		A952198B16FF709300FB473D /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A952198916FF709300FB473D /* emptystar@2x.png */; };
-		A952198D16FF849E00FB473D /* sadf.plist in Resources */ = {isa = PBXBuildFile; fileRef = A952198C16FF849D00FB473D /* sadf.plist */; };
 		A9577DA6171DA86000CC4A54 /* IntroViewBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9577DA4171DA85F00CC4A54 /* IntroViewBackground@2x.png */; };
 		A9577DA9171DB46C00CC4A54 /* articleFav_spotlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9577DA8171DB46A00CC4A54 /* articleFav_spotlight@2x.png */; };
 		A9577DAB171DB52700CC4A54 /* MYIntroductionPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */; };
@@ -217,6 +219,10 @@
 		A92B4A7E175FFC2300D475B1 /* IconDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconDetailViewController.h; sourceTree = "<group>"; };
 		A92B4A7F175FFC2300D475B1 /* IconDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconDetailViewController.m; sourceTree = "<group>"; };
 		A92B4A811760016C00D475B1 /* asfalt_2@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "asfalt_2@2X.png"; sourceTree = "<group>"; };
+		A92BD3731763B282005B88E5 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
+		A92BD3741763B282005B88E5 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
+		A92BD3751763B282005B88E5 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
+		A92BD3781763B3D3005B88E5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9426E0116E16343002B317A /* AllAmendmentsText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllAmendmentsText.h; sourceTree = "<group>"; };
 		A9426E0216E16343002B317A /* AllAmendmentsText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllAmendmentsText.m; sourceTree = "<group>"; };
 		A9426E0416E165BE002B317A /* SingleAmendmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleAmendmentViewController.h; sourceTree = "<group>"; };
@@ -235,7 +241,6 @@
 		A9426E2916E2DD2C002B317A /* NewsFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsFeeds.m; path = Model/NewsFeeds.m; sourceTree = "<group>"; };
 		A952198816FF709300FB473D /* emptystar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptystar.png; sourceTree = "<group>"; };
 		A952198916FF709300FB473D /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
-		A952198C16FF849D00FB473D /* sadf.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sadf.plist; sourceTree = "<group>"; };
 		A9577DA0171DA13D00CC4A54 /* MYIntroductionPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MYIntroductionPanel.h; path = SVWebViewController/MYIntroductionPanel.h; sourceTree = "<group>"; };
 		A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MYIntroductionPanel.m; path = SVWebViewController/MYIntroductionPanel.m; sourceTree = "<group>"; };
 		A9577DA2171DA13D00CC4A54 /* MYIntroductionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MYIntroductionView.h; path = SVWebViewController/MYIntroductionView.h; sourceTree = "<group>"; };
@@ -437,6 +442,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A92BD3791763B3D3005B88E5 /* StoreKit.framework in Frameworks */,
 				A9100F411704D576007C4EB6 /* QuartzCore.framework in Frameworks */,
 				A9F7E39016E584F900C35C1A /* MessageUI.framework in Frameworks */,
 				A9F84EE716DFD4B7002A434C /* UIKit.framework in Frameworks */,
@@ -473,6 +479,27 @@
 				A92B4A7B175FC10000D475B1 /* UIViewController+Transitions.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		A92BD3711763B032005B88E5 /* MYIntroductionView */ = {
+			isa = PBXGroup;
+			children = (
+				A9577DA0171DA13D00CC4A54 /* MYIntroductionPanel.h */,
+				A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */,
+				A9577DA2171DA13D00CC4A54 /* MYIntroductionView.h */,
+				A9577DA3171DA13D00CC4A54 /* MYIntroductionView.m */,
+			);
+			name = MYIntroductionView;
+			sourceTree = "<group>";
+		};
+		A92BD3721763B282005B88E5 /* iRate */ = {
+			isa = PBXGroup;
+			children = (
+				A92BD3731763B282005B88E5 /* iRate.bundle */,
+				A92BD3741763B282005B88E5 /* iRate.h */,
+				A92BD3751763B282005B88E5 /* iRate.m */,
+			);
+			path = iRate;
 			sourceTree = "<group>";
 		};
 		A9577DAE171DB84900CC4A54 /* Controllers */ = {
@@ -715,6 +742,7 @@
 		A9F84ED716DFD4B7002A434C = {
 			isa = PBXGroup;
 			children = (
+				A92BD3781763B3D3005B88E5 /* StoreKit.framework */,
 				A9BDFC611761606E001BA451 /* AmendmentLaunchImage@2x.png */,
 				A9BDFC5F17616069001BA451 /* AmendmentLaunchImage.png */,
 				A9BDFC5D17616065001BA451 /* AmendmentLaunchImage-568h@2x.png */,
@@ -759,19 +787,17 @@
 		A9F84EED16DFD4B7002A434C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				A9E16FC416FB594D00FA6CF0 /* Settings.bundle */,
-				A9260CC41758712E00FACAFB /* Constants.h */,
 				A9F84EF516DFD4B7002A434C /* AmendmentsAppDelegate.h */,
 				A9F84EF616DFD4B8002A434C /* AmendmentsAppDelegate.m */,
+				A9260CC41758712E00FACAFB /* Constants.h */,
+				A9E16FC416FB594D00FA6CF0 /* Settings.bundle */,
 				A92B4A7D175FC10500D475B1 /* Categories */,
+				A92BD3721763B282005B88E5 /* iRate */,
 				A9BDFBDE17611587001BA451 /* GTMHTTPFetcher */,
 				A9CD541916E6C47700048D6C /* TUSafariActivity */,
 				A9CD540C16E6C35400048D6C /* ARChromeActivity */,
 				A9F7E37D16E584B600C35C1A /* SVWebViewController */,
-				A9577DA0171DA13D00CC4A54 /* MYIntroductionPanel.h */,
-				A9577DA1171DA13D00CC4A54 /* MYIntroductionPanel.m */,
-				A9577DA2171DA13D00CC4A54 /* MYIntroductionView.h */,
-				A9577DA3171DA13D00CC4A54 /* MYIntroductionView.m */,
+				A92BD3711763B032005B88E5 /* MYIntroductionView */,
 				A920A0EB1750509500192FEB /* Introview_Images */,
 				A9E16FD116FB99C100FA6CF0 /* Amendment_Images */,
 				A9C298FC16E9176C00D76D71 /* Icons */,
@@ -781,7 +807,6 @@
 				A904F38616F52BF900946847 /* AmendmentBackgroundImage@2x.png */,
 				A9F84EEE16DFD4B7002A434C /* Amendments-Info.plist */,
 				A9F84EEF16DFD4B7002A434C /* InfoPlist.strings */,
-				A952198C16FF849D00FB473D /* sadf.plist */,
 				A9F84EF216DFD4B7002A434C /* main.m */,
 				A9F84EF416DFD4B7002A434C /* Amendments-Prefix.pch */,
 			);
@@ -944,7 +969,6 @@
 				A9E16FCD16FB6B5D00FA6CF0 /* originalText14.html in Resources */,
 				A952198A16FF709300FB473D /* emptystar.png in Resources */,
 				A952198B16FF709300FB473D /* emptystar@2x.png in Resources */,
-				A952198D16FF849E00FB473D /* sadf.plist in Resources */,
 				A9AB9E54170949D600440152 /* originalText12.html in Resources */,
 				A9AB9E6717094B6600440152 /* extendedSummary13.html in Resources */,
 				A9AB9E6E1709545D00440152 /* originalText13.html in Resources */,
@@ -1046,6 +1070,7 @@
 				A9BDFC5E17616065001BA451 /* AmendmentLaunchImage-568h@2x.png in Resources */,
 				A9BDFC6017616069001BA451 /* AmendmentLaunchImage.png in Resources */,
 				A9BDFC621761606E001BA451 /* AmendmentLaunchImage@2x.png in Resources */,
+				A92BD3761763B282005B88E5 /* iRate.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,6 +1108,7 @@
 				A9577DB1171DB88A00CC4A54 /* MYIntroductionViewController.m in Sources */,
 				A92B4A7C175FC10000D475B1 /* UIViewController+Transitions.m in Sources */,
 				A92B4A80175FFC2300D475B1 /* IconDetailViewController.m in Sources */,
+				A92BD3771763B282005B88E5 /* iRate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

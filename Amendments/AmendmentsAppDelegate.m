@@ -10,8 +10,15 @@
 #import "NewsFeeds.h"
 #import "AmendmentsNewsViewController.h"
 #import "Constants.h"
+#import "iRate.h"
 
 @implementation AmendmentsAppDelegate
+
++ (void)initialize
+{
+    //enable iRate preview mode
+    [iRate sharedInstance].previewMode = YES;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -33,7 +40,7 @@
     self.window.rootViewController = tbvc;
     [self.window makeKeyAndVisible];
     
-    //TODO: add logic for how many times intro view will be shown
+    //TODO: for deployment, only show intro view on first launch
     _mivc = [[MYIntroductionViewController alloc] init];
     _mivc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self.window.rootViewController presentViewController:_mivc animated:NO completion:NULL];
