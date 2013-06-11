@@ -16,6 +16,11 @@
 
 @interface AllAmendmentsViewController ()
 
+/************************************************************
+ * @property:      currentDetailIcon
+ * @description:   keeps a pointer to the image the user is currently
+                zoomed in the "Icon Detail View Controller methods"
+ ***********************************************************/
 @property (strong, nonatomic) UIImageView *currentDetailIcon;
 
 @end
@@ -25,8 +30,7 @@
 -(NSArray*)amendmentsTableData
 {
     if (!_amendmentsTableData){
-        AllAmendmentsCellData* data = [[AllAmendmentsCellData alloc] init];
-        _amendmentsTableData = data.cellData;
+        _amendmentsTableData = [AllAmendmentsCellData sharedInstance].cellData;
     }
         return _amendmentsTableData;
 }
@@ -148,7 +152,7 @@
         //pass along section and row info to the next VC
         savc.sectionOfAmendment = indexPath.section;
         
-        //pass along amendment Cell data, to be used if adding Amendment to dictionary of favorites in the next VC
+        //pass along amendment cell data, to be used if adding Amendment to dictionary of favorites in the next VC
         savc.amendmentCellData = self.amendmentsTableData[indexPath.section][indexPath.row];
         
         //pass along whether view controller was in landscape or not
@@ -168,6 +172,11 @@
 
 #pragma mark - Icon Detail View Controller methods
 
+/***********************************************************
+ * @method:      tappedCellImage
+ * @description: when user taps on cell icon, instantiates an
+                IconDetailViewController and passes a larger image to it
+ **********************************************************/
 -(void)tappedCellImage:(UITapGestureRecognizer*)tapGesture
 {
     CGPoint swipeLocation = [tapGesture locationInView:self.tableView];
@@ -189,6 +198,10 @@
     [self expandView:swipedCell.amendmentIcon toModalViewController:idvc];
 }
 
+/************************************************************
+ * @property:      iconDetailWillResign
+ * @description:   handles logic for when user dismisses IconDetailViewController basically just calls a method on the UIViewController-Transitions category and sets the pointer to the cell icon to nil.
+ ***********************************************************/
 -(void)iconDetailWillResign
 {
     if ( [self.presentedViewController isKindOfClass:[IconDetailViewController class]]) {

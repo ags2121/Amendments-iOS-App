@@ -15,6 +15,7 @@
 
 @interface AmendmentsNewsViewController ()
 
+@property (atomic) UIInterfaceOrientation startingOrientation;
 @property BOOL didJustShowUIAlertNoData;
 @property BOOL didJustShowDefaultArticle;
 
@@ -36,6 +37,8 @@
     [super viewDidLoad];
     [self setUpView];
     [self setUpRefreshAction];
+    //record initial orientation
+    self.startingOrientation = [UIApplication sharedApplication].statusBarOrientation;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -48,9 +51,7 @@
         self.didJustShowDefaultArticle = NO;
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
     else{
-    
         //retrieve individual news Feed from global pool of previously retrieved new feeds
         NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
         
@@ -61,11 +62,25 @@
         [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:NO];
     }
 }
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
     [self unregisterNotifications];
+    
+    UIInterfaceOrientation endingOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if ( self.startingOrientation == UIInterfaceOrientationPortrait &&endingOrientation != self.startingOrientation ){
+        [self.delegate setChildViewControllerDidRotateToLandscape:YES];
+    }
+    
+    else if ( (self.startingOrientation == UIInterfaceOrientationLandscapeLeft || self.startingOrientation == UIInterfaceOrientationLandscapeRight)
+             && endingOrientation == UIInterfaceOrientationPortrait){
+        [self.delegate setChildViewControllerDidRotateToPortrait:YES];
+    }
+    else{
+        [self.delegate setChildViewControllerDidRotateToLandscape:NO];
+        [self.delegate setChildViewControllerDidRotateToPortrait:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,6 +132,7 @@
     [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
     self.refreshControl = pullToRefresh;
 }
+
 
 #pragma mark - Table view data source
 
@@ -207,7 +223,7 @@
     webViewController.titleForNavBar = @"News";
     webViewController.loadFavoriteButton = YES;
     
-    //append amendment number to beginning for keyForFeed string
+    //append amendment number to beginning of keyForFeed string
     webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];
     [self presentViewController:webViewController animated:YES completion:nil];
 }
@@ -267,23 +283,20 @@
 /*******************************************************************************
  * @method      formatURL
  * @abstract
- * @description feed pulls URLs which are prefixed with a googlenews URL, so this
-                gets rid of the google url
+ * @description the feed pulls URLs which are prefixed with a googlenews URL, so this gets rid of the google url prefix
  *******************************************************************************/
-
 -(NSString*)formatURL:(NSString*)inputURL
 {
     NSArray *splitURL = [inputURL componentsSeparatedByString:@"&url="];
     return splitURL[1];
 }
 
-
 /*******************************************************************************
  * @method      refreshTable
- * @abstract
- * @description gets an instance of the Singleton feed data loading class and makes it load new data
+ * @abstract    
+ * @description refresh action callback method; gets an instance of the Singleton
+                feed data loading class and makes it load new data
  *******************************************************************************/
-
 -(void)refreshTable
 {
     //retrieve individual news Feed from global pool of previously retrieved new feeds
@@ -296,7 +309,11 @@
 
 #pragma mark - Notification callback methods
 
-//receives notifications from the NewsFeed singleton when feed download has completed
+/*******************************************************************************
+ * @method      loadTable
+ * @abstract
+ * @description receives notifications from the NewsFeed singleton when feed download has completed
+ *******************************************************************************/
 - (void)loadTable:(NSNotification *)notif
 {
     NSLog(@"loading table");
@@ -305,8 +322,6 @@
     NewsFeeds* sharedInstance = [NewsFeeds sharedInstance];
     
     self.feed = [sharedInstance.newsFeedCache objectForKey:self.keyForFeed][@"results"];
-    
-    //self.feed = [allNewsFeeds2.individualNewsFeeds objectForKey:self.keyForFeed];
     
     //NSLog(@"newsFeed after loading: %@", self.feed);
     
@@ -322,8 +337,12 @@
     }
 }
 
-
-//will present a UIAlertView that either indicates there was a connection error or that there is no data in the feed
+/*******************************************************************************
+ * @method      showUIAlert
+ * @abstract
+ * @description will present a UIAlertView that either indicates there was a
+                connection error or that there is no data in the feed
+ *******************************************************************************/
 -(void)showUIAlert:(NSNotification *)notif
 {
     NSString* alertMessage;
@@ -336,33 +355,20 @@
     [av show];
 }
 
--(void)useCachedData:(NSNotification *)notif
-{
-    NSLog(@"Using cached data in news VC");
-    //Unhide tableview
-    NewsFeeds* sharedInstance = [NewsFeeds sharedInstance];
-    self.feed = [sharedInstance.newsFeedCache objectForKey:self.keyForFeed][@"results"];
-    [self.tableView setHidden:NO];
-    [self.tableView reloadData];
-}
-
 
 #pragma mark - UIAlertView methods
 
 /*******************************************************************************
  * @method      alertView
  * @abstract
- * @description implemented because this VC is a UIAlertView delegate, pops us back to the prior VC
+ * @description implemented because this VC is a UIAlertView delegate, pops us back to the prior VC when there are no articles in the news feed
  *******************************************************************************/
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-
-        NSLog(@"user pressed OK for alertView in NewsViewController");
-
+    NSLog(@"user pressed OK for alertView in NewsViewController");
     /*
      Often there are no Third Amendment articles, so here we show the user a funny Onion article on Third
-     Amendment rights lobbyists. Within this VC's viewWillAppear method, we check to see if the 
+     Amendment rights lobbyists. Within this VC's viewWillAppear method, we check to see if the
      didJustShowDefaultArticle BOOL property is YES. If it is, then once the user dismisses the modal 
      webviewcontroller, this VC sets the BOOL back to NO and pops back to the prior view.
      */

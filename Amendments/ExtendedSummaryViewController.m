@@ -68,7 +68,13 @@
     [self.webView.scrollView setContentSize: CGSizeMake(self.webView.frame.size.width, self.webView.scrollView.contentSize.height)];
 }
 
--(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
+/***********************************************************
+ * @method:      webView:shouldStartLoadWithRequest:navigationType
+ * @description: allows view controller to load web requests and present a webViewController
+ when user taps a hyperlink in the html
+ **********************************************************/
+-(BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType
+{
     if ( inType == UIWebViewNavigationTypeLinkClicked ) {
         SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:[inRequest URL]];
         
@@ -81,17 +87,5 @@
     
     return YES;
 }
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight )
-        [self.delegate setChildViewControllerDidRotateToLandscape:YES];
-    
-    else
-        [self.delegate setChildViewControllerDidRotateToLandscape:NO];
-    
-}
-
 
 @end

@@ -15,8 +15,6 @@
 @property (strong, nonatomic) NSCache *newsFeedCache;
 @property (strong, nonatomic) NSMutableArray* aFeed;
 @property (strong, nonatomic) NSString* currentKey;
-@property (strong, nonatomic) AmendmentsNewsViewController* currentViewController;
-
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 @property (strong, nonatomic) UIView* activityView;
 

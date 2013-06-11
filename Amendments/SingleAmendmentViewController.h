@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSDictionary* amendmentData;
 @property (strong, nonatomic) NSDictionary* amendmentCellData;
 @property (strong, nonatomic) NSString *shortTitle;
-//hack way of getting this VC to only call adjustSubviewsForLandscapeOrientation once
+
 @property (atomic) BOOL parentViewControllerWasInLandscape;
 
 @property (weak, nonatomic) IBOutlet UILabel *summary;

@@ -9,9 +9,22 @@
 #import "NewsFeeds.h"
 #import "AmendmentsAppDelegate.h"
 
-//Cache update interval, in days
+/******STATIC PROPERTIES******/
+
+/************************************************************
+ * @property:       cacheUpdateInterval
+ * @description:    used to set the amount of time, in days, that must pass before the newsFeedsCache will refresh one of its feeds
+ * @see             hasCacheUpdateIntervalElapsed and hasCacheUpdateIntervalElapsed:
+ ***********************************************************/
 static int cacheUpdateInterval = 1;
-NSString * const kCachedDate = @"cachedDate";
+
+/************************************************************
+ * @property:       kCachedDate
+ * @description:    const string identifier for accessing the date when a particular feed was cached from the newsFeedCache
+ ***********************************************************/
+static NSString * const kCachedDate = @"cachedDate";
+
+/******END STATIC PROPERTIES******/
 
 @implementation NewsFeeds
 
@@ -70,7 +83,6 @@ NSString * const kCachedDate = @"cachedDate";
         [myFetcher beginFetchWithDelegate:self
                         didFinishSelector:@selector(newsFeedFetcher:finishedWithData:error:)];
     }
-    
     //else, send useCachedData notification
     else{
         NSLog(@"Cache DIDNT need to be updated");
@@ -94,8 +106,8 @@ NSString * const kCachedDate = @"cachedDate";
         //send message to present AlertView that connection could not be established.
         [[NSNotificationCenter defaultCenter] postNotificationName:@"CouldNotConnectToFeed"
                                                             object:nil];
-        
-    } else {
+    }
+    else {
         
         NSDictionary* results = [NSJSONSerialization JSONObjectWithData:retrievedData options:kNilOptions error:&error];
         
@@ -194,7 +206,6 @@ NSString * const kCachedDate = @"cachedDate";
 
 -(void)showActivityViewer
 {
-    
     AmendmentsAppDelegate *delegate = (AmendmentsAppDelegate*)[[UIApplication sharedApplication] delegate];
     UIWindow *window = delegate.window;
     _activityView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, window.bounds.size.width, window.bounds.size.height)];
@@ -223,6 +234,10 @@ NSString * const kCachedDate = @"cachedDate";
 
 #pragma mark - Utility methods
 
+/***********************************************************
+ * @method:      hasCacheUpdateIntervalElapsed:
+ * @description: checks whether cache update interval has elapsed, comparing the date the feed cache was set against the current date, and whether the difference is greater than or equal to the cacheUpdateInterval property
+ **********************************************************/
 -(BOOL)hasCacheUpdateIntervalElapsed:(NSDate*)cachedDate
 {
     NSLog(@"cachedDate: %@", cachedDate);
@@ -238,7 +253,10 @@ NSString * const kCachedDate = @"cachedDate";
     return NO;
 }
 
-
+/***********************************************************
+ * @method:      cacheNeedsToBeUpdated
+ * @description: checks whether cache needs to updated. YES if newsFeedCache doesn't have an entry for the current amendment being checked. YES if the cacheUpdateInterval has elapsed and needs to be refreshed. NO otherwise.
+ **********************************************************/
 -(BOOL)cacheNeedsToBeUpdated
 {
     NSDate *dateOfCache = (NSDate*)[self.newsFeedCache objectForKey:self.currentKey][kCachedDate];
@@ -246,13 +264,11 @@ NSString * const kCachedDate = @"cachedDate";
     if( ![self.newsFeedCache objectForKey:self.currentKey] )
         return YES;
     
-    
     else if( [self hasCacheUpdateIntervalElapsed: dateOfCache] ){
         return YES;
     }
     
     return NO;
 }
-
 
 @end

@@ -16,6 +16,7 @@
 
 + (void)initialize
 {
+    //TODO: remove for deployment
     //enable iRate preview mode
     [iRate sharedInstance].previewMode = YES;
 }

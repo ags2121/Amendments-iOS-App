@@ -40,6 +40,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:YES];
+    
     UIInterfaceOrientation endingOrientation = [UIApplication sharedApplication].statusBarOrientation;
     
     if ( self.startingOrientation == UIInterfaceOrientationPortrait &&endingOrientation != self.startingOrientation ){
@@ -59,16 +61,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-}
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight )
-        [self.delegate setChildViewControllerDidRotateToLandscape:YES];
-    
-    else
-        [self.delegate setChildViewControllerDidRotateToLandscape:NO];
 }
 
 @end

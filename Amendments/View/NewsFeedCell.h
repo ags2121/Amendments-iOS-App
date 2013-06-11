@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface NewsFeedCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UILabel *articleTitle;
 @property (weak, nonatomic) IBOutlet UILabel *articlePublication;
-
 @property (weak, nonatomic) IBOutlet UILabel *articleDate;
-
 
 @end

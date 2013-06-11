@@ -11,5 +11,6 @@
 @interface AllAmendmentsCellData : NSObject
 
 @property (strong, nonatomic) NSArray *cellData;
++(AllAmendmentsCellData *) sharedInstance;
 
 @end

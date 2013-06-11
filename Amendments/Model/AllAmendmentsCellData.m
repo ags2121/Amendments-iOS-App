@@ -10,14 +10,31 @@
 
 @implementation AllAmendmentsCellData
 
--(NSArray*)cellData
++ (AllAmendmentsCellData *) sharedInstance {
+    static dispatch_once_t _p;
+    static AllAmendmentsCellData *_singleton = nil;
+    
+    dispatch_once(&_p, ^{
+        _singleton = [[super allocWithZone:nil] init];
+    });
+    
+    return _singleton;
+}
+
++ (id) allocWithZone:(NSZone *)zone {
+    return [self sharedInstance];
+}
+
+- (id)init
 {
-    if (!_cellData){
+    self = [super init];
+    
+    if (self) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"AmendmentsCellData" ofType:@"plist"];
         _cellData = [[NSArray alloc] initWithContentsOfFile:path];
     }
     
-    return _cellData;
+    return self;
 }
 
 @end
