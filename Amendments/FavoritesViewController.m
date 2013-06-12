@@ -57,7 +57,7 @@
  **********************************************************/
 -(void)checkIfUserHasEverAddedFavorites
 {
-    NSLog(@"Did add favorites == %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"Did add favorites"]);
+    NSLog(@"Did user add favorites == %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"Did add favorites"]);
 
     if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) {
         NSLog(@"User hasn't added favorites");
@@ -145,32 +145,15 @@
 {    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        //remove cell from table data
+        //remove cell from table data and reset local dictionary of favorite Articles
         NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
         NSMutableArray *editedFavoriteArticlesForAmendment = [[self.favoriteArticles objectForKey:key] mutableCopy];
         [editedFavoriteArticlesForAmendment removeObjectAtIndex: indexPath.row];
-        
-        //reset local dictionary of favorite Articles
         [self.favoriteArticles setObject:editedFavoriteArticlesForAmendment forKey:key];
-        
-        //resort the amendment keys
-        NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
-        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSArray *unsortedKeys = [self.favoriteArticles allKeys];
-        _favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
-            
-            NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
-            NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
-            
-            NSNumber *key1 = [nf numberFromString: splitWords1[0]];
-            NSNumber *key2 = [nf numberFromString: splitWords2[0]];
-            
-            return [key1 compare:key2];
-        }];
         
         [self.tableView reloadData];
         
-        //remove amendment from NSUserDefaults by reseting NSUserdefaults dictionary with local dictionary
+        //remove amendment from NSUserDefaults by resetting NSUserdefaults dictionary with local dictionary
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:self.favoriteArticles forKey:@"favoriteArticles"];
         [defaults synchronize];
@@ -191,7 +174,7 @@
 
 /***********************************************************
  * @method:     tableView:heightForRowAtIndexPath:
- * @abstract:   an important implementation of a TableView delegate method that allows the Favorite Cell to dynamically change  its height based on how tall the article title text is in different orientations.
+ * @abstract:   an important implementation of a TableView delegate method that allows the Favorite Cell to dynamically change its height based on how tall the article title text is in different orientations.
  **********************************************************/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

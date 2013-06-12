@@ -69,6 +69,7 @@
     self.webViewController.availableActions = newAvailableActions;
 }
 
+
 #pragma mark - Utility methods for Favorite Adding Ability
 
 /*******************************************************************************
@@ -100,31 +101,20 @@
  *******************************************************************************/
 -(void)toggleFavoriteAction:(UIBarButtonItem *)sender
 {
+    //retrieve favorite articles dictionary from UserDefaults
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     NSMutableDictionary* favArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
     if(!favArticles)
         favArticles = [NSMutableDictionary dictionaryWithCapacity:1];
     
+    //retrieve array of favorite articles for this particular amendment
     self.favoriteArticlesforAmendment = [[favArticles objectForKey: self.keyForAmendment] mutableCopy];
     if (!self.favoriteArticlesforAmendment)
         self.favoriteArticlesforAmendment = [NSMutableArray arrayWithCapacity:1];
     
     if ( ![self.favoriteArticlesforAmendment containsObject:self.articleInfoForFavorites] ) {
         
-        //change "Did add favorites" to 1 in the plist stored in the documents directory
-        if( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) { //if "Did add favorites is 0
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *path = [documentsDirectory stringByAppendingPathComponent:@"UserDefaults.plist"];
-            NSDictionary *updatedDefaults = @{ @"kInitialRun" : [defaults objectForKey:@"kInitialRun"], @"Did add favorites" : @"1" };
-            [updatedDefaults writeToFile:path atomically:YES];
-            //NSLog(@"Updated defaults: %@", updatedDefaults);
-            [defaults registerDefaults:updatedDefaults];
-            [defaults synchronize];
-            NSLog(@"updated NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults]
-                                                  dictionaryRepresentation]);
-        }
+        [self updateUserDefaultsIfNecessary];
         
         //add article to array of articles for that amendment
         [self.favoriteArticlesforAmendment addObject: self.articleInfoForFavorites];
@@ -135,7 +125,6 @@
             NSDate* date1 = [self.dateFormatter dateFromString: [article1 objectForKey:@"Article Date"] ];
             NSDate* date2 = [self.dateFormatter dateFromString: [article2 objectForKey:@"Article Date"] ];
             return [date2 compare:date1];
-            
         }];
         
         //change icon to filledStar
@@ -164,6 +153,29 @@
     
     //Log it out for debugging
     //NSLog(@" Defaults--- %@", [defaults objectForKey:@"favoriteArticles"]);
+}
+
+/***********************************************************
+ * @method:     updateUserDefaultsIfNecessary
+ * @abstract:   checks to see if this is the first time user has added a favorite article. If yes, it changes the corresponding boolean property in UserDefaults to true, so that the UIAlert that prompts the User to add a favorite wont fire anymore.
+ **********************************************************/
+-(void)updateUserDefaultsIfNecessary
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //change "Did add favorites" to 1 in the plist stored in the documents directory
+    if( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) { //if "Did add favorites is 0
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"UserDefaults.plist"];
+        NSDictionary *updatedDefaults = @{ @"kInitialRun" : [defaults objectForKey:@"kInitialRun"], @"Did add favorites" : @"1" };
+        [updatedDefaults writeToFile:path atomically:YES];
+        //NSLog(@"Updated defaults: %@", updatedDefaults);
+        [defaults registerDefaults:updatedDefaults];
+        [defaults synchronize];
+        NSLog(@"updated NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults]
+                                              dictionaryRepresentation]);
+    }
 }
 
 @end

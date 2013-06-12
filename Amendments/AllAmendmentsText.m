@@ -31,6 +31,7 @@
     
     if (self) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"AmendmentsText" ofType:@"plist"];
+        NSLog(@"In the AllAmendmentsText class, loading AmendmentsText data from the following path: %@", path);
         _amendmentsData = [[NSArray alloc] initWithContentsOfFile:path];
     }
     

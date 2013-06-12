@@ -171,14 +171,13 @@ static NSString * const kCachedDate = @"cachedDate";
             
         }];
         
-        //NSLog(@"Sorted newsFeed: %@", self.aFeed);
-        
         //If there are no articles in the feed, send a notification to NewsFeed VC
         if (theFeed.count==0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NoDataInFeed"
                                                             object:nil];
         }
         else{
+            NSLog(@"Sorted news feed: %@", self.aFeed);
         
             NSMutableDictionary *mutableResults = [@{} mutableCopy];
             //store results
@@ -186,11 +185,9 @@ static NSString * const kCachedDate = @"cachedDate";
             //and date of fetch
             [mutableResults setObject:[NSDate date] forKey:kCachedDate];
             
-        
             //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
             [self.newsFeedCache setObject:mutableResults forKey:self.currentKey];
                 
-        
             //send message to reload current table view
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
                                                             object:nil];
@@ -235,6 +232,24 @@ static NSString * const kCachedDate = @"cachedDate";
 #pragma mark - Utility methods
 
 /***********************************************************
+ * @method:      cacheNeedsToBeUpdated
+ * @abstract: checks whether cache needs to updated. YES if newsFeedCache doesn't have an entry for the current amendment being checked. YES if the cacheUpdateInterval has elapsed and needs to be refreshed. NO otherwise.
+ **********************************************************/
+-(BOOL)cacheNeedsToBeUpdated
+{
+    NSDate *dateOfCache = (NSDate*)[self.newsFeedCache objectForKey:self.currentKey][kCachedDate];
+    
+    if( ![self.newsFeedCache objectForKey:self.currentKey] )
+        return YES;
+    
+    else if( [self hasCacheUpdateIntervalElapsed: dateOfCache] ){
+        return YES;
+    }
+    
+    return NO;
+}
+
+/***********************************************************
  * @method:      hasCacheUpdateIntervalElapsed:
  * @abstract: checks whether cache update interval has elapsed, comparing the date the feed cache was set against the current date, and whether the difference is greater than or equal to the cacheUpdateInterval property
  **********************************************************/
@@ -247,24 +262,6 @@ static NSString * const kCachedDate = @"cachedDate";
     NSDateComponents *components = [calendar components:unitFlags fromDate:cachedDate toDate:[NSDate date] options:0];
     if ( [components day]  >= cacheUpdateInterval){
         NSLog(@"Days between dates: %d", ([components day] + 1));
-        return YES;
-    }
-    
-    return NO;
-}
-
-/***********************************************************
- * @method:      cacheNeedsToBeUpdated
- * @abstract: checks whether cache needs to updated. YES if newsFeedCache doesn't have an entry for the current amendment being checked. YES if the cacheUpdateInterval has elapsed and needs to be refreshed. NO otherwise.
- **********************************************************/
--(BOOL)cacheNeedsToBeUpdated
-{
-    NSDate *dateOfCache = (NSDate*)[self.newsFeedCache objectForKey:self.currentKey][kCachedDate];
-    
-    if( ![self.newsFeedCache objectForKey:self.currentKey] )
-        return YES;
-    
-    else if( [self hasCacheUpdateIntervalElapsed: dateOfCache] ){
         return YES;
     }
     

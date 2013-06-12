@@ -200,12 +200,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //extract and create NSURL object for the webview
     NSDictionary *article = self.feed[indexPath.row];
-    
     NSString* trimmedURL = [self formatURL:[article objectForKey:@"link"]];
-    
-    NSLog(@"Trimmed URL: %@", trimmedURL);
-    
     NSURL* finalURL = [NSURL URLWithString:trimmedURL];
     
     //extract cell display information
@@ -214,16 +211,16 @@
     NSString* articleDateForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleDate] text];
     NSString* articleTrimmedURLforFav = trimmedURL;
     
-    //add cell display info to dictionary to pass to modalWebView VC, will be needed to saved to UserDefaults if user favorites article
-    //see SVWebViewController for the favoriting logic
+    //add cell display info to dictionary to pass to modalWebView VC, will be needed to saved to UserDefaults if user favorites article. See SVWebViewController for the favoriting logic
     NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleForFav, @"Article Publication" : articlePubForFav, @"Article Date" : articleDateForFav, @"Article URL String" : articleTrimmedURLforFav};
     
+    //init SVModalWebViewController and pass 
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
     webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
     webViewController.titleForNavBar = @"News";
     webViewController.loadFavoriteButton = YES;
     
-    //append amendment number to beginning of keyForFeed string
+    //append amendment number to beginning of keyForFeed string; this property will be used for sorting favorite articles
     webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];
     [self presentViewController:webViewController animated:YES completion:nil];
     NSLog(@"User tapped article titled: %@", articleTitleForFav);
@@ -282,8 +279,7 @@
 
 /*******************************************************************************
  * @method      formatURL
- * @abstract
- * @description the feed pulls URLs which are prefixed with a googlenews URL, so this gets rid of the google url prefix
+ * @abstract    the feed pulls URLs which are prefixed with a googlenews URL, so this gets rid of the google url prefix
  *******************************************************************************/
 -(NSString*)formatURL:(NSString*)inputURL
 {
@@ -293,8 +289,7 @@
 
 /*******************************************************************************
  * @method      refreshTable
- * @abstract    
- * @description refresh action callback method; gets an instance of the Singleton
+ * @abstract    refresh action callback method; gets an instance of the Singleton
                 feed data loading class and makes it load new data
  *******************************************************************************/
 -(void)refreshTable
@@ -311,19 +306,16 @@
 
 /*******************************************************************************
  * @method      loadTable
- * @abstract
- * @description receives notifications from the NewsFeed singleton when feed download has completed
+ * @abstract    receives notifications from the NewsFeed singleton when feed download has completed
  *******************************************************************************/
 - (void)loadTable:(NSNotification *)notif
 {
-    NSLog(@"loading table");
+    NSLog(@"loading table in AmendmentNewsViewController.");
     
     //retrieve the feed and set it equal to this class's feed variable
     NewsFeeds* sharedInstance = [NewsFeeds sharedInstance];
     
     self.feed = [sharedInstance.newsFeedCache objectForKey:self.keyForFeed][@"results"];
-    
-    //NSLog(@"newsFeed after loading: %@", self.feed);
     
     //reload the table
     [self.tableView reloadData];
@@ -339,8 +331,7 @@
 
 /*******************************************************************************
  * @method      showUIAlert
- * @abstract
- * @description will present a UIAlertView that either indicates there was a
+ * @abstract    will present a UIAlertView that either indicates there was a
                 connection error or that there is no data in the feed
  *******************************************************************************/
 -(void)showUIAlert:(NSNotification *)notif
@@ -360,8 +351,7 @@
 
 /*******************************************************************************
  * @method      alertView
- * @abstract
- * @description implemented because this VC is a UIAlertView delegate, pops us back to the prior VC when there are no articles in the news feed
+ * @abstract    implemented because this VC is a UIAlertView delegate, pops us back to the prior VC when there are no articles in the news feed
  *******************************************************************************/
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

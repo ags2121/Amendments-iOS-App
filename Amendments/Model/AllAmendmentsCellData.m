@@ -31,6 +31,7 @@
     
     if (self) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"AmendmentsCellData" ofType:@"plist"];
+        NSLog(@"In the AllAmendmentsCellData class, loading AmendmentsCellData from the following path: %@", path);
         _cellData = [[NSArray alloc] initWithContentsOfFile:path];
     }
     

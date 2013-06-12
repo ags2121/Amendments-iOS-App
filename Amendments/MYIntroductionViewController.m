@@ -38,7 +38,9 @@
     MYIntroductionPanel *panel = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"blankimage"] title:@"Welcome to The Amendments" description:@"a lightweight yet powerful guide to American constitutional law and history."];
     
     //You may also add in a title for each panel
-    MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"amendments_spotlight"] title:@"Exploring Amendments" description:@"In the first tab, tap the Amendment you'd like to explore."];
+    MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"amendments_spotlight"] title:@"Exploring Amendments" description:@"In the first tab, tap the Amendment you'd like to explore..."];
+    
+    MYIntroductionPanel *panel25 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"amendments2_spotlight"] title:@"Zoom in" description:@"...or tap on the Amendment icon to zoom in and get a closer look."];
     
     MYIntroductionPanel *panel3 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"individual_spotlight"] title:@"Amendment Features" description:@"Each Amendment has an extended summary, the original text, and a news feed."];
     
@@ -48,7 +50,9 @@
     
     MYIntroductionPanel *panel6 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"favorites_spotlight"] title:@"Viewing Favorites" description:@"Your Favorites can be accessed in the second tab."];
     
-    MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AMLogo_invertedColors"] panels:@[panel, panel2, panel3, panel4, panel5, panel6] languageDirection:MYLanguageDirectionLeftToRight];
+    MYIntroductionPanel *panel7 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"favorites2_spotlight"] title:@"Deleting Favorites" description:@"Swipe an article to reveal the delete button.\nTap anywhere else to hide it."];
+    
+    MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AMLogo_invertedColors"] panels:@[panel, panel2, panel25, panel3, panel4, panel5, panel6, panel7] languageDirection:MYLanguageDirectionLeftToRight];
     
     NSLog(@"view frame: %@", NSStringFromCGRect(self.view.frame));
     
