@@ -141,14 +141,9 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     //if file doesn't exist, create it
     if( ![fileManager fileExistsAtPath: path] ){
-        
-        //get current date and format
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"dd-MM-yy HH:mm"];
-        NSString *dateString = [df stringFromDate:[NSDate date]];
-    
-        //add date and "Did add favorites" boolean to NSDictionary 
-        NSDictionary *newAppDefaults = @{ @"kInitialRun" : dateString, @"Did add favorites" : @"0" };
+
+        //add date and "Did add favorites" boolean to NSDictionary
+        NSDictionary *newAppDefaults = @{ @"kInitialRun" : [NSDate date], @"Did add favorites" : @"0" };
         [newAppDefaults writeToFile:path atomically:YES];
     }
     

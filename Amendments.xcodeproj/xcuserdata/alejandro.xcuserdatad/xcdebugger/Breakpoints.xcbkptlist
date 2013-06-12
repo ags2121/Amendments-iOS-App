@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Amendments/AmendmentsNewsViewController.m"
-         timestampString = "392682108.247742"
+         timestampString = "392689678.793018"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "301"
-         endingLineNumber = "301"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
          landmarkName = "-refreshTable"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Amendments/AmendmentsNewsViewController.m"
-         timestampString = "392682108.247742"
+         timestampString = "392689678.793018"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "318"
-         endingLineNumber = "318"
+         startingLineNumber = "319"
+         endingLineNumber = "319"
          landmarkName = "-loadTable:"
          landmarkType = "5">
       </FileBreakpoint>
