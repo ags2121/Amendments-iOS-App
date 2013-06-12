@@ -21,7 +21,9 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
-//
+/*
+    Third-party UI resource for displaying an introduction sequence in a scrollview. Added some customizations since the code didn't have an api for customizing the position of subviews; it looked good in iPhone 4 dimensions but not in iPhone 5. See my #define property and my static variables in the implementation file, the initializeClassVariables method, and the PanelViewForPanel:atXIndex: method.
+*/
 
 #import <UIKit/UIKit.h>
 #import "MYIntroductionPanel.h"

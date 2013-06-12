@@ -1,7 +1,9 @@
 //
 //  SingleAmendmentViewController.h
 //  Amendments
-//
+/*
+    A Scrollview which contains a Label and TableView as subviews, which display an amendment's summary text and branching segues to different amendment features, respectively. Implements the SingleAmendmentDelegate to allow its child view controllers to communicate information about interface orientation. 
+*/
 //  Created by Alex Silva on 3/1/13.
 //  Copyright (c) 2013 Alex Silva. All rights reserved.
 //

@@ -52,8 +52,8 @@
     
     //change to black color
     self.navigationBar.tintColor = [UIColor blackColor];
-    //set title to say "News"
     
+    //check if titleForNavBar is set to something, if so make it the navBar title. If its not set to anything, code in the superclass SVWebViewController 
     if(self.titleForNavBar)
         self.webViewController.navigationItem.title = self.titleForNavBar;
     else
@@ -73,13 +73,10 @@
 
 /*******************************************************************************
  * @method      returnFavoriteButton
- * @abstract
- * @description if article is in favorites array, return filled star, otherwise return empty star
+ * @abstract    if article is in favorites array, return filled star, otherwise return empty star
  *******************************************************************************/
-
 -(UIBarButtonItem*)returnFavoriteButton
 {
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary* favArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
     self.favoriteArticlesforAmendment = [favArticles objectForKey: self.keyForAmendment];
@@ -89,14 +86,11 @@
         UIBarButtonItem *emptyStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"emptystar"] showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         NSLog(@"Initialized with emptystar");
         return emptyStar;
-        
     }
-    
     //else:
     UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
     NSLog(@"Initialized with filledstar");
     return filledStar;
-    
 }
 
 /*******************************************************************************
@@ -104,10 +98,8 @@
  * @abstract
  * @description adds/removes article from favoriteArticle dictionary when user presses star button
  *******************************************************************************/
-
 -(void)toggleFavoriteAction:(UIBarButtonItem *)sender
 {
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSMutableDictionary* favArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
@@ -150,18 +142,15 @@
         UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         webViewController.navigationItem.rightBarButtonItem = filledStar;
         
-        NSLog(@"Adding %@", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
-        
+        NSLog(@"Adding %@ to favorites", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
     }
-    
     else {
         
         [self.favoriteArticlesforAmendment removeObject: self.articleInfoForFavorites];
         
         UIBarButtonItem *emptyStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"emptystar"] showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         webViewController.navigationItem.rightBarButtonItem = emptyStar;
-        NSLog(@"Removing %@", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
-        
+        NSLog(@"Removing %@ from favorites", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
     }
     
     //if new article list is empty, remove amendment from dictionary
@@ -174,7 +163,7 @@
     [defaults synchronize];
     
     //Log it out for debugging
-    NSLog(@" Defaults--- %@", [defaults objectForKey:@"favoriteArticles"]);
+    //NSLog(@" Defaults--- %@", [defaults objectForKey:@"favoriteArticles"]);
 }
 
 @end

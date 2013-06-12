@@ -70,7 +70,7 @@
 
 /***********************************************************
  * @method:      webView:shouldStartLoadWithRequest:navigationType
- * @description: allows view controller to load web requests and present a webViewController
+ * @abstract: allows view controller to load web requests and present a webViewController
  when user taps a hyperlink in the html
  **********************************************************/
 -(BOOL)webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType

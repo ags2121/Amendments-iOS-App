@@ -27,7 +27,9 @@
 #import "Constants.h"
 
 #define DEFAULT_BACKGROUND_COLOR [UIColor colorWithWhite:0 alpha:0.9]
+/***CUSTOM ADDITION***/
 #define HEADER_VIEW_HEIGHT 50
+/***REMOVED THESE SINCE THEY SHOULD BE DYNAMICALLY ASSIGNED***/
 //#define TEXT_PANEL_OFFSET 25
 //#define PAGE_CONTROL_PADDING 2
 #define TITLE_FONT [UIFont fontWithName:@"HelveticaNeue-Bold" size:17.0]
@@ -35,9 +37,13 @@
 #define DESCRIPTION_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]
 #define DESCRIPTION_TEXT_COLOR [UIColor whiteColor]
 
+/**************STATIC PROPERTIES**************/
+
 static int PAGE_CONTROL_PADDING;
 static int TEXT_PANEL_OFFSET;
 static int EXTRA_TEXT_PANEL_HEIGHT;
+
+/************END STATIC PROPERTIES************/
 
 @implementation MYIntroductionView
 @synthesize delegate;
@@ -139,8 +145,10 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
 }
 
 
--(void)initializeClassVariables{
+-(void)initializeClassVariables
+{
     panelViews = [[NSMutableArray alloc] init];
+    
     if (IS_IPHONE_5) {
         PAGE_CONTROL_PADDING = 20;
         TEXT_PANEL_OFFSET = 35;

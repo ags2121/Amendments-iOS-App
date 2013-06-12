@@ -30,32 +30,56 @@
     
     //Give VC's tableview a blank footer to stop from displaying extraneous cell separators
     [self.tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-
 }
 
-//TODO: move sorting logic to where favorites are added?
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self checkIfUserHasEverAddedFavorites];
+    [self fetchAndSortFavorites];
     
-    NSLog(@"Did add favorites == %@", [defaults objectForKey:@"Did add favorites"]);
-    
-    //if we've never added favorites, i.e. never changed the value set to 0 in the initial launch to 1,
-    //then show a UIAlertView that tells user to add some favorites. 
-    if ( [[defaults objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) {
+    //if there is no data, disable scrolling since otherwise there is an errant cell border that looks messy
+    if (self.tableView.visibleCells.count==0) self.tableView.scrollEnabled = NO;
+    else self.tableView.scrollEnabled = YES;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+
+#pragma mark - viewWillAppear methods
+
+/***********************************************************
+ * @method:     checkIfUserHasEverAddedFavorites
+ * @abstract:   if user has never added favorites, i.e. never changed the value set to 0 in the initial launch to 1 (keyed on "Did add favorites" in UserDefaults), then show a UIAlertView that tells the user to add some favorites.
+ * @see: alertView:clickedButtonAtIndex:
+ **********************************************************/
+-(void)checkIfUserHasEverAddedFavorites
+{
+    NSLog(@"Did add favorites == %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"Did add favorites"]);
+
+    if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"Did add favorites"] isEqualToString:@"0"] ) {
         NSLog(@"User hasn't added favorites");
         UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Add your favorite articles!" message:@"You can collect favorite articles here by selecting the empty star in the upper right corner of each article." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [av show];
     }
-    
+}
+
+/***********************************************************
+ * @method:     fetchAndSortFavorites
+ * @abstract:   fetches the favorites dictionary from UserDefaults and sorts the dictionary by each entries key. Each key is prefixed by the amendment number the article corresponds to, so we grab that bit and sort by that and place it into an array favoriteArticlesSortedByKey which populates the tableview.
+ **********************************************************/
+-(void)fetchAndSortFavorites
+{
     //retrieve fav articles from NSDefaults
-    _favoriteArticles = [[defaults dictionaryForKey:@"favoriteArticles"] mutableCopy];
+    self.favoriteArticles = [[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"favoriteArticles"] mutableCopy];
     
     //sort articles by key
     NSArray *unsortedKeys = [self.favoriteArticles allKeys];
     NSNumberFormatter *nf = [[NSNumberFormatter alloc] init];
     [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    _favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
+    self.favoriteArticlesSortedByKey = [unsortedKeys sortedArrayUsingComparator:^(NSString *obj1, NSString *obj2) {
         
         NSArray *splitWords1 = [obj1 componentsSeparatedByString:@"|"];
         NSArray *splitWords2 = [obj2 componentsSeparatedByString:@"|"];
@@ -67,18 +91,7 @@
     }];
     
     [self.tableView reloadData];
-    
-    //if there is no data, disable scrolling since otherwise there is an errant cell border
-    //that looks messy
-    if (self.tableView.visibleCells.count==0) self.tableView.scrollEnabled = NO;
-    else self.tableView.scrollEnabled = YES;
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 
 #pragma mark - Table view data source
 
@@ -100,7 +113,6 @@
     NSArray *splitWords2 = [splitWords1[1] componentsSeparatedByString:@" "];
     return splitWords2[0];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -177,9 +189,12 @@
 
 #pragma mark - Table view delegate
 
+/***********************************************************
+ * @method:     tableView:heightForRowAtIndexPath:
+ * @abstract:   an important implementation of a TableView delegate method that allows the Favorite Cell to dynamically change  its height based on how tall the article title text is in different orientations.
+ **********************************************************/
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     NSString *key = [self.favoriteArticlesSortedByKey objectAtIndex:indexPath.section];
     NSArray *articlesForAmendment = [self.favoriteArticles objectForKey:key];
     NSDictionary *current = articlesForAmendment[indexPath.row];
@@ -219,7 +234,6 @@
 {
     if ( [tableView.dataSource tableView:tableView numberOfRowsInSection:section] == 0) return 0;
     return 22;
-    
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -227,12 +241,20 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - UIAlert view delegate 
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"User was alerted that they haven't added any favorites yet from the FavoritesViewController");
     self.tabBarController.selectedIndex = 0; //pop user back to list of Amendments
 }
 
+#pragma mark - Utility methods
+
+/***********************************************************
+ * @method:     howManyLinesOfText
+ * @abstract:   returns how many lines a given string will have when fit to its Label's dimensions. This value is used to set an initial number of lines for a given cell's article title
+ **********************************************************/
 -(NSInteger)howManyLinesOfText:(UILabel*)label
 {
     CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];

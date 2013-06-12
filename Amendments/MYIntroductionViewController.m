@@ -76,7 +76,7 @@
 
 /***********************************************************
  * @method:      dismissSelf
- * @description: the dismissTimer callback method. When the user has finished viewing all of the introView panel, or if the user has skipped the intro, a timer will be fired which after a few seconds, call this method which does an animated dismiss of the introViewController. This strategy looked better than the default dismiss which looked too jerky.
+ * @abstract: the dismissTimer callback method. When the user has finished viewing all of the introView panel, or if the user has skipped the intro, a timer will be fired which after a few seconds, call this method which does an animated dismiss of the introViewController. This strategy looked better than the default dismiss which looked too jerky.
  * @see introductionDidFinishWithType:
  **********************************************************/
 -(void)dismissSelf:(NSTimer*)theTimer

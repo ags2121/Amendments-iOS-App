@@ -17,9 +17,8 @@
 @interface AllAmendmentsViewController ()
 
 /************************************************************
- * @property:      currentDetailIcon
- * @description:   keeps a pointer to the image the user is currently
-                zoomed in the "Icon Detail View Controller methods"
+ * @property:   currentDetailIcon
+ * @abstract:   keeps a pointer to the image the user is currently zoomed in the "Icon Detail View Controller methods"
  ***********************************************************/
 @property (strong, nonatomic) UIImageView *currentDetailIcon;
 
@@ -94,7 +93,6 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCellImage:)];
     tapGesture.delegate = self;
     [cell.amendmentIcon addGestureRecognizer:tapGesture];
-//    cell.amendmentIcon addGestureRecognizer:
     cell.amendmentNumber.text = [current objectForKey:@"amendmentNumber"];
     cell.amendmentSubtitle.text = [current objectForKey:@"subtitle"];
     
@@ -143,9 +141,10 @@
     if([[segue identifier] isEqualToString:@"segueToAmendmentDetail"]){
         
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        
         //get dictionary data from cell in selected section, in selected row, from the singleton amendment data object
         NSDictionary *selectedAmendmentData = [(sharedsingleton.amendmentsData)[indexPath.section] objectAtIndex:indexPath.row];
-        NSLog(@"Object for key: %@", [selectedAmendmentData objectForKey:@"Title"]);
+        NSLog(@"User tapped on %@ from AllAmendmentsViewController", [selectedAmendmentData objectForKey:@"Title"]);
         SingleAmendmentViewController *savc = [segue destinationViewController];
         savc.amendmentData = selectedAmendmentData;
         
@@ -173,9 +172,8 @@
 #pragma mark - Icon Detail View Controller methods
 
 /***********************************************************
- * @method:      tappedCellImage
- * @description: when user taps on cell icon, instantiates an
-                IconDetailViewController and passes a larger image to it
+ * @method:     tappedCellImage
+ * @abstract:   when user taps on cell icon, instantiates an IconDetailViewController and passes a larger image to it
  **********************************************************/
 -(void)tappedCellImage:(UITapGestureRecognizer*)tapGesture
 {
@@ -183,7 +181,7 @@
     NSIndexPath *tappedIndexPath = [self.tableView indexPathForRowAtPoint:swipeLocation];
     AmendmentsCell *swipedCell = (AmendmentsCell*)[self.tableView cellForRowAtIndexPath:tappedIndexPath];
     
-    NSLog(@"tapped cell icon at %@", tappedIndexPath);
+    NSLog(@"User tapped cell icon at section %d, row %d", tappedIndexPath.section, tappedIndexPath.row);
     
     self.currentDetailIcon = swipedCell.amendmentIcon;
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
@@ -199,8 +197,8 @@
 }
 
 /************************************************************
- * @property:      iconDetailWillResign
- * @description:   handles logic for when user dismisses IconDetailViewController basically just calls a method on the UIViewController-Transitions category and sets the pointer to the cell icon to nil.
+ * @property:   iconDetailWillResign
+ * @abstract:   handles logic for when user dismisses IconDetailViewController basically just calls a method on the UIViewController-Transitions category and sets the pointer to the cell icon to nil.
  ***********************************************************/
 -(void)iconDetailWillResign
 {

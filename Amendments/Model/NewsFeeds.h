@@ -1,7 +1,9 @@
 //
 //  NewsFeeds.h
 //  Amendments
-//
+/*
+    A singleton class that makes calls to google news to fetch amendment news on behalf of the AmendmentNewsViewController. Implements a caching strategy using NSCache. Uses Google's GTMHTTPFetcher for networking. Responds to the calling class with either DidLoadDataFromSingleton, NoDataInFeed, or CouldNotConnectToFeed. Filters out certain publications. Sorts chronologically. Uses Yahoo puts to get the Google news XML into JSON.
+*/
 //  Created by Alex Silva on 3/2/13.
 //  Copyright (c) 2013 Alex Silva. All rights reserved.
 //

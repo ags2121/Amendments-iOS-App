@@ -5,9 +5,7 @@
 //  Copyright 2010 Sam Vermette. All rights reserved.
 //
 //  https://github.com/samvermette/SVWebViewController
-// 2013 March 5
-// Alex Silva - replaced actionSheet with UIActivityViewController, when user taps action bar button
-
+//
 
 #import "SVWebViewController.h"
 #import "CustomIconButton.h"
@@ -23,7 +21,7 @@
 @property (nonatomic, strong, readonly) UIBarButtonItem *actionBarButtonItem;
 @property (nonatomic, strong, readonly) UIActionSheet *pageActionSheet;
 
-//I added this
+/***CUSTOM ADDITION***/
 @property (nonatomic, strong) UIActivityViewController *activityVC;
 
 @property (nonatomic, strong) NSURL *URL;
@@ -201,9 +199,8 @@
         [self.navigationController setToolbarHidden:NO animated:animated];
     }
     
-    //I added this
-   [self initActivityVC];
-    NSLog(@"Just initialized activityVC");
+    /***CUSTOM ADDITION***/
+    [self initActivityVC];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

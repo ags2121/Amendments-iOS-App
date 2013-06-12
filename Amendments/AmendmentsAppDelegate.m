@@ -54,7 +54,6 @@
 willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
             duration:(NSTimeInterval)duration
 {
-    
     int yTranslateVal = 77;
     if(IS_IPHONE_5) yTranslateVal = 115;
     
@@ -118,10 +117,8 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 #pragma mark - Appearance Proxy
 /*******************************************************************************
  * @method          customizeAppearance
- * @abstract        Call the appearance proxy methods on interface objects
- * @description     sets navigation bar to black tint color; sets 
+ * @abstract        Calls appearance proxy methods on interface objects. Sets navigation bar to black tint color.
  *******************************************************************************/
-
 -(void)customizeAppearance
 {
     [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
@@ -130,11 +127,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
 
 #pragma mark - Preference Defaults
 /*******************************************************************************
- * @method      setPreferenceDefaults
- * @abstract
- * @description sets user preference defaults 
+ * @method:     setPreferenceDefaults
+ * @abstract:   sets user preference defaults. Records initial date of launch and sets "Did add favorites" to false, recording the fact that user has yet to add any favorites. This will be set to true once the user has added a favorite.
+ * @see: FavoritesViewController
  *******************************************************************************/
-
 - (void)setPreferenceDefaults
 {
     //use NSFileManager to retrieve plist of user preferences, located in documents directory
@@ -158,12 +154,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     //load file and use it to register user defaults 
     NSDictionary *appDefaults = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSLog(@"Initial preferences at launch: %@", appDefaults);
     [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-    [[NSUserDefaults standardUserDefaults] setObject:[appDefaults objectForKey: @"kInitialRun"] forKey: @"kInitialRun"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] synchronize]; 
     
-    NSLog(@"NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults]
+    NSLog(@"NSUserDefaults at launch: %@", [[NSUserDefaults standardUserDefaults]
                                   dictionaryRepresentation]);
 }
 

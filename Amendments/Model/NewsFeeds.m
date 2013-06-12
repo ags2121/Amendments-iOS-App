@@ -9,22 +9,22 @@
 #import "NewsFeeds.h"
 #import "AmendmentsAppDelegate.h"
 
-/******STATIC PROPERTIES******/
+/**************STATIC PROPERTIES**************/
 
 /************************************************************
  * @property:       cacheUpdateInterval
- * @description:    used to set the amount of time, in days, that must pass before the newsFeedsCache will refresh one of its feeds
+ * @abstract:    used to set the amount of time, in days, that must pass before the newsFeedsCache will refresh one of its feeds
  * @see             hasCacheUpdateIntervalElapsed and hasCacheUpdateIntervalElapsed:
  ***********************************************************/
 static int cacheUpdateInterval = 1;
 
 /************************************************************
  * @property:       kCachedDate
- * @description:    const string identifier for accessing the date when a particular feed was cached from the newsFeedCache
+ * @abstract:    const string identifier for accessing the date when a particular feed was cached from the newsFeedCache
  ***********************************************************/
 static NSString * const kCachedDate = @"cachedDate";
 
-/******END STATIC PROPERTIES******/
+/************END STATIC PROPERTIES************/
 
 @implementation NewsFeeds
 
@@ -236,7 +236,7 @@ static NSString * const kCachedDate = @"cachedDate";
 
 /***********************************************************
  * @method:      hasCacheUpdateIntervalElapsed:
- * @description: checks whether cache update interval has elapsed, comparing the date the feed cache was set against the current date, and whether the difference is greater than or equal to the cacheUpdateInterval property
+ * @abstract: checks whether cache update interval has elapsed, comparing the date the feed cache was set against the current date, and whether the difference is greater than or equal to the cacheUpdateInterval property
  **********************************************************/
 -(BOOL)hasCacheUpdateIntervalElapsed:(NSDate*)cachedDate
 {
@@ -255,7 +255,7 @@ static NSString * const kCachedDate = @"cachedDate";
 
 /***********************************************************
  * @method:      cacheNeedsToBeUpdated
- * @description: checks whether cache needs to updated. YES if newsFeedCache doesn't have an entry for the current amendment being checked. YES if the cacheUpdateInterval has elapsed and needs to be refreshed. NO otherwise.
+ * @abstract: checks whether cache needs to updated. YES if newsFeedCache doesn't have an entry for the current amendment being checked. YES if the cacheUpdateInterval has elapsed and needs to be refreshed. NO otherwise.
  **********************************************************/
 -(BOOL)cacheNeedsToBeUpdated
 {

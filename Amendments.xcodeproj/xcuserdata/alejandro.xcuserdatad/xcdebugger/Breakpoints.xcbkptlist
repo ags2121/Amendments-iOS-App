@@ -8,24 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Amendments/AmendmentsNewsViewController.m"
-         timestampString = "392673263.166915"
+         timestampString = "392682108.247742"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "145"
-         endingLineNumber = "145"
-         landmarkName = "-tableView:numberOfRowsInSection:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Amendments/AmendmentsNewsViewController.m"
-         timestampString = "392673263.166915"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "302"
-         endingLineNumber = "302"
+         startingLineNumber = "301"
+         endingLineNumber = "301"
          landmarkName = "-refreshTable"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Amendments/AmendmentsNewsViewController.m"
-         timestampString = "392673263.166915"
+         timestampString = "392682108.247742"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "319"
-         endingLineNumber = "319"
+         startingLineNumber = "318"
+         endingLineNumber = "318"
          landmarkName = "-loadTable:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Amendments/Model/NewsFeeds.m"
-         timestampString = "392674520.276826"
+         timestampString = "392677151.208445"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "75"
-         endingLineNumber = "75"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
          landmarkName = "-loadNewsFeed:forAmendment:isRefreshing:"
          landmarkType = "5">
       </FileBreakpoint>

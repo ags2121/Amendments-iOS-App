@@ -12,11 +12,11 @@
 #import "CustomIconButton.h"
 #import "Constants.h"
 
-/******STATIC PROPERTIES******/
+/**************STATIC PROPERTIES**************/
 
 /************************************************************
  * @property:       subview layout values
- * @description:    these values control subview layout values for different layouts and device configurations
+ * @abstract:    these values control subview layout values for different layouts and device configurations
  ***********************************************************/
 static const int iPhone4landscapeWidth = 480;
 static const int iPhone4landscapeHeight = 410;
@@ -36,12 +36,11 @@ static const int iPhone5SummaryTranslate = 67;
 
 /************************************************************
  * @property:       templateURL
- * @description:    the template URL whose keywords we replace with the
-                    particular queries used to find news for the currently viewed amendment
+ * @abstract:    the template URL whose keywords we replace with the particular queries used to find news for the currently viewed amendment
  ***********************************************************/
 static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D50";
 
-/******END STATIC PROPERTIES******/
+/************END STATIC PROPERTIES************/
 
 @interface SingleAmendmentViewController ()
 
@@ -139,7 +138,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
 
 /***********************************************************
  * @method:      adjustSubviewsForLandscapeOrientation, resetSubviewsForPortraitOrientation
- * @description: these methods allow this view controller to adjust its subviews properly when the orientation of its parent view controller or child view controller is different then its own current orientation
+ * @abstract: these methods allow this view controller to adjust its subviews properly when the orientation of its parent view controller or child view controller is different then its own current orientation
  * @see viewWillDisappear in ExtendedSummaryViewController, OriginalTextViewController, AmendmentNewsViewController
  * @see prepareForSegue in AllAmendmentsViewController
  **********************************************************/
@@ -225,6 +224,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
         esvc.htmlString = htmlString;
         esvc.delegate = self;
         esvc.title = self.shortTitle;
+        NSLog(@"User tapped extended summary");
 
     }
     
@@ -236,6 +236,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
         otvc.htmlString = htmlString;
         otvc.delegate = self;
         otvc.title = self.shortTitle;
+        NSLog(@"User tapped original text");
     }
     
     if([[segue identifier] isEqualToString:@"newsSegue"]){
@@ -245,7 +246,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
         anvc.keyForFeed = [self.amendmentData objectForKey:@"Title"];
         anvc.amendmentNumberForSorting = [[self.amendmentCellData objectForKey:@"#"] intValue];
         anvc.delegate = self;
-        NSLog(@"Amendment number for sorting: %d", anvc.amendmentNumberForSorting);
+        NSLog(@"User tapped newsSegue\nAmendment number for sorting is %d, if user favorites any articles", anvc.amendmentNumberForSorting);
     }
 }
 
@@ -261,8 +262,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
 
 /***********************************************************
  * @method:     willRotateToInterfaceOrientation
- * @description: allows us to differentiate between how subviews will adjust on interface
- rotation depending on if device is iPhone 4 or 5
+ * @abstract: allows us to differentiate between how subviews will adjust on interface rotation depending on if device is iPhone 4 or 5
  **********************************************************/
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -273,8 +273,8 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
 }
 
 /***********************************************************
- * @method:      translateSubviews
- * @description: does the actual work of translating the subviews
+ * @method:     translateSubviews
+ * @abstract:   does the actual work of translating the subviews
  **********************************************************/
 -(void)translateSubviews:(int)landscapeWidth landscapeHeight:(int)lh portraitWidth:(int)pw portraitHeight:(int)ph tableViewTranslate:(int)tvt summaryTranslate:(int)st toOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

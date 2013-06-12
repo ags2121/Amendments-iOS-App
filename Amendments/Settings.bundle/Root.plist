@@ -11,32 +11,14 @@
 			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>IsSecure</key>
-			<false/>
-			<key>Key</key>
-			<string>name_preference</string>
-			<key>KeyboardType</key>
-			<string>Alphabet</string>
 			<key>Title</key>
-			<string>Alex Silva copyright © 2013</string>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-		</dict>
-		<dict>
+			<string>Alex Silva</string>
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
-			<key>Title</key>
-			<string>Initial Launch Date</string>
 			<key>Key</key>
-			<string>kInitialRun</string>
+			<string>developer_name</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>copyright © 2013</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

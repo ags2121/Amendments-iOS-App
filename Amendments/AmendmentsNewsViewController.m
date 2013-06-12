@@ -200,7 +200,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     NSDictionary *article = self.feed[indexPath.row];
     
     NSString* trimmedURL = [self formatURL:[article objectForKey:@"link"]];
@@ -209,14 +208,15 @@
     
     NSURL* finalURL = [NSURL URLWithString:trimmedURL];
     
-    //package cell display information so that the webview can save this info to add to the favorites arrsay
-    NSString* articleTitleforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleTitle] text];
-    NSString* articlePubforFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articlePublication] text];
+    //extract cell display information
+    NSString* articleTitleForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleTitle] text];
+    NSString* articlePubForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articlePublication] text];
     NSString* articleDateForFav = [[(NewsFeedCell*)[self.tableView cellForRowAtIndexPath:indexPath] articleDate] text];
     NSString* articleTrimmedURLforFav = trimmedURL;
     
-    //add cell display info to dictionary to pass to modalWebView VC
-    NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleforFav, @"Article Publication" : articlePubforFav, @"Article Date" : articleDateForFav, @"Article URL String" : articleTrimmedURLforFav};
+    //add cell display info to dictionary to pass to modalWebView VC, will be needed to saved to UserDefaults if user favorites article
+    //see SVWebViewController for the favoriting logic
+    NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : articleTitleForFav, @"Article Publication" : articlePubForFav, @"Article Date" : articleDateForFav, @"Article URL String" : articleTrimmedURLforFav};
     
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL:finalURL];
     webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
@@ -226,6 +226,7 @@
     //append amendment number to beginning of keyForFeed string
     webViewController.keyForAmendment = [NSString stringWithFormat:@"%d|%@", self.amendmentNumberForSorting, self.keyForFeed];
     [self presentViewController:webViewController animated:YES completion:nil];
+    NSLog(@"User tapped article titled: %@", articleTitleForFav);
 }
 
 
@@ -240,7 +241,6 @@
 
 -(NSArray *)formatIntoTitleAndPub:(NSString *)input
 {
-    
     //SPLIT
     NSArray *splitWords = [input componentsSeparatedByString:@" - "];
     
