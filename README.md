@@ -1,7 +1,7 @@
 Amendments-iOS-App
 ==================
 
-An app for iOS that offers a lightweight interface to the Amendments to the United States Consitution. 
+An iOS app that offers a lightweight interface to the Amendments to the United States Consitution. 
 
 Implements the following features:
 
