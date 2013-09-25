@@ -207,10 +207,26 @@
     
     SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithURL: URLforwebview];
     webViewController.articleInfoForFavorites = infoForSelectedArticle;
+    webViewController.loadFavoriteButton = YES;
     
     //append amendment number to beginning for keyForFeed string
     webViewController.keyForAmendment = key;
     [self presentViewController:webViewController animated:YES completion:nil];
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    /* Create custom view to display section header... */
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, tableView.frame.size.width, 18)];
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
+    label.textColor = [UIColor whiteColor];
+    NSString *string = [self tableView:tableView titleForHeaderInSection:section];
+    
+    [label setText:string];
+    [view addSubview:label];
+    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.9f];
+    return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -240,10 +256,12 @@
  **********************************************************/
 -(NSInteger)howManyLinesOfText:(UILabel*)label
 {
-    CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];
+    CGRect requiredSize2 = [label.text boundingRectWithSize: label.frame.size options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: label.font} context:nil];
+    
+//    CGSize requiredSize = [label.text sizeWithFont:label.font constrainedToSize: label.frame.size lineBreakMode:label.lineBreakMode];
 
     NSInteger charSize = label.font.lineHeight;
-    NSInteger rHeight = requiredSize.height;
+    NSInteger rHeight = requiredSize2.size.height;
 
     return floor(rHeight/charSize);
 }

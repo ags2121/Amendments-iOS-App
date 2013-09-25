@@ -31,7 +31,7 @@
 #define HEADER_VIEW_HEIGHT 50
 /***REMOVED THESE SINCE THEY SHOULD BE DYNAMICALLY ASSIGNED***/
 //#define TEXT_PANEL_OFFSET 25
-//#define PAGE_CONTROL_PADDING 2
+//#define FOOTER_PADDING 2
 #define TITLE_FONT [UIFont fontWithName:@"HelveticaNeue-Bold" size:17.0]
 #define TITLE_TEXT_COLOR [UIColor whiteColor]
 #define DESCRIPTION_FONT [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]
@@ -39,9 +39,12 @@
 
 /**************STATIC PROPERTIES**************/
 
-static int PAGE_CONTROL_PADDING;
+static int FOOTER_PADDING;
+static int FOOTER_HEIGHT;
+static int IMAGE_OFFSET;
 static int TEXT_PANEL_OFFSET;
 static int EXTRA_TEXT_PANEL_HEIGHT;
+static int DESCRIPTION_HEIGHT;
 
 /************END STATIC PROPERTIES************/
 
@@ -150,14 +153,20 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     panelViews = [[NSMutableArray alloc] init];
     
     if (IS_IPHONE_5) {
-        PAGE_CONTROL_PADDING = 20;
-        TEXT_PANEL_OFFSET = 35;
+        FOOTER_PADDING = 45;
+        FOOTER_HEIGHT = 10;
+        IMAGE_OFFSET = 20;
+        TEXT_PANEL_OFFSET = 30;
         EXTRA_TEXT_PANEL_HEIGHT = 30;
+        DESCRIPTION_HEIGHT = 70;
     }
     else{
-        PAGE_CONTROL_PADDING = 0;
-        TEXT_PANEL_OFFSET = 15;
-        EXTRA_TEXT_PANEL_HEIGHT = 0;
+        FOOTER_PADDING = 0;
+        FOOTER_HEIGHT = 10;
+        IMAGE_OFFSET = 0;
+        TEXT_PANEL_OFFSET = 10;
+        EXTRA_TEXT_PANEL_HEIGHT = 10;
+        DESCRIPTION_HEIGHT = 60;
     }
 }
 
@@ -186,7 +195,7 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
         return;
     }
     
-    self.HeaderView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, frame.size.width - 10, HEADER_VIEW_HEIGHT)]; //Leave 5px padding on all sides
+    self.HeaderView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, frame.size.width - 10, HEADER_VIEW_HEIGHT)]; //Leave 5px padding on all sides
     self.HeaderView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     self.HeaderView.backgroundColor = [UIColor clearColor];
     
@@ -210,7 +219,7 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
 
 -(void)buildContentScrollViewWithFrame:(CGRect)frame{
 
-    self.ContentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.HeaderView.frame.origin.y + self.HeaderView.frame.size.height + 10, frame.size.width, 0)];
+    self.ContentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.HeaderView.frame.origin.y + self.HeaderView.frame.size.height + 5, frame.size.width, 0)];
     self.ContentScrollView.pagingEnabled = YES;
     self.ContentScrollView.showsHorizontalScrollIndicator = NO;
     self.ContentScrollView.showsVerticalScrollIndicator = NO;
@@ -305,7 +314,11 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     CGRect panelTitleLabelFrame;
     UILabel *panelTitleLabel;
     if (![panel.Title isEqualToString:@""]) {
-        panelTitleLabelFrame = CGRectMake(10, imageHeight+5, self.ContentScrollView.frame.size.width - 20, [panel.Title sizeWithFont:TITLE_FONT constrainedToSize:CGSizeMake(self.ContentScrollView.frame.size.width - 20, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
+        
+//        panelTitleLabelFrame = CGRectMake(10, imageHeight+5, self.ContentScrollView.frame.size.width - 20, [panel.Title sizeWithFont:TITLE_FONT constrainedToSize:CGSizeMake(self.ContentScrollView.frame.size.width - 20, 100) lineBreakMode:NSLineBreakByWordWrapping].height);
+        
+        panelTitleLabelFrame = CGRectMake(10, imageHeight+5, self.ContentScrollView.frame.size.width - 20, [panel.Title boundingRectWithSize:CGSizeMake(self.ContentScrollView.frame.size.width - 20, 100) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: TITLE_FONT} context:nil].size.height);
+        
         panelTitleLabel = [[UILabel alloc] initWithFrame:panelTitleLabelFrame];
         panelTitleLabel.text = panel.Title;
         panelTitleLabel.font = TITLE_FONT;
@@ -321,7 +334,7 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     [panelView addSubview:panelTitleLabel];
     
     //Build description container;
-    UITextView *panelDescriptionTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.ContentScrollView.frame.size.width, 10)];
+    UITextView *panelDescriptionTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.ContentScrollView.frame.size.width, DESCRIPTION_HEIGHT)];
     panelDescriptionTextView.scrollEnabled = NO;
     panelDescriptionTextView.backgroundColor = [UIColor clearColor];
     panelDescriptionTextView.textAlignment = NSTextAlignmentCenter;
@@ -333,8 +346,8 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     
     //Gather a few layout parameters
     
-    //Get the maximum size the description text could be (screenHeight-panelParentContainerOrigin - footersize)
-    CGFloat maxScrollViewHeight = self.frame.size.height - self.ContentScrollView.frame.origin.y - (36+PAGE_CONTROL_PADDING);
+    //Get the maximum size the description text could be (screenHeight-panelParentContainerOrigin - footerheight)
+    CGFloat maxScrollViewHeight = self.frame.size.height - self.ContentScrollView.frame.origin.y - (FOOTER_HEIGHT+FOOTER_PADDING);
     
     NSInteger descriptionHeight = panelDescriptionTextView.contentSize.height;
     int contentWrappedScrollViewHeight = 0;
@@ -349,7 +362,7 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     panelView.frame = CGRectMake(*xIndex, 0, self.ContentScrollView.frame.size.width, contentWrappedScrollViewHeight + EXTRA_TEXT_PANEL_HEIGHT);
     
     //Build image container
-    UIImageView *panelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 0, self.ContentScrollView.frame.size.width - 10, imageHeight)];
+    UIImageView *panelImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, IMAGE_OFFSET, self.ContentScrollView.frame.size.width - 10, imageHeight)];
     panelImageView.contentMode = UIViewContentModeScaleAspectFit;
     panelImageView.backgroundColor = [UIColor clearColor];
     panelImageView.image = panel.Image;
@@ -359,8 +372,8 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     
     
     //Update frames based on the new/scaled image size we just gathered
-    panelTitleLabel.frame = CGRectMake(10, imageHeight + TEXT_PANEL_OFFSET, panelTitleLabel.frame.size.width, panelTitleLabel.frame.size.height);
-    panelDescriptionTextView.frame = CGRectMake(0, imageHeight + panelTitleLabel.frame.size.height + TEXT_PANEL_OFFSET, self.ContentScrollView.frame.size.width, descriptionHeight);
+    panelTitleLabel.frame = CGRectMake(10, imageHeight + IMAGE_OFFSET + TEXT_PANEL_OFFSET, panelTitleLabel.frame.size.width, panelTitleLabel.frame.size.height);
+    panelDescriptionTextView.frame = CGRectMake(0, imageHeight + panelTitleLabel.frame.size.height + IMAGE_OFFSET + TEXT_PANEL_OFFSET, self.ContentScrollView.frame.size.width, descriptionHeight);
     
     //Update xIndex
     *xIndex += self.ContentScrollView.frame.size.width;
@@ -378,7 +391,10 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
 
 -(void)buildFooterView{
     //Build Page Control
-    self.PageControl = [[UIPageControl alloc] initWithFrame:CGRectMake((self.frame.size.width - 185)/2, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + PAGE_CONTROL_PADDING), 185, 36)];
+    self.PageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(
+                                    (self.frame.size.width - 185)/2,
+                                    (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + FOOTER_PADDING ),
+                                    185, FOOTER_HEIGHT)];
     self.PageControl.numberOfPages = Panels.count;
     [self addSubview:self.PageControl];
     
@@ -402,16 +418,16 @@ static int EXTRA_TEXT_PANEL_HEIGHT;
     if (animated){
         [UIView animateWithDuration:0.3 animations:^{
             self.ContentScrollView.frame = CGRectMake(self.ContentScrollView.frame.origin.x, self.ContentScrollView.frame.origin.y, self.ContentScrollView.frame.size.width, newPanelHeight);
-            self.PageControl.frame = CGRectMake(self.PageControl.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + PAGE_CONTROL_PADDING), self.PageControl.frame.size.width, self.PageControl.frame.size.height);
+            self.PageControl.frame = CGRectMake(self.PageControl.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + FOOTER_PADDING), self.PageControl.frame.size.width, self.PageControl.frame.size.height);
             
-            self.SkipButton.frame = CGRectMake(self.SkipButton.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + PAGE_CONTROL_PADDING), self.SkipButton.frame.size.width, self.SkipButton.frame.size.height);
+            self.SkipButton.frame = CGRectMake(self.SkipButton.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + FOOTER_PADDING), self.SkipButton.frame.size.width, self.SkipButton.frame.size.height);
         }];
     }
     else {
         self.ContentScrollView.frame = CGRectMake(self.ContentScrollView.frame.origin.x, self.ContentScrollView.frame.origin.y, self.ContentScrollView.frame.size.width, newPanelHeight);
         
-        self.PageControl.frame = CGRectMake(self.PageControl.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + PAGE_CONTROL_PADDING), self.PageControl.frame.size.width, self.PageControl.frame.size.height);
-        self.SkipButton.frame = CGRectMake(self.SkipButton.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + PAGE_CONTROL_PADDING), self.SkipButton.frame.size.width, self.SkipButton.frame.size.height);
+        self.PageControl.frame = CGRectMake(self.PageControl.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + FOOTER_PADDING), self.PageControl.frame.size.width, self.PageControl.frame.size.height);
+        self.SkipButton.frame = CGRectMake(self.SkipButton.frame.origin.x, (self.ContentScrollView.frame.origin.y + self.ContentScrollView.frame.size.height + FOOTER_PADDING), self.SkipButton.frame.size.width, self.SkipButton.frame.size.height);
         
     }
     

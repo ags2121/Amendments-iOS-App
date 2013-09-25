@@ -160,6 +160,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
     
     self.view.frame = frame;
     self.scrollView.contentSize = CGSizeMake(frame.size.width, frame.size.height);
+    [self.optionsTableView reloadData];
 }
 
 -(void)resetSubviewsForPortraitOrientation

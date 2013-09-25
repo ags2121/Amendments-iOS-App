@@ -69,8 +69,9 @@ static NSString * const kCachedDate = @"cachedDate";
         
         NSLog(@"Cache needs to be updated");
         
-        //start Activity Indicator
-        [NSThread detachNewThreadSelector:@selector(showActivityViewer) toTarget:self withObject:nil];
+        //start Activity Indicator, unless refreshing (since the newsVC's refresh control has its own UI spinner)
+        if (!refreshing)
+            [NSThread detachNewThreadSelector:@selector(showActivityViewer) toTarget:self withObject:nil];
         
         NSLog(@"currentKey: %@", self.currentKey);
         
@@ -113,72 +114,75 @@ static NSString * const kCachedDate = @"cachedDate";
         
         NSMutableArray *theFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
         
-        //Articles to delete it from the feed
-        NSMutableArray *articlesToDiscard = [NSMutableArray array];
-        for(NSDictionary* dict in theFeed){
-            
-            //Don't include articles you need to register for, or letters to the editor
-            if( [[dict objectForKey:@"title"] rangeOfString:@"(registration)"].location != NSNotFound
-               || [[dict objectForKey:@"title"] rangeOfString:@"Letter: "].location != NSNotFound
-               
-               //Begin blacklist (sites that are too stupid and/or provincial to be included, or foreign sites)
-               || [[dict objectForKey:@"link"] rangeOfString:@"http://thedailynewsonline.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"http://www.journalgazette.net/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"http://www.fosters.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"limaohio.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"http://www.globalpost.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@".com.pk"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@".hu/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"casperjournal.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"eastcountymagazine.org"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"colombogazette.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"http://www.thehindu.com/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"lankaweb"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@".lk/"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"brecorder.com"].location != NSNotFound
-               || [[dict objectForKey:@"link"] rangeOfString:@"newindianexpress.com"].location != NSNotFound
-                || [[dict objectForKey:@"link"] rangeOfString:@"tenthamendmentcenter.com"].location != NSNotFound
-               || [[dict objectForKey:@"title"] rangeOfString:@"Sri Lanka"].location != NSNotFound
-
-               )
-            {
-                [articlesToDiscard addObject:dict];
-            }
-            //if the amendment we're creating a news feed for is NOT the second amendment, don't include articles with "second amendment", "2nd amendment", "gun control", "gun-control", "bear arms" (case-insensitive) in the title
-            if( ![self.currentKey isEqualToString:@"Second Amendment"] &&
-               
-               (
-                [[dict objectForKey:@"title"] rangeOfString:@"Second Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
-                || [[dict objectForKey:@"title"] rangeOfString:@"2nd Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
-                || [[dict objectForKey:@"title"] rangeOfString:@"gun control" options:NSCaseInsensitiveSearch].location != NSNotFound
-                || [[dict objectForKey:@"title"] rangeOfString:@"gun-control" options:NSCaseInsensitiveSearch].location != NSNotFound
-                || [[dict objectForKey:@"title"] rangeOfString:@"bear arms" options:NSCaseInsensitiveSearch].location != NSNotFound)
-               )
-            {
-                [articlesToDiscard addObject:dict];
-            }
-        }
-        [theFeed removeObjectsInArray:articlesToDiscard];
-         
-        //sort feed by date
-        [theFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
-            
-            NSDate* date1 = [self.dateFormatter dateFromString: [dict1 objectForKey:@"pubDate"] ];
-            NSDate* date2 = [self.dateFormatter dateFromString: [dict2 objectForKey:@"pubDate"] ];
-            return [date2 compare:date1];
-            
-        }];
-        
         //If there are no articles in the feed, send a notification to NewsFeed VC
         if (theFeed.count==0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NoDataInFeed"
-                                                            object:nil];
+                                                                object:nil];
         }
-        else{
-            NSLog(@"Sorted news feed: %@", self.aFeed);
+        else {
         
+            //Articles to delete it from the feed
+            NSMutableArray *articlesToDiscard = [NSMutableArray array];
+            for(NSDictionary* dict in theFeed){
+                
+                //Don't include articles you need to register for, or letters to the editor
+                if( [[dict objectForKey:@"title"] rangeOfString:@"(registration)"].location != NSNotFound
+                   || [[dict objectForKey:@"title"] rangeOfString:@"Letter: "].location != NSNotFound
+                   
+                   //Begin blacklist (sites that are too stupid and/or provincial to be included, or foreign sites)
+                   || [[dict objectForKey:@"link"] rangeOfString:@"http://thedailynewsonline.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.journalgazette.net/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.fosters.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"limaohio.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.globalpost.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@".com.pk"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@".hu/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"casperjournal.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"eastcountymagazine.org"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"colombogazette.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.thehindu.com/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"lankaweb"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@".lk/"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"brecorder.com"].location != NSNotFound
+                   || [[dict objectForKey:@"link"] rangeOfString:@"newindianexpress.com"].location != NSNotFound
+                    || [[dict objectForKey:@"link"] rangeOfString:@"tenthamendmentcenter.com"].location != NSNotFound
+                   || [[dict objectForKey:@"title"] rangeOfString:@"Sri Lanka"].location != NSNotFound
+
+                   )
+                {
+                    [articlesToDiscard addObject:dict];
+                }
+                //if the amendment we're creating a news feed for is NOT the second amendment, don't include articles with "second amendment", "2nd amendment", "gun control", "gun-control", "bear arms" (case-insensitive) in the title
+                if( ![self.currentKey isEqualToString:@"Second Amendment"] &&
+                   
+                   (
+                    [[dict objectForKey:@"title"] rangeOfString:@"Second Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
+                    || [[dict objectForKey:@"title"] rangeOfString:@"2nd Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
+                    || [[dict objectForKey:@"title"] rangeOfString:@"gun control" options:NSCaseInsensitiveSearch].location != NSNotFound
+                    || [[dict objectForKey:@"title"] rangeOfString:@"gun-control" options:NSCaseInsensitiveSearch].location != NSNotFound
+                    || [[dict objectForKey:@"title"] rangeOfString:@"bear arms" options:NSCaseInsensitiveSearch].location != NSNotFound)
+                   )
+                {
+                    [articlesToDiscard addObject:dict];
+                }
+            }
+            
+            //discard the articles
+            [theFeed removeObjectsInArray:articlesToDiscard];
+             
+            //sort feed by date
+            [theFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
+                
+                NSDate* date1 = [self.dateFormatter dateFromString: [dict1 objectForKey:@"pubDate"] ];
+                NSDate* date2 = [self.dateFormatter dateFromString: [dict2 objectForKey:@"pubDate"] ];
+                return [date2 compare:date1];
+                
+            }];
+            
+            NSLog(@"Sorted news feed: %@", theFeed);
+            
             NSMutableDictionary *mutableResults = [@{} mutableCopy];
             //store results
             [mutableResults setObject:theFeed forKey:@"results"];
@@ -187,10 +191,10 @@ static NSString * const kCachedDate = @"cachedDate";
             
             //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
             [self.newsFeedCache setObject:mutableResults forKey:self.currentKey];
-                
+            
             //send message to reload current table view
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
-                                                            object:nil];
+                                                                object:nil];
         }
     }
     

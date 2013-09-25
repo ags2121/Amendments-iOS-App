@@ -42,9 +42,13 @@
     [self.window makeKeyAndVisible];
     
     //TODO: for deployment, only show intro view on first launch
-    _mivc = [[MYIntroductionViewController alloc] init];
-    _mivc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self.window.rootViewController presentViewController:_mivc animated:NO completion:NULL];
+    if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"Did watch intro"] isEqualToString:@"0"] ) {
+        _mivc = [[MYIntroductionViewController alloc] init];
+        _mivc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self.window.rootViewController presentViewController:_mivc animated:NO completion:NULL];
+        [self markUserDidWatchIntro];
+        NSLog(@"User did watch intro");
+    }
     
     return YES;
 }
@@ -121,7 +125,9 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
  *******************************************************************************/
 -(void)customizeAppearance
 {
-    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor blueColor]];
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-70.f, -70.f) forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-70.f, -70.f) forBarMetrics:UIBarMetricsLandscapePhone];
     [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor grayColor]];
 }
 
@@ -143,7 +149,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     if( ![fileManager fileExistsAtPath: path] ){
 
         //add date and "Did add favorites" boolean to NSDictionary
-        NSDictionary *newAppDefaults = @{ @"kInitialRun" : [NSDate date], @"Did add favorites" : @"0" };
+        NSDictionary *newAppDefaults = @{ @"kInitialRun" : [NSDate date], @"Did add favorites" : @"0", @"Did watch intro": @"0" };
         [newAppDefaults writeToFile:path atomically:YES];
     }
     
@@ -154,6 +160,25 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     NSLog(@"NSUserDefaults at launch: %@", [[NSUserDefaults standardUserDefaults]
                                   dictionaryRepresentation]);
+}
+
+-(void)markUserDidWatchIntro
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //change "Did add favorites" to 1 in the plist stored in the documents directory
+    if( [[defaults objectForKey:@"Did watch intro"] isEqualToString:@"0"] ) { //if "Did add favorites is 0
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"UserDefaults.plist"];
+        NSDictionary *updatedDefaults = @{ @"kInitialRun" : [defaults objectForKey:@"kInitialRun"], @"Did add favorites": [defaults objectForKey:@"Did add favorites"], @"Did watch intro" : @"1" };
+        [updatedDefaults writeToFile:path atomically:YES];
+        //NSLog(@"Updated defaults: %@", updatedDefaults);
+        [defaults registerDefaults:updatedDefaults];
+        [defaults synchronize];
+        NSLog(@"updated NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults]
+                                              dictionaryRepresentation]);
+    }
 }
 
 @end

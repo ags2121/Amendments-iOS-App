@@ -49,7 +49,10 @@
     
     //Make tableVC's background see through to the parent view
     self.view.backgroundColor = [UIColor clearColor];
-    
+    UIImageView *appLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"navBarImage"]];
+    appLogo.autoresizingMask=UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    appLogo.contentMode=UIViewContentModeScaleAspectFit;
+    [self.navigationController.navigationBar.topItem setTitleView:appLogo];
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,6 +102,21 @@
     return cell;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    /* Create custom view to display section header... */
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, tableView.frame.size.width, 18)];
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
+    label.textColor = [UIColor whiteColor];
+    NSString *string = [self tableView:tableView titleForHeaderInSection:section];
+
+    [label setText:string];
+    [view addSubview:label];
+    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.9f];
+    return view;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 72;
@@ -133,7 +151,6 @@
 #pragma mark - Table view delegate
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-
 {
     //get reference to Singleton class which holds data on the Amendments
     AllAmendmentsText* sharedsingleton = [AllAmendmentsText sharedInstance];
@@ -206,6 +223,7 @@
         
         [self dismissModalViewControllerToView:self.currentDetailIcon];
         self.currentDetailIcon = nil;
+        [self.tableView reloadData];
     }
 }
 

@@ -62,6 +62,7 @@
         [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:NO];
     }
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
@@ -365,7 +366,17 @@
     if([self.keyForFeed isEqualToString: @"Third Amendment"]){
         
         self.didJustShowDefaultArticle = YES;
-        SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress: @"http://www.theonion.com/articles/third-amendment-rights-group-celebrates-another-su,2296/?ref=auto"];
+        
+        NSString *thirdAmendmentDefaultTitle = @"Third Amendment Rights Group Celebrates Another Successful Year";
+        NSString *thirdAmendmentDefaultPub = @"The Onion";
+        NSString *thirdAmendmentDefaultDate = @"Fri, 5 Oct 2007";
+        NSString *thirdAmendmentDefaultURL = @"http://www.theonion.com/articles/third-amendment-rights-group-celebrates-another-su,2296/?ref=auto";
+        
+        SVModalWebViewController *webViewController = [[SVModalWebViewController alloc] initWithAddress: thirdAmendmentDefaultURL];
+        NSDictionary *articleDisplayInfoforCell = @{@"Article Title" : thirdAmendmentDefaultTitle, @"Article Publication" : thirdAmendmentDefaultPub, @"Article Date" : thirdAmendmentDefaultDate, @"Article URL String" : thirdAmendmentDefaultURL};
+        
+        webViewController.articleInfoForFavorites = articleDisplayInfoforCell;
+        webViewController.loadFavoriteButton = YES;
         [self presentViewController:webViewController animated:YES completion:nil];
         
     }

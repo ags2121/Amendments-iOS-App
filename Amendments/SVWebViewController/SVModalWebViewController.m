@@ -50,8 +50,8 @@
     
     //self.navigationBar.tintColor = self.barsTintColor;
     
-    //change to black color
-    self.navigationBar.tintColor = [UIColor blackColor];
+    //change nav item color
+    self.navigationBar.tintColor = [UIColor blueColor];
     
     //check if titleForNavBar is set to something, if so make it the navBar title. If its not set to anything, code in the superclass SVWebViewController 
     if(self.titleForNavBar)
@@ -60,7 +60,7 @@
         self.webViewController.navigationItem.title = nil;
     
     if(self.loadFavoriteButton)
-        webViewController.navigationItem.rightBarButtonItem = self.returnFavoriteButton;
+        webViewController.navigationItem.rightBarButtonItem = [self returnFavoriteButton];
     
     NSLog(@"Article info: %@", self.articleInfoForFavorites);
 }
@@ -89,7 +89,7 @@
         return emptyStar;
     }
     //else:
-    UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
+    UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstarY"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
     NSLog(@"Initialized with filledstar");
     return filledStar;
 }
@@ -128,7 +128,7 @@
         }];
         
         //change icon to filledStar
-        UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstar"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
+        UIBarButtonItem *filledStar = [UIBarButtonItem barItemWithImage:[UIImage imageNamed:@"filledstarY"]showsTouchWhenHighlighted:NO target:self action:@selector(toggleFavoriteAction:)];
         webViewController.navigationItem.rightBarButtonItem = filledStar;
         
         NSLog(@"Adding %@ to favorites", [self.articleInfoForFavorites objectForKey:@"Article Title"]);
@@ -168,7 +168,7 @@
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *path = [documentsDirectory stringByAppendingPathComponent:@"UserDefaults.plist"];
-        NSDictionary *updatedDefaults = @{ @"kInitialRun" : [defaults objectForKey:@"kInitialRun"], @"Did add favorites" : @"1" };
+        NSDictionary *updatedDefaults = @{ @"kInitialRun" : [defaults objectForKey:@"kInitialRun"], @"Did add favorites" : @"1", @"Did watch intro" : [defaults objectForKey:@"Did watch intro"] };
         [updatedDefaults writeToFile:path atomically:YES];
         //NSLog(@"Updated defaults: %@", updatedDefaults);
         [defaults registerDefaults:updatedDefaults];
