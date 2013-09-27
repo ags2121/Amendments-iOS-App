@@ -5,9 +5,11 @@
 //  Created by Alex Silva on 3/2/13.
 //  Copyright (c) 2013 Alex Silva. All rights reserved.
 //
-
 #import "NewsFeeds.h"
 #import "AmendmentsAppDelegate.h"
+#import "XMLReader.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFHTTPRequestOperationManager.h"
 
 /**************STATIC PROPERTIES**************/
 
@@ -59,7 +61,7 @@ static NSString * const kCachedDate = @"cachedDate";
     return self;
 }
 
--(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing;
+-(void)loadNewsFeed:(NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing;
 {
     //set NewsFeeds instance variable for the currentKey to key (the name of the amendment we're fetching news for
     self.currentKey = key;
@@ -77,12 +79,36 @@ static NSString * const kCachedDate = @"cachedDate";
         
         NSLog(@"URL query: %@", finalURL);
         
-        NSURL *url = [NSURL URLWithString: finalURL];
-        
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        GTMHTTPFetcher* myFetcher = [GTMHTTPFetcher fetcherWithRequest:request];
-        [myFetcher beginFetchWithDelegate:self
-                        didFinishSelector:@selector(newsFeedFetcher:finishedWithData:error:)];
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        [manager GET:finalURL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            NSString *responseString=[[NSString alloc] initWithData:(NSData*)responseObject encoding:NSUTF8StringEncoding];
+            NSError *error = nil;
+            NSDictionary *xmlDictionary=[XMLReader dictionaryForXMLString:responseString error:&error];
+            NSMutableArray *theFeed = [NSMutableArray arrayWithArray:xmlDictionary[@"rss"][@"channel"][@"item"]];
+            NSLog(@"AS ARRAY %@", theFeed);
+            //If there are no articles in the feed, send a notification to NewsFeed VC
+            if (theFeed.count==0) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"NoDataInFeed"
+                                                                    object:nil];
+                //stop Activity indicator
+                [self hideActivityViewer];
+            }
+            else {
+                [self filterSortAndStoreResults:theFeed];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"Error downloading feed: %@", [error description]);
+            //TODO: no connection, connection time-out handling
+            //send message to present AlertView that connection could not be established.
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"CouldNotConnectToFeed"
+                                                            object:nil];
+            //stop Activity indicator
+            [self hideActivityViewer];
+        }];
+
     }
     //else, send useCachedData notification
     else{
@@ -91,117 +117,89 @@ static NSString * const kCachedDate = @"cachedDate";
     }
 }
 
-- (void)newsFeedFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error
+-(void)filterSortAndStoreResults:(NSMutableArray*)rawFeed
 {
-    if (error != nil) {
-        // failed; either an NSURLConnection error occurred, or the server returned
-        // a status value of at least 300
-        //
-        // the NSError domain string for server status errors is kGTMHTTPFetcherStatusDomain
-        int status = [error code];
+    //Articles to delete it from the feed
+    NSMutableArray *articlesToDiscard = [NSMutableArray array];
+    for(NSDictionary *dict in rawFeed){
         
-        NSLog(@"Connection error! Error code: %d", status);
+        NSLog(@"Type of element: %@", [dict class]);
         
-        //TODO: no connection, connection time-out handling
+        NSLog(@"Type of inner element: %@", [dict[@"title"][@"text"] class]);
         
-        //send message to present AlertView that connection could not be established.
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"CouldNotConnectToFeed"
-                                                            object:nil];
-    }
-    else {
-        
-        NSDictionary* results = [NSJSONSerialization JSONObjectWithData:retrievedData options:kNilOptions error:&error];
-        
-        NSMutableArray *theFeed = [NSMutableArray arrayWithArray:[[results objectForKey:@"value"] objectForKey:@"items"] ];
-        
-        //If there are no articles in the feed, send a notification to NewsFeed VC
-        if (theFeed.count==0) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"NoDataInFeed"
-                                                                object:nil];
+        //Don't include articles you need to register for, or letters to the editor
+        if( [dict[@"title"][@"text"] rangeOfString:@"(registration)"].location != NSNotFound
+           || [dict[@"title"][@"text"] rangeOfString:@"Letter: "].location != NSNotFound
+           
+           //Begin blacklist (sites that are too stupid and/or provincial to be included, or foreign sites)
+           || [dict[@"link"][@"text"] rangeOfString:@"http://thedailynewsonline.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"http://www.journalgazette.net/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"http://www.fosters.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"limaohio.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"http://www.globalpost.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@".com.pk"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@".hu/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"casperjournal.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"eastcountymagazine.org"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"colombogazette.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"http://www.thehindu.com/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"lankaweb"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"asiantribune"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"asiantribune"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@".lk/"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"brecorder.com"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"newindianexpress.com"].location != NSNotFound
+           || [dict[@"link"][@"text"] rangeOfString:@"tenthamendmentcenter.com"].location != NSNotFound
+           || [dict[@"title"][@"text"] rangeOfString:@"Sri Lanka"].location != NSNotFound
+           
+           )
+        {
+            [articlesToDiscard addObject:dict];
         }
-        else {
-        
-            //Articles to delete it from the feed
-            NSMutableArray *articlesToDiscard = [NSMutableArray array];
-            for(NSDictionary* dict in theFeed){
-                
-                //Don't include articles you need to register for, or letters to the editor
-                if( [[dict objectForKey:@"title"] rangeOfString:@"(registration)"].location != NSNotFound
-                   || [[dict objectForKey:@"title"] rangeOfString:@"Letter: "].location != NSNotFound
-                   
-                   //Begin blacklist (sites that are too stupid and/or provincial to be included, or foreign sites)
-                   || [[dict objectForKey:@"link"] rangeOfString:@"http://thedailynewsonline.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.journalgazette.net/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.fosters.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"limaohio.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.globalpost.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@".com.pk"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@".hu/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"casperjournal.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"eastcountymagazine.org"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"colombogazette.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"http://www.thehindu.com/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"lankaweb"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"asiantribune"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@".lk/"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"brecorder.com"].location != NSNotFound
-                   || [[dict objectForKey:@"link"] rangeOfString:@"newindianexpress.com"].location != NSNotFound
-                    || [[dict objectForKey:@"link"] rangeOfString:@"tenthamendmentcenter.com"].location != NSNotFound
-                   || [[dict objectForKey:@"title"] rangeOfString:@"Sri Lanka"].location != NSNotFound
-
-                   )
-                {
-                    [articlesToDiscard addObject:dict];
-                }
-                //if the amendment we're creating a news feed for is NOT the second amendment, don't include articles with "second amendment", "2nd amendment", "gun control", "gun-control", "bear arms" (case-insensitive) in the title
-                if( ![self.currentKey isEqualToString:@"Second Amendment"] &&
-                   
-                   (
-                    [[dict objectForKey:@"title"] rangeOfString:@"Second Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
-                    || [[dict objectForKey:@"title"] rangeOfString:@"2nd Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
-                    || [[dict objectForKey:@"title"] rangeOfString:@"gun control" options:NSCaseInsensitiveSearch].location != NSNotFound
-                    || [[dict objectForKey:@"title"] rangeOfString:@"gun-control" options:NSCaseInsensitiveSearch].location != NSNotFound
-                    || [[dict objectForKey:@"title"] rangeOfString:@"bear arms" options:NSCaseInsensitiveSearch].location != NSNotFound)
-                   )
-                {
-                    [articlesToDiscard addObject:dict];
-                }
-            }
-            
-            //discard the articles
-            [theFeed removeObjectsInArray:articlesToDiscard];
-             
-            //sort feed by date
-            [theFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
-                
-                NSDate* date1 = [self.dateFormatter dateFromString: [dict1 objectForKey:@"pubDate"] ];
-                NSDate* date2 = [self.dateFormatter dateFromString: [dict2 objectForKey:@"pubDate"] ];
-                return [date2 compare:date1];
-                
-            }];
-            
-            NSLog(@"Sorted news feed: %@", theFeed);
-            
-            NSMutableDictionary *mutableResults = [@{} mutableCopy];
-            //store results
-            [mutableResults setObject:theFeed forKey:@"results"];
-            //and date of fetch
-            [mutableResults setObject:[NSDate date] forKey:kCachedDate];
-            
-            //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
-            [self.newsFeedCache setObject:mutableResults forKey:self.currentKey];
-            
-            //send message to reload current table view
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
-                                                                object:nil];
+        //if the amendment we're creating a news feed for is NOT the second amendment, don't include articles with "second amendment", "2nd amendment", "gun control", "gun-control", "bear arms" (case-insensitive) in the title
+        if( ![self.currentKey isEqualToString:@"Second Amendment"] &&
+           
+           (
+            [dict[@"title"][@"text"] rangeOfString:@"Second Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
+            || [dict[@"title"][@"text"] rangeOfString:@"2nd Amendment" options:NSCaseInsensitiveSearch].location != NSNotFound
+            || [dict[@"title"][@"text"] rangeOfString:@"gun control" options:NSCaseInsensitiveSearch].location != NSNotFound
+            || [dict[@"title"][@"text"] rangeOfString:@"gun-control" options:NSCaseInsensitiveSearch].location != NSNotFound
+            || [dict[@"title"][@"text"] rangeOfString:@"bear arms" options:NSCaseInsensitiveSearch].location != NSNotFound)
+           )
+        {
+            [articlesToDiscard addObject:dict];
         }
     }
     
+    //discard the articles
+    [rawFeed removeObjectsInArray:articlesToDiscard];
+    
+    //sort feed by date
+    [rawFeed sortUsingComparator:^(NSDictionary* dict1, NSDictionary* dict2) {
+        
+        NSDate* date1 = [self.dateFormatter dateFromString: dict1[@"pubDate"][@"text"] ];
+        NSDate* date2 = [self.dateFormatter dateFromString: dict2[@"pubDate"][@"text"] ];
+        return [date2 compare:date1];
+        
+    }];
+    
+    NSLog(@"Sorted news feed: %@", rawFeed);
+    
+    NSMutableDictionary *mutableResults = [@{} mutableCopy];
+    //store results
+    [mutableResults setObject:rawFeed forKey:@"results"];
+    //and date of fetch
+    [mutableResults setObject:[NSDate date] forKey:kCachedDate];
+    
+    //add feed to global mutableArray of feeds maintained by this class, keyed on the amendment title
+    [self.newsFeedCache setObject:mutableResults forKey:self.currentKey];
+    
+    //send message to reload current table view
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoadDataFromSingleton"
+                                                        object:nil];
     //stop Activity indicator
     [self hideActivityViewer];
 }
-
 
 #pragma mark - Activity Viewer methods
 

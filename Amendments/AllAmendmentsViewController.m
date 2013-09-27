@@ -55,6 +55,12 @@
     [self.navigationController.navigationBar.topItem setTitleView:appLogo];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

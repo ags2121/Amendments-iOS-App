@@ -12,7 +12,6 @@
 
 @interface SVModalWebViewController ()
 
-@property (nonatomic, strong) SVWebViewController *webViewController;
 @property (nonatomic, strong) NSMutableArray *favoriteArticlesforAmendment;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 

@@ -9,7 +9,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GTMHTTPFetcher.h"
 #import "AmendmentsNewsViewController.h"
 
 @interface NewsFeeds : NSObject
@@ -23,6 +22,5 @@
 +(NewsFeeds *) sharedInstance;
 
 -(void)loadNewsFeed: (NSString*)finalURL forAmendment:(NSString*)key isRefreshing:(BOOL)refreshing;
-- (void)newsFeedFetcher:(GTMHTTPFetcher *)fetcher finishedWithData:(NSData *)retrievedData error:(NSError *)error;
 
 @end

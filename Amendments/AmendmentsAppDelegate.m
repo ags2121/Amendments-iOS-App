@@ -12,6 +12,14 @@
 #import "Constants.h"
 #import "iRate.h"
 
+/*
+#import "XMLReader.h"
+#import "AFHTTPSessionManager.h"
+#import "AFURLConnectionOperation.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFHTTPRequestOperationManager.h"
+ */
+
 @implementation AmendmentsAppDelegate
 
 + (void)initialize
@@ -21,8 +29,28 @@
     //[iRate sharedInstance].previewMode = YES;
 }
 
+/*
+-(void)XMLTest
+{
+    NSLog(@"starting XML fetch");
+    NSString *stringURL=@"http://news.google.com/news/feeds?gl=us&hl=en&as_occt=title&as_qdr=a&as_nloc=us&q=allintitle:%22second+amendment%22+OR+%222nd+amendment%22+location:us&um=1&ie=UTF-8&output=rss&num=25";
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:stringURL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *responseString=[[NSString alloc] initWithData:(NSData*)responseObject encoding:NSUTF8StringEncoding];
+        NSError *error = nil;
+        NSDictionary *xmlDictionary=[XMLReader dictionaryForXMLString:responseString error:&error];
+        NSMutableArray *theFeed = [NSMutableArray arrayWithArray:xmlDictionary[@"rss"][@"channel"][@"item"]];
+        NSLog(@"AS ARRAY %@", theFeed);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", [error description]);
+    }];
+}
+*/
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //[self XMLTest];
     [self setPreferenceDefaults]; //set user defaults
     [self customizeAppearance]; //set appearance proxies
     
@@ -30,9 +58,13 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     //add background image
-    UIImageView *backgroundView = [[UIImageView alloc] initWithFrame: self.window.frame];
-    backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage"];
-    [self.window addSubview:backgroundView];
+    self.backgroundView = [[UIImageView alloc] initWithFrame: self.window.frame];
+    if (IS_IPHONE_5)
+        self.backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage-568h@2x"];
+    else
+        self.backgroundView.image = [UIImage imageNamed:@"AmendmentBackgroundImage"];
+        
+    [self.window addSubview: self.backgroundView];
     
     //set tab bar controller as root view controller
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Storyboard"
@@ -65,6 +97,7 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
     
     if (newStatusBarOrientation == UIInterfaceOrientationPortrait)
         bgImage.transform      = CGAffineTransformIdentity;
+    
     else if (newStatusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)
         bgImage.transform      = CGAffineTransformMakeRotation(-M_PI);
     
@@ -74,8 +107,10 @@ willChangeStatusBarOrientation:(UIInterfaceOrientation)newStatusBarOrientation
         bgImage.transform      = CGAffineTransformMakeRotation(rotate);
         bgImage.transform      = CGAffineTransformTranslate(bgImage.transform, 0, -bgImage.frame.origin.y);
         bgImage.transform = CGAffineTransformTranslate(bgImage.transform, 0, yTranslateVal);
+        bgImage.transform = CGAffineTransformScale(bgImage.transform, 0.70, 0.70);
     }
 }
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

@@ -7,6 +7,7 @@
 //
 
 #import "SingleAmendmentViewController.h"
+#import "FavoritesViewController.h"
 #import "MoreOptionsTableViewCell.h"
 #import "AmendmentsNewsViewController.h"
 #import "CustomIconButton.h"
@@ -38,7 +39,13 @@ static const int iPhone5SummaryTranslate = 67;
  * @property:       templateURL
  * @abstract:    the template URL whose keywords we replace with the particular queries used to find news for the currently viewed amendment
  ***********************************************************/
-static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D50";
+
+static NSString *MAX_ARTICLES = @"25";
+
+//old URL
+//static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id=46bf5af81d4dd0d2c4e267e2fca1af34&_render=json&feedcount=100&feedurl=https%3A%2F%2Fnews.google.com%2Fnews%2Ffeeds%3Fgl%3Dus%26hl%3Den%26as_occt%3Dtitle%26as_qdr%3Da%26as_nloc%3DAmerica%26authuser%3D0%26q%3Dallintitle%3A%2B%2522*%2Bamendment%2522%2BOR%2B%2522¥%2Bamendment%2522%2Blocation%3AAmerica%26um%3D1%26ie%3DUTF-8%26output%3Drss%26num%3D";
+
+static NSString const *templateURL = @"http://news.google.com/news/feeds?gl=us&hl=en&as_occt=title&as_qdr=a&as_nloc=us&geo=us&q=allintitle:%22*+amendment%22+OR+%22¥+amendment%22+location:us&um=1&ie=UTF-8&output=rss&num=";
 
 /************END STATIC PROPERTIES************/
 
@@ -69,6 +76,10 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
 {
     [super viewWillAppear:YES];
     
+    NSLog(@"Is this being called?");
+    
+    [self checkForOrientationChangeBetweenTabs];
+    
     if (self.parentViewControllerWasInLandscape) {
         [self adjustSubviewsForLandscapeOrientation];
         self.parentViewControllerWasInLandscape = NO;
@@ -83,6 +94,10 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
         [self resetSubviewsForPortraitOrientation];
         self.childViewControllerDidRotateToPortrait = NO;
     }
+    
+    //Make sure that the favoritesVC has up-to-date knowledge of this VC's orientation
+    FavoritesViewController *fvc = (FavoritesViewController*)[[self.tabBarController.viewControllers objectAtIndex:1] topViewController];
+    fvc.singleAmendmentVcOrientation = [UIApplication sharedApplication].statusBarOrientation;
 }
 
 -(void) viewDidAppear:(BOOL)animated
@@ -104,10 +119,13 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
 {
     //move tableView down
     self.optionsTableView.center = CGPointMake(self.optionsTableView.center.x, self.optionsTableView.center.y-20);
+    
     //move summary label down
-    self.summary.center = CGPointMake(self.summary.center.x, self.optionsTableView.frame.origin.y/2.75);
+    self.summary.center = CGPointMake(self.summary.center.x, self.optionsTableView.frame.origin.y/2 + 5);
+    
     //increase font size by 1 point
     [self.summary setFont:[UIFont systemFontOfSize:self.summary.font.pointSize+1.0]];
+    
     //add one more line space to the label's height
     self.summary.frame = CGRectMake(self.summary.frame.origin.x, self.summary.frame.origin.y, self.summary.frame.size.width, self.summary.frame.size.height+self.summary.font.pointSize);
 }
@@ -130,6 +148,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
     //construct specified URL using keywords
     NSString* urlNew = [templateURL stringByReplacingOccurrencesOfString:@"*" withString:self.queryKeyword1];
     self.finalURL = [urlNew stringByReplacingOccurrencesOfString:@"¥" withString:self.queryKeyword2];
+    self.finalURL = [self.finalURL stringByAppendingString:MAX_ARTICLES];
     //NSLog(@"URL for query: %@", self.finalURL);
 }
 
@@ -180,6 +199,29 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
     self.scrollView.contentSize = CGSizeMake(frame.size.width, frame.size.height);
 }
 
+-(void)checkForOrientationChangeBetweenTabs
+{
+    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    FavoritesViewController *fvc = (FavoritesViewController*)[[self.tabBarController.viewControllers objectAtIndex:1] topViewController];
+    UIInterfaceOrientation previousOrientation = fvc.singleAmendmentVcOrientation;
+
+    if ( previousOrientation == UIInterfaceOrientationPortrait && currentOrientation != UIInterfaceOrientationPortrait ) {
+        [self setChildViewControllerDidRotateToLandscape:YES];
+        NSLog(@"Fav VC did rotate to landscape");
+    }
+    
+    else if ( (previousOrientation == UIInterfaceOrientationLandscapeLeft || previousOrientation == UIInterfaceOrientationLandscapeRight)
+             && currentOrientation == UIInterfaceOrientationPortrait) {
+        [self setChildViewControllerDidRotateToPortrait:YES];
+        NSLog(@"Fav VC did rotate to portrait");
+    }
+    else{
+        [self setChildViewControllerDidRotateToLandscape:NO];
+        [self setChildViewControllerDidRotateToPortrait:NO];
+        NSLog(@"Fav VC didn't do anything");
+    }
+}
 
 #pragma mark Table view data source
 
@@ -246,6 +288,7 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
         //ex. keyForFeed = "First Amendment"
         anvc.keyForFeed = [self.amendmentData objectForKey:@"Title"];
         anvc.amendmentNumberForSorting = [[self.amendmentCellData objectForKey:@"#"] intValue];
+        anvc.didSegueFromSingleAmendmentVC = YES;
         anvc.delegate = self;
         NSLog(@"User tapped newsSegue\nAmendment number for sorting is %d, if user favorites any articles", anvc.amendmentNumberForSorting);
     }
@@ -271,6 +314,10 @@ static NSString const *templateURL = @"http://pipes.yahoo.com/pipes/pipe.run?_id
         [self translateSubviews:iPhone5landscapeWidth landscapeHeight:iPhone5landscapeHeight portraitWidth:iPhone5PortraitWidth portraitHeight:iPhone5PortraitHeight tableViewTranslate:iPhone5TableViewTranslate summaryTranslate:iPhone5SummaryTranslate toOrientation:toInterfaceOrientation];
     else
         [self translateSubviews:iPhone4landscapeWidth landscapeHeight:iPhone4landscapeHeight portraitWidth:iPhone4PortraitWidth portraitHeight:iPhone4PortraitHeight tableViewTranslate:iPhone4TableViewTranslate summaryTranslate:iPhone4SummaryTranslate toOrientation:toInterfaceOrientation];
+    
+    //make sure that the VC in the second tab (favorites vc) is made aware of this VC's orientation
+    FavoritesViewController *fvc = (FavoritesViewController*)[[self.tabBarController.viewControllers objectAtIndex:1] topViewController];
+    fvc.singleAmendmentVcOrientation = toInterfaceOrientation;
 }
 
 /***********************************************************

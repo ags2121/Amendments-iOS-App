@@ -38,19 +38,19 @@
     MYIntroductionPanel *panel = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"blankimage"] title:@"Welcome to The Amendments" description:@"a lightweight yet powerful guide to American constitutional law and history."];
     
     //You may also add in a title for each panel
-    MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"amendments_spotlight"] title:@"Exploring Amendments" description:@"In the first tab, tap the Amendment you'd like to explore..."];
+    MYIntroductionPanel *panel2 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"all_amendments_spotlight"] title:@"Exploring Amendments" description:@"In the first tab, tap the Amendment you'd like to explore..."];
     
-    MYIntroductionPanel *panel25 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"amendments2_spotlight"] title:@"Zoom in" description:@"...or tap on the Amendment icon to zoom in and get a closer look."];
+    MYIntroductionPanel *panel25 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"all_amendments2_spotlight"] title:@"Zoom in" description:@"...or tap on the Amendment icon to zoom in and get a closer look."];
     
     MYIntroductionPanel *panel3 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"individual_spotlight"] title:@"Amendment Features" description:@"Each Amendment has an extended summary, the original text, and a news feed."];
     
-    MYIntroductionPanel *panel4 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"newsFeed_spotlight"] title:@"The News Feed" description:@"Each news feed gathers the latest articles on the web discussing each Amendment."];
+    MYIntroductionPanel *panel4 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"news_spotlight"] title:@"The News Feed" description:@"Each news feed gathers the latest articles on the web discussing each Amendment."];
     
-    MYIntroductionPanel *panel5 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"articleFav_spotlight"] title:@"Adding Favorites" description:@"To add an article to your Favorites, tap the star in the upper right corner. Untap to remove."];
+    MYIntroductionPanel *panel5 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"article_spotlight"] title:@"Adding Favorites" description:@"To add an article to your Favorites, tap the star in the upper right corner. Untap to remove."];
     
-    MYIntroductionPanel *panel6 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"favorites_spotlight"] title:@"Viewing Favorites" description:@"Your Favorites can be accessed in the second tab."];
+    MYIntroductionPanel *panel6 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"fav_articles_spotlight"] title:@"Viewing Favorites" description:@"Your Favorites can be accessed in the second tab."];
     
-    MYIntroductionPanel *panel7 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"favorites2_spotlight"] title:@"Deleting Favorites" description:@"Swipe an article to reveal the delete button.\nTap anywhere else to hide it."];
+    MYIntroductionPanel *panel7 = [[MYIntroductionPanel alloc] initWithimage:[UIImage imageNamed:@"fav_articles_delete_spotlight"] title:@"Deleting Favorites" description:@"Swipe an article left to reveal the delete button.\nTap anywhere else to hide it."];
     
     MYIntroductionView *introductionView = [[MYIntroductionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) headerImage:[UIImage imageNamed:@"AMLogo_invertedColors"] panels:@[panel, panel2, panel25, panel3, panel4, panel5, panel6, panel7] languageDirection:MYLanguageDirectionLeftToRight];
     

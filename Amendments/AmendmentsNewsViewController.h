@@ -11,12 +11,13 @@
 #import <UIKit/UIKit.h>
 #import "ExtendedSummaryViewController.h"
 
-@interface AmendmentsNewsViewController : UITableViewController <UIAlertViewDelegate>
+@interface AmendmentsNewsViewController : UITableViewController <UIAlertViewDelegate,UINavigationControllerDelegate>
 
 @property int amendmentNumberForSorting;
 @property (strong, nonatomic) NSString *keyForFeed;
 @property (strong, nonatomic) NSMutableArray *feed;
 @property (strong, nonatomic) NSString *finalURL;
+@property BOOL didSegueFromSingleAmendmentVC;
 @property (nonatomic, weak) id <SingleAmendmentDelegate> delegate;
 
 @end

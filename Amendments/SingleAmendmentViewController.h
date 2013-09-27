@@ -20,6 +20,8 @@
 @property (strong, nonatomic) NSString *shortTitle;
 
 @property (atomic) BOOL parentViewControllerWasInLandscape;
+@property (atomic) BOOL childViewControllerDidRotateToLandscape;
+@property (atomic) BOOL childViewControllerDidRotateToPortrait;
 
 @property (weak, nonatomic) IBOutlet UILabel *summary;
 @property (weak, nonatomic) IBOutlet UITableView *optionsTableView;

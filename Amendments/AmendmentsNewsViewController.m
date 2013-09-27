@@ -7,17 +7,18 @@
 //
 
 #import "AmendmentsNewsViewController.h"
-#import "GTMHTTPFetcher.h"
 #import "NewsFeedCell.h"
 #import "NewsFeeds.h"
 #import "SVWebViewController.h"
 #import "AmendmentsAppDelegate.h"
+#import "Constants.h"
 
 @interface AmendmentsNewsViewController ()
 
 @property (atomic) UIInterfaceOrientation startingOrientation;
 @property BOOL didJustShowUIAlertNoData;
 @property BOOL didJustShowDefaultArticle;
+@property (strong, nonatomic) UIImageView *defaultView;
 
 @end
 
@@ -32,13 +33,22 @@
     return self;
 }
 
+- (void)navigationController:(UINavigationController *)navigationController
+       didShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated
+{
+    if ( [viewController isEqual:self] ) {
+        self.tableView.backgroundView = nil;
+        NSLog(@"This should only get called in NEWS VC");
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.delegate = self;
     [self setUpView];
     [self setUpRefreshAction];
-    //record initial orientation
-    self.startingOrientation = [UIApplication sharedApplication].statusBarOrientation;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -46,8 +56,17 @@
     [super viewWillAppear:YES];
     [self registerNotifications];
     
+    //record initial orientation
+    self.startingOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    //set up default view
+    if(self.didSegueFromSingleAmendmentVC) {
+        [self setUpDefaultView];
+        self.didSegueFromSingleAmendmentVC = NO;
+    }
+    
     if(self.didJustShowDefaultArticle){
-        NSLog(@"ViewDidLoad and didJustShowDefaultArticle");
+        NSLog(@"ViewWillAppear and didJustShowDefaultArticle");
         self.didJustShowDefaultArticle = NO;
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -56,7 +75,7 @@
         NewsFeeds* allNewsFeeds = [NewsFeeds sharedInstance];
         
         //hide tableview while loading
-        [self.tableView setHidden:YES];
+//        [self.tableView setHidden:YES];
         
         //load the feed from the Singleton NewsFeeds
         [allNewsFeeds loadNewsFeed:self.finalURL forAmendment:self.keyForFeed isRefreshing:NO];
@@ -82,6 +101,8 @@
         [self.delegate setChildViewControllerDidRotateToLandscape:NO];
         [self.delegate setChildViewControllerDidRotateToPortrait:NO];
     }
+    
+    self.navigationController.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,7 +116,9 @@
 -(void)setUpView
 {
     //Make tableVC's background see through to the parent view background
-    self.view.backgroundColor = [UIColor clearColor];
+//    self.view.backgroundColor = [UIColor clearColor];
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
     
     self.title = @"News";
     
@@ -132,8 +155,44 @@
     pullToRefresh.tintColor = [UIColor grayColor];
     [pullToRefresh addTarget:self action: @selector(refreshTable) forControlEvents: UIControlEventValueChanged];
     self.refreshControl = pullToRefresh;
+    [self.tableView addSubview:pullToRefresh];
 }
 
+-(void)setUpDefaultView
+{
+    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (IS_IPHONE_5) {
+        if (currentOrientation == UIInterfaceOrientationPortrait) {
+            self.defaultView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"AmendmentBackgroundImage-568h@2x"]];
+            [self.defaultView setFrame:self.view.superview.frame];
+            self.tableView.backgroundView = self.defaultView;
+        }
+        else if (UIInterfaceOrientationIsLandscape(currentOrientation)) {
+                self.defaultView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsVC_placeholder_background_landscape-568h@2x"]];
+                [self.defaultView setFrame:self.view.superview.frame];
+                self.tableView.backgroundView = self.defaultView;
+        }
+    }
+    else {
+    
+        if (currentOrientation == UIInterfaceOrientationPortrait) {
+            self.defaultView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsVC_placeholder_background"]];
+            self.defaultView.contentMode=UIViewContentModeCenter;
+            [self.defaultView setFrame:self.view.frame];
+            self.tableView.backgroundView = self.defaultView;
+        }
+        
+        else if (UIInterfaceOrientationIsLandscape(currentOrientation))
+        {
+            self.defaultView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"newsVC_placeholder_background_landscape"]];
+            self.defaultView.contentMode=UIViewContentModeCenter;
+            [self.defaultView setFrame:self.view.frame];
+            self.tableView.backgroundView = self.defaultView;
+        }
+    }
+    
+}
 
 #pragma mark - Table view data source
 
@@ -157,13 +216,13 @@
     //TITLE and PUBLICATION
     NSLog(@"Working on cell: %d", indexPath.row);
     NSDictionary *article = self.feed[indexPath.row];
-    NSArray *titleAndPub = [self formatIntoTitleAndPub: [article objectForKey:@"title"]];
+    NSArray *titleAndPub = [self formatIntoTitleAndPub: article[@"title"][@"text"]];
     
     cell.articleTitle.text = [titleAndPub objectAtIndex:0];
     cell.articlePublication.text = [titleAndPub objectAtIndex:1];
     
     //DATE
-    NSString *originalDate = [article objectForKey:@"pubDate"];
+    NSString *originalDate = article[@"pubDate"][@"text"];
     NSString *splitSliceJoinDate = [ [ [[originalDate componentsSeparatedByString:@" "] mutableCopy] subarrayWithRange:NSMakeRange(0, 4) ] componentsJoinedByString:@" " ];
     
     cell.articleDate.text = splitSliceJoinDate;
@@ -182,7 +241,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *article = self.feed[indexPath.row];
-    NSArray *titleAndPub = [self formatIntoTitleAndPub: [article objectForKey:@"title"]];
+    NSArray *titleAndPub = [self formatIntoTitleAndPub: article[@"title"][@"text"]];
     CGSize size;
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
          size = [ [titleAndPub objectAtIndex:0]
@@ -203,7 +262,7 @@
 {
     //extract and create NSURL object for the webview
     NSDictionary *article = self.feed[indexPath.row];
-    NSString* trimmedURL = [self formatURL:[article objectForKey:@"link"]];
+    NSString* trimmedURL = [self formatURL: article[@"link"][@"text"]];
     NSURL* finalURL = [NSURL URLWithString:trimmedURL];
     
     //extract cell display information
@@ -322,7 +381,10 @@
     [self.tableView reloadData];
     
     //Unhide tableview
-    [self.tableView setHidden:NO];
+//    [self.tableView setHidden:NO];
+    
+//    [self.defaultView removeFromSuperview];
+    self.tableView.backgroundColor = [UIColor clearColor];
     
     // Remove the UIRefreshControll spinner on the table
     if(self.refreshControl.isRefreshing){
@@ -385,6 +447,12 @@
         //for now, just pop back if there are no articles for the other amendments
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+-(void)removeDefaultView
+{
+    self.tableView.backgroundView = nil;
+    NSLog(@"Remove default view from browser WORKS");
 }
 
 @end

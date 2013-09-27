@@ -9,7 +9,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ExtendedSummaryViewController.h"
 
 @interface FavoritesViewController : UITableViewController<UIAlertViewDelegate>
+
+@property (atomic) UIInterfaceOrientation singleAmendmentVcOrientation;
 
 @end

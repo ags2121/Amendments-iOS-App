@@ -40,6 +40,8 @@
     //if there is no data, disable scrolling since otherwise there is an errant cell border that looks messy
     if (self.tableView.visibleCells.count==0) self.tableView.scrollEnabled = NO;
     else self.tableView.scrollEnabled = YES;
+    
+    NSLog(@"Extended Amendment Orientation: %d", self.singleAmendmentVcOrientation);
 }
 
 - (void)didReceiveMemoryWarning
